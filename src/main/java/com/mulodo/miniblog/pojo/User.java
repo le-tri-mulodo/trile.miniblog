@@ -13,6 +13,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -23,29 +26,37 @@ import org.hibernate.annotations.CascadeType;
  */
 @Entity
 @Table(name = "users")
+@XmlRootElement()
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @XmlElement(name = "user_id")
     private int id;
 
     @Column(name = "username", length = 64, nullable = false)
+    @XmlElement(name = "username")
     private String userName;
 
     @Column(name = "first_name", length = 64, nullable = false)
+    @XmlElement(name = "firstname")
     private String firstName;
 
     @Column(name = "last_name", length = 64, nullable = false)
+    @XmlElement(name = "lastname")
     private String lastName;
 
     // use SHA-256 to hash pass
     @Column(name = "pass_hash", length = 64, nullable = false)
+    @XmlTransient
     private String passHash;
 
     @Column(name = "avatar_link", length = 256, nullable = true)
+    @XmlElement(name = "avatarlink")
     private String avatarLink;
 
     @Column(name = "join_date", columnDefinition = "DATE", nullable = false)
+    @XmlElement(name = "joindate")
     private Date joinDate;
 
     // Origin password

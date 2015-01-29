@@ -5,7 +5,6 @@ package com.mulodo.miniblog.common;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.slf4j.Logger;

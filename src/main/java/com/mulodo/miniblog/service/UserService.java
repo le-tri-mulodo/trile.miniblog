@@ -13,5 +13,5 @@ import com.mulodo.miniblog.pojo.User;
  */
 public interface UserService extends CommonService<User> {
 
-    List<User> list();
+    List<User> search(String querry);
 }

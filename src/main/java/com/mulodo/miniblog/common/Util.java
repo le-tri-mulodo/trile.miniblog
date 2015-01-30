@@ -65,18 +65,18 @@ public class Util {
     }
 
     /**
-     * Create new token by hash username and current date time (to unsure token
+     * Create new token by hash user ID and current date time (to unsure token
      * is unique)
      * 
-     * @param userName
-     *            Username
+     * @param userID
+     *            ID of user
      * @return new token
      */
-    public static String createToken(String userName) {
+    public static String createToken(int userID) {
 	// Get current date time
 	String currentDateTime = (new Date()).toString();
 	// Append username and current date time and then hash to create new
 	// token
-	return hashSHA256(userName + currentDateTime);
+	return hashSHA256(userID + currentDateTime);
     }
 }

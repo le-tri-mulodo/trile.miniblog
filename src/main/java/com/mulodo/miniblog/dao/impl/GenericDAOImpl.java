@@ -18,76 +18,68 @@ import com.mulodo.miniblog.dao.GenericDAO;
  * @author TriLe
  *
  */
-public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
+public class GenericDAOImpl<T> implements GenericDAO<T> {
 
     @Autowired
     protected SessionFactory sf;
 
-    private String T_TYPE;
+    protected String T_TYPE;
+    protected Class<T> genericType;
 
+    @SuppressWarnings("unchecked")
     public GenericDAOImpl() {
-	@SuppressWarnings("unchecked")
-	Class<T> genericType = (Class<T>) GenericTypeResolver.resolveTypeArgument(getClass(), GenericDAOImpl.class);
-	T_TYPE = "from " + genericType.getName();
+	this.genericType = (Class<T>) GenericTypeResolver.resolveTypeArgument(getClass(), GenericDAOImpl.class);
+	this.T_TYPE = "from " + genericType.getName();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.mulodo.miniblog.dao.GenericDao#add(T)
+    /**
+     * {@inheritDoc}
      */
     @Override
-    @Transactional
     public void add(T entity) {
 	Session session = sf.getCurrentSession();
 	session.persist(entity);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.mulodo.miniblog.dao.GenericDao#update(T)
+    /**
+     * {@inheritDoc}
      */
     @Override
-    @Transactional
     public void update(T entity) {
 	Session session = sf.getCurrentSession();
 	session.update(entity);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.mulodo.miniblog.dao.GenericDao#delete(T)
+    /**
+     * {@inheritDoc}
      */
     @Override
-    @Transactional
     public void delete(T entity) {
 	Session session = sf.getCurrentSession();
 	session.delete(entity);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.mulodo.miniblog.dao.GenericDao#list(java.lang.String)
+    /**
+     * {@inheritDoc}
      */
     @Override
-    @Transactional
+    public boolean checkExist(int id) {
+	Session session = sf.getCurrentSession();
+	return (null != session.get(genericType, id));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<T> list() {
 	Session session = sf.getCurrentSession();
 	Query listQuery = session.createQuery("from " + T_TYPE);
 	return listQuery.list();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.mulodo.miniblog.dao.GenericDao#setSf(org.hibernate.SessionFactory)
-     */
-    @Override
     public void setSf(SessionFactory sf) {
 	this.sf = sf;
     }
+
 }

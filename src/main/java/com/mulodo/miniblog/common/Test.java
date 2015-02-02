@@ -13,10 +13,18 @@ public class Test {
      * @param args
      */
     public static void main(String[] args) {
-	String format = "%%%s%%";
-
-	System.out.println(String.format(format, "assa"));
-	test();
+	try {
+	    ReflectionHelpper.getParamNameFromPath("as");
+	} catch (ClassNotFoundException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (NoSuchMethodException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (SecurityException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
     }
 
     public static void test() {

@@ -3,15 +3,16 @@
  */
 package com.mulodo.miniblog.service;
 
+
 /**
  * @author TriLe
  *
  */
 public interface CommonService<T> {
 
-    void add(T entity);
+    T add(T entity);
 
-    void update(T entity);
+    T update(T entity);
 
     void delete(T entity);
 }

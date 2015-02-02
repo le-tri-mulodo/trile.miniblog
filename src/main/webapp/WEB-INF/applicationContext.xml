@@ -20,4 +20,9 @@
 		<!-- (this dependency is defined somewhere else) -->
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+
+<!-- 	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="/WEB-INF/validationMessages" />
+	</bean> -->
 </beans>

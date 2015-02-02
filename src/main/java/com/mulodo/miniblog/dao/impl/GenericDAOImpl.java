@@ -10,7 +10,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.GenericTypeResolver;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.mulodo.miniblog.dao.GenericDAO;
 
@@ -36,18 +35,20 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
      * {@inheritDoc}
      */
     @Override
-    public void add(T entity) {
+    public T add(T entity) {
 	Session session = sf.getCurrentSession();
 	session.persist(entity);
+	return entity;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void update(T entity) {
+    public T update(T entity) {
 	Session session = sf.getCurrentSession();
 	session.update(entity);
+	return entity;
     }
 
     /**

@@ -3,6 +3,8 @@
  */
 package com.mulodo.miniblog.rest.controller;
 
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -12,12 +14,17 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.jboss.resteasy.plugins.validation.hibernate.ValidateRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.mulodo.miniblog.common.Contants;
+import com.mulodo.miniblog.common.Util;
+import com.mulodo.miniblog.message.ResultMessage;
+import com.mulodo.miniblog.message.SuccessMessage;
+import com.mulodo.miniblog.pojo.User;
 import com.mulodo.miniblog.service.UserService;
 
 /**
@@ -27,6 +34,7 @@ import com.mulodo.miniblog.service.UserService;
 @Controller
 @Path(Contants.URL_USER)
 @Produces(MediaType.APPLICATION_JSON)
+@ValidateRequest
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -35,9 +43,33 @@ public class UserController {
 
     @Path(Contants.URL_ADD)
     @POST
-    public Response add() {
-	logger.info("add");
-	return Response.status(200).entity("Hello").build();
+    @ValidateRequest
+    public Response add(@NotNull(message = "username is required") @FormParam(value = "username") String username,
+	    @NotNull(message = "password is required") @FormParam(value = "password") String password,
+	    @NotNull(message = "firstname is required") @FormParam(value = "firstname") String firstname,
+	    @NotNull(message = "lastname is required") @FormParam(value = "lastname") String lastname,
+	    @FormParam(value = "avatarlink") String avatarlink) {
+
+	logger.debug("Add new user");
+
+	User user = new User();
+	// Set username
+	user.setUserName(username);
+	// Hash and set password
+	user.setPassHash(Util.hashSHA256(password));
+	// Set firstname
+	user.setFirstName(firstname);
+	// Set lastname
+	user.setLastName(lastname);
+	// Set Avatarlink
+	user.setAvatarLink(avatarlink);
+
+	// Call user service
+	user = userSer.add(user);
+
+	SuccessMessage successMsg = new SuccessMessage(201, "Create user success!");
+	ResultMessage result = new ResultMessage(successMsg, user);
+	return Response.status(200).entity(result).build();
     }
 
     @Path(Contants.URL_UPDATE)

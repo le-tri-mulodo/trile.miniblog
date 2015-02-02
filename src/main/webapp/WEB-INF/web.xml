@@ -9,6 +9,10 @@
 		<param-name>resteasy.scan</param-name>
 		<param-value>false</param-value>
 	</context-param>
+<!-- 	<context-param>
+		<param-name>resteasy.providers</param-name>
+		<param-value>com.mulodo.miniblog.exception.ValidationExceptionHandler</param-value>
+	</context-param> -->
 
 	<!-- this need same with resteasy servlet url-pattern -->
 	<context-param>

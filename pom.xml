@@ -12,6 +12,7 @@
 		<org.spring-version>3.0.6.RELEASE</org.spring-version>
 		<mysql-version>5.1.34</mysql-version>
 		<org.hibernate-version>3.6.10.Final</org.hibernate-version>
+		<org.hibernate.validator-version>5.0.1.Final</org.hibernate.validator-version>
 		<commons-io-version>2.0.1</commons-io-version>
 		<commons-dbcp-version>1.4</commons-dbcp-version>
 		<commons-lang-version>3.3.2</commons-lang-version>
@@ -41,6 +42,11 @@
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-multipart-provider</artifactId>
+			<version>${org.resteasy-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-hibernatevalidator-provider</artifactId>
 			<version>${org.resteasy-version}</version>
 		</dependency>
 
@@ -75,13 +81,12 @@
 			<version>${org.hibernate-version}</version>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 			<version>${org.spring-version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>

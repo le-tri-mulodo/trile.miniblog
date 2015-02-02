@@ -9,14 +9,14 @@ public interface GenericDAO<T> {
      * 
      * @param entity
      */
-    public void add(T entity);
+    public T add(T entity);
 
     /**
      * Update entity in DB
      * 
      * @param entity
      */
-    public void update(T entity);
+    public T update(T entity);
 
     /**
      * Delete entity from DB

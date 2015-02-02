@@ -6,7 +6,7 @@ package com.mulodo.miniblog.service.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mulodo.miniblog.pojo.User;
+import com.mulodo.miniblog.pojo.Token;
 import com.mulodo.miniblog.service.TokenService;
 
 /**
@@ -27,9 +27,8 @@ public class TokenServiceImpl implements TokenService {
      * This implementation uses a dynamic programming approach.
      */
     @Override
-    public void add(User entity) {
-	// TODO Auto-generated method stub
-
+    public Token add(Token entity) {
+	return null;
     }
 
     /**
@@ -38,9 +37,8 @@ public class TokenServiceImpl implements TokenService {
      * This implementation uses a dynamic programming approach.
      */
     @Override
-    public void update(User entity) {
-	// TODO Auto-generated method stub
-
+    public Token update(Token entity) {
+	return null;
     }
 
     /**
@@ -49,7 +47,7 @@ public class TokenServiceImpl implements TokenService {
      * This implementation uses a dynamic programming approach.
      */
     @Override
-    public void delete(User entity) {
+    public void delete(Token entity) {
 	// TODO Auto-generated method stub
 
     }

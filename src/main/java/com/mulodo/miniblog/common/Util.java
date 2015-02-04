@@ -5,7 +5,6 @@ package com.mulodo.miniblog.common;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,10 +76,10 @@ public class Util {
 	if (0 > userID) {
 	    return null;
 	}
-	// Get current date time
-	String currentDateTime = (new Date()).toString();
+	// Get current ms
+	long currentMs = System.currentTimeMillis();
 	// Append username and current date time and then hash to create new
 	// token
-	return hashSHA256(userID + currentDateTime);
+	return hashSHA256(userID + "@" + currentMs);
     }
 }

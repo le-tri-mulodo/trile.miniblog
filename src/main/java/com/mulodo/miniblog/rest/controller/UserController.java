@@ -161,11 +161,20 @@ public class UserController {
 	return Response.status(200).entity("Hello").build();
     }
 
+    @SuppressWarnings("rawtypes")
     @Path(Contants.URL_GET_BY_ID)
     @GET
-    public Response getById(@PathParam(value = "id") int userID) {
-	logger.info("UserID {}", userID);
-	return Response.status(200).entity("Hello").build();
+    public Response getById(@PathParam(value = "id") int userId) {
+	User user = userSer.get(userId);
+
+	if (null == user) {
+	    ResultMessage userNotExistMsg = new ResultMessage(2001, "User ID in request does not exist", String.format(
+		    "User with id=%d does not exist", userId));
+	    return Response.status(400).entity(userNotExistMsg).build();
+	}
+
+	ResultMessage<User> result = new ResultMessage<User>(200, "Get user info success!", user);
+	return Response.status(200).entity(result).build();
     }
 
     @Path(Contants.URL_CHPWD)

@@ -82,4 +82,9 @@ public class TokenServiceImpl implements TokenService {
 	return tokenDAO.load(id);
     }
 
+    @Override
+    public int deleteTokenByUserId(int userId) {
+	return tokenDAO.deleteTokenByUserId(userId);
+    }
+
 }

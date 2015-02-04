@@ -47,11 +47,11 @@ public class UserDAOImpl extends GenericDAOImpl<User> implements UserDAO {
      * {@inheritDoc}
      */
     @Override
-    public boolean checkUserNameExist(User user) {
+    public boolean checkUserNameExist(String username) {
 	Session session = sf.getCurrentSession();
 	// Query to check username exist not select any fields
 	Query query = session.createQuery("select count(*) from User u where u.userName = :username");
-	query.setString("username", user.getUserName());
+	query.setString("username", username);
 	// Return true if username existed in db
 	return (0 < (long) query.uniqueResult());
     }
@@ -64,4 +64,15 @@ public class UserDAOImpl extends GenericDAOImpl<User> implements UserDAO {
 	return user;
     }
 
+    @Override
+    public boolean checkPassword(int user_id, String passhash) {
+	Session session = sf.getCurrentSession();
+
+	Query query = session
+		.createQuery("select count(*) from User u where u.id = :user_id and u.passHash = :passHash");
+	query.setInteger("user_id", user_id);
+	query.setString("passHash", passhash);
+	// Return true if username existed in db
+	return (0 < (long) query.uniqueResult());
+    }
 }

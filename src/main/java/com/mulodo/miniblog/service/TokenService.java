@@ -21,4 +21,6 @@ public interface TokenService extends GenericService<Token> {
     Token createNewToken(User user);
 
     boolean checkToken(int userId, String token);
+    
+    int deleteTokenByUserId(int userId);
 }

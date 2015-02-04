@@ -24,9 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.mulodo.miniblog.common.Contants;
-import com.mulodo.miniblog.common.Util;
 import com.mulodo.miniblog.message.ResultMessage;
-import com.mulodo.miniblog.pojo.Token;
 import com.mulodo.miniblog.pojo.User;
 import com.mulodo.miniblog.service.TokenService;
 import com.mulodo.miniblog.service.UserService;
@@ -58,7 +56,7 @@ public class UserController {
 	    @FormParam(value = "username") String username,
 	    
 	    @NotNull(message = "{password.NotNull}")
-	    @Size(min = 4, max = 64, message = "{password.Size}")
+	    @Size(min = 4, max = 999, message = "{password.Size}")
 	    @FormParam(value = "password") String password,
 	    
 	    @NotNull(message = "{firstname.NotNull}")
@@ -74,20 +72,8 @@ public class UserController {
 	    @Size(min = 1, max = 256, message = "{avatarlink.Size}")
 	    @FormParam(value = "avatarlink") String avatarlink) {
 
-	User user = new User();
-	// Lower case and set username
-	user.setUserName(username.toLowerCase());
-	// Hash and set password
-	user.setPassHash(Util.hashSHA256(password));
-	// Set firstname
-	user.setFirstName(firstname);
-	// Set lastname
-	user.setLastName(lastname);
-	// Set Avatarlink
-	user.setAvatarLink(avatarlink);
-
 	// Check username existed in db
-	if (userSer.checkUserNameExist(user)) {
+	if (userSer.checkUserNameExist(username)) {
 	    // Log
 	    logger.info("Username [{}] existed", username);
 
@@ -97,12 +83,20 @@ public class UserController {
 	    return Response.status(400).entity(errorMsg).build();
 	}
 
+	User user = new User();
+	// Set username
+	user.setUserName(username);
+	// Set password
+	user.setPassHash(password);
+	// Set firstname
+	user.setFirstName(firstname);
+	// Set lastname
+	user.setLastName(lastname);
+	// Set Avatarlink
+	user.setAvatarLink(avatarlink);
+
 	// Call user service to insert into db
 	user = userSer.add(user);
-	// Call token service to create and insert token into db
-	Token token = tokenSer.createNewToken(user);
-	// Set token to response
-	user.setToken(token.getValue());
 
 	ResultMessage<User> resultMsg = new ResultMessage<User>(201, "Create user success!", user);
 	return Response.status(200).entity(resultMsg).build();
@@ -177,10 +171,34 @@ public class UserController {
 	return Response.status(200).entity(result).build();
     }
 
+    @SuppressWarnings("rawtypes")
     @Path(Contants.URL_CHPWD)
     @PUT
-    public Response changePassword() {
-	logger.info("changePassword");
-	return Response.status(200).entity("Hello").build();
+    public Response changePassword(
+        		@NotNull(message = "{user_id.NotNull}")
+        		@FormParam(value = "user_id")
+        		@Min(value = 0)
+        		Integer user_id,
+        	    
+                	@NotNull(message = "{password.NotNull}")
+                	@Size(min = 4, max = 999, message = "{password.Size}")
+                	@FormParam(value = "currentpassword") String currentpassword,
+
+                	@NotNull(message = "{newpassword.NotNull}")
+                	@Size(min = 4, max = 999, message = "{newpassword.Size}")
+                	@FormParam(value = "newpassword") String newpassword) {
+
+	if (!userSer.checkPassword(user_id, currentpassword)) {
+	    ResultMessage invalidMsg = new ResultMessage(1002, "User id or password invalid",
+		    "User id or password invalid");
+	    return Response.status(400).entity(invalidMsg).build();
+	}
+	
+	// Call service to change password
+	User user = userSer.changePassword(user_id, newpassword);
+
+
+	ResultMessage<User> result = new ResultMessage<User>(200, "Change password success!", user);
+	return Response.status(200).entity(result).build();
     }
 }

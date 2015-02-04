@@ -8,5 +8,8 @@ public interface UserDAO extends GenericDAO<User> {
 
     List<User> search(String query);
 
-    boolean checkUserNameExist(User user);
+    boolean checkUserNameExist(String username);
+
+    boolean checkPassword(int user_id, String passhash);
+
 }

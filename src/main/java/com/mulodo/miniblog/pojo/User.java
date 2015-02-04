@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -28,6 +29,7 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 @Table(name = "users")
 @JsonPropertyOrder({ "user_id", "username", "firstname", "lastname", "joindate", "avatarlink", "token" })
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class User {
 
     @Id
@@ -78,8 +80,8 @@ public class User {
     @JsonIgnore
     private Set<Token> tokens;
 
+    @Transient
     @JsonProperty("token")
-    @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     private String token;
 
     /**

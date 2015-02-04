@@ -12,4 +12,6 @@ import com.mulodo.miniblog.pojo.Token;
 public interface TokenDAO extends GenericDAO<Token> {
 
     boolean checkToken(int userId, String token);
+    
+    int deleteTokenByUserId(int userId);
 }

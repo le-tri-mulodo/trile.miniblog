@@ -46,4 +46,14 @@ public class TokenDAOImpl extends GenericDAOImpl<Token> implements TokenDAO {
 	// Return true if have record in db and otherwise
 	return (0 < (long) query.uniqueResult());
     }
+
+    @Override
+    public int deleteTokenByUserId(int userId) {
+	Session session = sf.getCurrentSession();
+	
+	Query query = session.createQuery("delete from Token t where t.user.id = :userId");
+	query.setInteger("userId", userId);
+	
+	return query.executeUpdate();
+    }
 }

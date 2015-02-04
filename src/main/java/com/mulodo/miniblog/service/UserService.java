@@ -15,5 +15,9 @@ public interface UserService extends GenericService<User> {
 
     List<User> search(String query);
 
-    boolean checkUserNameExist(User user);
+    boolean checkUserNameExist(String username);
+
+    boolean checkPassword(int user_id, String password);
+    
+    User changePassword(int user_id, String newPassword);
 }

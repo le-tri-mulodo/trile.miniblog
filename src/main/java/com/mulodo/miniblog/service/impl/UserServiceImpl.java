@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mulodo.miniblog.dao.UserDAO;
-import com.mulodo.miniblog.message.ErrorMessage;
 import com.mulodo.miniblog.pojo.User;
 import com.mulodo.miniblog.service.UserService;
 
@@ -37,8 +36,36 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public User update(User entity) {
-	return userDAO.update(entity);
+    public User update(User updateUser) {
+	// Update user
+	// Load from Hibernate term userId
+	// User user = load(updateUser.getId());
+	// Change to get because response User info
+	User user = get(updateUser.getId());
+	// change flag
+	boolean changeFlag = false;
+	// Check have change to set firstname, lastname, avatarlink
+	if (null != updateUser.getFirstName() && !user.getFirstName().equals(updateUser.getFirstName())) {
+	    user.setFirstName(updateUser.getFirstName());
+	    changeFlag = true;
+	}
+	if (null != updateUser.getLastName() && !user.getLastName().equals(updateUser.getLastName())) {
+	    user.setLastName(updateUser.getLastName());
+	    changeFlag = true;
+	}
+	if (null != updateUser.getAvatarLink() && !user.getAvatarLink().equals(updateUser.getAvatarLink())) {
+	    user.setAvatarLink(updateUser.getAvatarLink());
+	    changeFlag = true;
+	}
+
+	if (changeFlag) {
+	    // Update user in db
+	    user = userDAO.update(user);
+	    // Remove token when response
+	    user.setToken(null);
+	}
+
+	return user;
     }
 
     /**
@@ -53,36 +80,27 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public List<User> search(String querry) {
-	return userDAO.search(querry);
+    public List<User> search(String query) {
+	return userDAO.search(query);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ErrorMessage validate(User user) {
-	// Check username
-	// if (StringUtils.isNotEmpty(user.getUserName())) {
-	// return new ErrorMessage(1, "Input validation failed",
-	// "Username is required");
-	// }
-	// // Check password
-	// if (StringUtils.isNotEmpty(user.getPassHash())) {
-	// return new ErrorMessage(1, "Input validation failed",
-	// "Password is required");
-	// }
-	// // Check firstname
-	// if (StringUtils.isNotEmpty(user.getFirstName())) {
-	// return new ErrorMessage(1, "Input validation failed",
-	// "FirstName is required");
-	// }
-	// // Check lastname
-	// if (StringUtils.isNotEmpty(user.getFirstName())) {
-	// return new ErrorMessage(1, "Input validation failed",
-	// "LastName is required");
-	// }
+    public boolean checkUserNameExist(User user) {
+	// Check username existed
+	return userDAO.checkUserNameExist(user);
 
-	return null;
+    }
+
+    @Override
+    public User get(int id) {
+	return userDAO.get(id);
+    }
+
+    @Override
+    public User load(int id) {
+	return userDAO.load(id);
     }
 }

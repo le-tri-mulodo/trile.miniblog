@@ -4,7 +4,7 @@
 	<groupId>org.jboss.tools.example.spring</groupId>
 	<artifactId>test</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1</version>
 	<name>test Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
@@ -90,7 +90,7 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>${2.0.1}</version>
+			<version>${commons-io-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

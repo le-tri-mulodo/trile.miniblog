@@ -3,10 +3,13 @@
  */
 package com.mulodo.miniblog.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mulodo.miniblog.dao.TokenDAO;
 import com.mulodo.miniblog.pojo.Token;
+import com.mulodo.miniblog.pojo.User;
 import com.mulodo.miniblog.service.TokenService;
 
 /**
@@ -21,46 +24,62 @@ import com.mulodo.miniblog.service.TokenService;
 @Transactional
 public class TokenServiceImpl implements TokenService {
 
+    @Autowired
+    private TokenDAO tokenDAO;
+
     /**
      * {@inheritDoc}
-     * 
-     * This implementation uses a dynamic programming approach.
      */
     @Override
     public Token add(Token entity) {
-	return null;
+	return tokenDAO.add(entity);
     }
 
     /**
      * {@inheritDoc}
-     * 
-     * This implementation uses a dynamic programming approach.
      */
     @Override
     public Token update(Token entity) {
-	return null;
+	return tokenDAO.update(entity);
     }
 
     /**
      * {@inheritDoc}
-     * 
-     * This implementation uses a dynamic programming approach.
      */
     @Override
     public void delete(Token entity) {
-	// TODO Auto-generated method stub
-
+	tokenDAO.delete(entity);
     }
 
     /**
      * {@inheritDoc}
-     * 
-     * This implementation uses a dynamic programming approach.
      */
     @Override
-    public String createNewToken(int userID) {
+    public Token createNewToken(User user) {
+	// Create new token
+	Token token = new Token(user);
+	// Insert into DB
+	token = add(token);
 
-	return null;
+	return token;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean checkToken(int userId, String token) {
+	return tokenDAO.checkToken(userId, token);
+    }
+
+    @Override
+    public Token load(int id) {
+	return tokenDAO.get(id);
+    }
+
+    @Override
+    public Token get(int id) {
+	return tokenDAO.load(id);
     }
 
 }

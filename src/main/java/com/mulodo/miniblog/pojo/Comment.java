@@ -180,5 +180,4 @@ public class Comment {
     public void setComments(Set<Comment> comments) {
 	this.comments = comments;
     }
-
 }

@@ -4,12 +4,13 @@
 package com.mulodo.miniblog.service;
 
 import com.mulodo.miniblog.pojo.Token;
+import com.mulodo.miniblog.pojo.User;
 
 /**
  * @author TriLe
  *
  */
-public interface TokenService extends CommonService<Token> {
+public interface TokenService extends GenericService<Token> {
 
     /**
      * Create new token for User
@@ -17,5 +18,7 @@ public interface TokenService extends CommonService<Token> {
      * @param userID
      * @return new token
      */
-    String createNewToken(int userID);
+    Token createNewToken(User user);
+
+    boolean checkToken(int userId, String token);
 }

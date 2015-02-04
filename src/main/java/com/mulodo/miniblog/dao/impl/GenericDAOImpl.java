@@ -8,6 +8,8 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.GenericTypeResolver;
 
@@ -18,17 +20,18 @@ import com.mulodo.miniblog.dao.GenericDAO;
  *
  */
 public class GenericDAOImpl<T> implements GenericDAO<T> {
+    private static final Logger logger = LoggerFactory.getLogger(GenericDAOImpl.class);
 
     @Autowired
     protected SessionFactory sf;
 
     protected String T_TYPE;
-    protected Class<T> genericType;
+    protected Class<T> GENERIC_TYPE;
 
     @SuppressWarnings("unchecked")
     public GenericDAOImpl() {
-	this.genericType = (Class<T>) GenericTypeResolver.resolveTypeArgument(getClass(), GenericDAOImpl.class);
-	this.T_TYPE = "from " + genericType.getName();
+	this.GENERIC_TYPE = (Class<T>) GenericTypeResolver.resolveTypeArgument(getClass(), GenericDAOImpl.class);
+	this.T_TYPE = "from " + GENERIC_TYPE.getName();
     }
 
     /**
@@ -66,12 +69,13 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
     @Override
     public boolean checkExist(int id) {
 	Session session = sf.getCurrentSession();
-	return (null != session.get(genericType, id));
+	return (null != session.get(GENERIC_TYPE, id));
     }
 
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("unchecked")
     @Override
     public List<T> list() {
 	Session session = sf.getCurrentSession();
@@ -79,8 +83,21 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
 	return listQuery.list();
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public T get(int id) {
+	Session session = sf.getCurrentSession();
+	return (T) session.get(GENERIC_TYPE, id);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public T load(int id) {
+	Session session = sf.getCurrentSession();
+	return (T) session.load(GENERIC_TYPE, id);
+    }
+
     public void setSf(SessionFactory sf) {
 	this.sf = sf;
     }
-
 }

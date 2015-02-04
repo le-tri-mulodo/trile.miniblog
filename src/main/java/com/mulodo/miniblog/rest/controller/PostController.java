@@ -85,7 +85,7 @@ public class PostController {
 
     @Path(Contants.URL_SEARCH)
     @GET
-    public Response search(@PathParam("querry") String querry) {
+    public Response search(@PathParam("query") String query) {
 	return Response.status(200).build();
     }
 }

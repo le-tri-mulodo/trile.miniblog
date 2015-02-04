@@ -15,6 +15,9 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.ForeignKey;
 
+import com.mulodo.miniblog.common.Contants;
+import com.mulodo.miniblog.common.Util;
+
 @Entity
 @Table(name = "tokens")
 public class Token {
@@ -38,6 +41,28 @@ public class Token {
     @Cascade(CascadeType.SAVE_UPDATE)
     @ForeignKey(name = "fk_tokens_users")
     private User user;
+
+    /**
+     * 
+     */
+    public Token() {
+	this(null);
+    }
+
+    /**
+     * 
+     */
+    public Token(User user) {
+	createTime = new Timestamp(System.currentTimeMillis());
+	// Create expired time
+	expiredTime = new Timestamp(System.currentTimeMillis() + Contants.EXPIRED_TIME_ADDTION_MS);
+
+	if (null != user) {
+	    // Create new token from userId
+	    this.value = Util.createToken(user.getId());
+	    this.user = user;
+	}
+    }
 
     /**
      * @return the id

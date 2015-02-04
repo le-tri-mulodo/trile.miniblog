@@ -6,5 +6,7 @@ import com.mulodo.miniblog.pojo.User;
 
 public interface UserDAO extends GenericDAO<User> {
 
-    List<User> search(String querry);
+    List<User> search(String query);
+
+    boolean checkUserNameExist(User user);
 }

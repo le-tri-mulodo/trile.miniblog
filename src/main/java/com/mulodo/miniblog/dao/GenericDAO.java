@@ -9,26 +9,26 @@ public interface GenericDAO<T> {
      * 
      * @param entity
      */
-    public T add(T entity);
+    T add(T entity);
 
     /**
      * Update entity in DB
      * 
      * @param entity
      */
-    public T update(T entity);
+    T update(T entity);
 
     /**
      * Delete entity from DB
      * 
      * @param entity
      */
-    public void delete(T entity);
+    void delete(T entity);
 
     /**
      * @return
      */
-    public List<T> list();
+    List<T> list();
 
     /**
      * Check entity is exist in DB
@@ -36,12 +36,10 @@ public interface GenericDAO<T> {
      * @param id
      * @return entity with input id is exist
      */
-    public boolean checkExist(int id);
+    boolean checkExist(int id);
 
-    // /**
-    // * @param sf
-    // * the sf to set
-    // */
-    // public void setSf(SessionFactory sf);
+    T get(int id);
+
+    T load(int id);
 
 }

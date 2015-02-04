@@ -16,6 +16,8 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -25,6 +27,7 @@ import org.hibernate.annotations.CascadeType;
  */
 @Entity
 @Table(name = "users")
+@JsonPropertyOrder({ "user_id", "username", "firstname", "lastname", "joindate", "avatarlink", "token" })
 public class User {
 
     @Id
@@ -32,7 +35,7 @@ public class User {
     @JsonProperty("user_id")
     private int id;
 
-    @Column(name = "username", length = 64, nullable = false)
+    @Column(name = "username", length = 64, nullable = false, unique = true)
     @JsonProperty("username")
     private String userName;
 
@@ -62,15 +65,22 @@ public class User {
 
     @OneToMany(mappedBy = "user", targetEntity = Post.class)
     @Cascade(CascadeType.SAVE_UPDATE)
+    @JsonIgnore
     private Set<Post> posts;
 
     @OneToMany(mappedBy = "user", targetEntity = Comment.class)
     @Cascade(CascadeType.SAVE_UPDATE)
+    @JsonIgnore
     private Set<Comment> comments;
 
     @OneToMany(mappedBy = "user", targetEntity = Token.class)
     @Cascade(CascadeType.SAVE_UPDATE)
+    @JsonIgnore
     private Set<Token> tokens;
+
+    @JsonProperty("token")
+    @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+    private String token;
 
     /**
      * 
@@ -214,5 +224,65 @@ public class User {
      */
     public void setJoinDate(Date joinDate) {
 	this.joinDate = joinDate;
+    }
+
+    /**
+     * @return the posts
+     */
+    public Set<Post> getPosts() {
+	return posts;
+    }
+
+    /**
+     * @param posts
+     *            the posts to set
+     */
+    public void setPosts(Set<Post> posts) {
+	this.posts = posts;
+    }
+
+    /**
+     * @return the comments
+     */
+    public Set<Comment> getComments() {
+	return comments;
+    }
+
+    /**
+     * @param comments
+     *            the comments to set
+     */
+    public void setComments(Set<Comment> comments) {
+	this.comments = comments;
+    }
+
+    /**
+     * @return the tokens
+     */
+    public Set<Token> getTokens() {
+	return tokens;
+    }
+
+    /**
+     * @param tokens
+     *            the tokens to set
+     */
+    public void setTokens(Set<Token> tokens) {
+	this.tokens = tokens;
+    }
+
+    /**
+     * @return the token
+     */
+    public String getToken() {
+	return token;
+    }
+
+    /**
+     * @param token
+     *            the token to set
+     */
+    public void setToken(String token) {
+	this.token = token;
     }
 }

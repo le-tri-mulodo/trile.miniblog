@@ -17,7 +17,7 @@ import org.jboss.resteasy.api.validation.ResteasyConstraintViolation;
 import org.jboss.resteasy.api.validation.ResteasyViolationException;
 import org.springframework.stereotype.Component;
 
-import com.mulodo.miniblog.message.ErrorMessage;
+import com.mulodo.miniblog.message.ResultMessage;
 
 /**
  * @author TriLe
@@ -27,6 +27,7 @@ import com.mulodo.miniblog.message.ErrorMessage;
 @Component
 public class ValidationExceptionHandler implements ExceptionMapper<ResteasyViolationException> {
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     @Produces(MediaType.APPLICATION_JSON)
     public Response toResponse(ResteasyViolationException exception) {
@@ -35,8 +36,8 @@ public class ValidationExceptionHandler implements ExceptionMapper<ResteasyViola
 	for (ResteasyConstraintViolation violation : exception.getViolations()) {
 	    messages.add(violation.getMessage());
 	}
-	ErrorMessage errMsg = new ErrorMessage(0, "Input validation failed", messages);
+	ResultMessage resultMsg = new ResultMessage(1, "Input validation failed", messages);
 
-	return Response.status(Status.BAD_REQUEST).entity(errMsg).build();
+	return Response.status(Status.BAD_REQUEST).entity(resultMsg).build();
     }
 }

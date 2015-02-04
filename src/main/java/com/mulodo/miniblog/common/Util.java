@@ -70,9 +70,13 @@ public class Util {
      * 
      * @param userID
      *            ID of user
-     * @return new token
+     * @return new token if userID > 0 and NULL otherwise
      */
     public static String createToken(int userID) {
+	// Validate userID
+	if (0 > userID) {
+	    return null;
+	}
 	// Get current date time
 	String currentDateTime = (new Date()).toString();
 	// Append username and current date time and then hash to create new

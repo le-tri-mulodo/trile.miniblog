@@ -7,7 +7,7 @@ package com.mulodo.miniblog.service;
  * @author TriLe
  *
  */
-public interface GenericService<T> {
+public interface CommonService<T> {
 
     T add(T entity);
 

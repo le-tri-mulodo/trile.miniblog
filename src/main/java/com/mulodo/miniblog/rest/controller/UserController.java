@@ -3,6 +3,9 @@
  */
 package com.mulodo.miniblog.rest.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -17,6 +20,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.jboss.resteasy.annotations.providers.NoJackson;
 import org.jboss.resteasy.plugins.validation.hibernate.ValidateRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,7 +103,7 @@ public class UserController {
 	user = userSer.add(user);
 
 	ResultMessage<User> resultMsg = new ResultMessage<User>(201, "Create user success!", user);
-	return Response.status(200).entity(resultMsg).build();
+	return Response.status(201).entity(resultMsg).build();
     }
 
     @SuppressWarnings("rawtypes")
@@ -151,8 +155,13 @@ public class UserController {
     @Path(Contants.URL_SEARCH)
     @GET
     public Response search(@PathParam(value = "query") String query) {
-	logger.info("search {}", query);
-	return Response.status(200).entity("Hello").build();
+
+	List<User> users = userSer.search(query);
+
+	ResultMessage<List<User>> result = new ResultMessage<List<User>>(200, String.format(
+		"Search success! %d results", users.size()), users);
+
+	return Response.status(200).entity(result).build();
     }
 
     @SuppressWarnings("rawtypes")

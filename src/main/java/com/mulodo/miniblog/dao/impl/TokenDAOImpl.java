@@ -17,7 +17,7 @@ import com.mulodo.miniblog.pojo.Token;
  *
  */
 @Repository
-public class TokenDAOImpl extends GenericDAOImpl<Token> implements TokenDAO {
+public class TokenDAOImpl extends CommonDAOImpl<Token> implements TokenDAO {
 
     /**
      * {@inheritDoc}

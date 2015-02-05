@@ -2,7 +2,7 @@ package com.mulodo.miniblog.dao;
 
 import java.util.List;
 
-public interface GenericDAO<T> {
+public interface CommonDAO<T> {
 
     /**
      * Insert entity into DB

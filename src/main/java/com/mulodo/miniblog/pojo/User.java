@@ -18,7 +18,6 @@ import javax.persistence.Transient;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -29,7 +28,7 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 @Table(name = "users")
 @JsonPropertyOrder({ "user_id", "username", "firstname", "lastname", "joindate", "avatarlink", "token" })
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+//@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class User {
 
     @Id

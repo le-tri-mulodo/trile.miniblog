@@ -11,7 +11,7 @@ import com.mulodo.miniblog.pojo.User;
  * @author TriLe
  *
  */
-public interface UserService extends GenericService<User> {
+public interface UserService extends CommonService<User> {
 
     List<User> search(String query);
 

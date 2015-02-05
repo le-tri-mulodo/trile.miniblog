@@ -13,14 +13,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.GenericTypeResolver;
 
-import com.mulodo.miniblog.dao.GenericDAO;
+import com.mulodo.miniblog.dao.CommonDAO;
 
 /**
  * @author TriLe
  *
  */
-public class GenericDAOImpl<T> implements GenericDAO<T> {
-    private static final Logger logger = LoggerFactory.getLogger(GenericDAOImpl.class);
+public class CommonDAOImpl<T> implements CommonDAO<T> {
+    private static final Logger logger = LoggerFactory.getLogger(CommonDAOImpl.class);
 
     @Autowired
     protected SessionFactory sf;
@@ -29,8 +29,8 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
     protected Class<T> GENERIC_TYPE;
 
     @SuppressWarnings("unchecked")
-    public GenericDAOImpl() {
-	this.GENERIC_TYPE = (Class<T>) GenericTypeResolver.resolveTypeArgument(getClass(), GenericDAOImpl.class);
+    public CommonDAOImpl() {
+	this.GENERIC_TYPE = (Class<T>) GenericTypeResolver.resolveTypeArgument(getClass(), CommonDAOImpl.class);
 	this.T_TYPE = "from " + GENERIC_TYPE.getName();
     }
 

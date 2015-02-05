@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.mulodo.miniblog.pojo.User;
 
-public interface UserDAO extends GenericDAO<User> {
+public interface UserDAO extends CommonDAO<User> {
 
     List<User> search(String query);
 

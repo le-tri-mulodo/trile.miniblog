@@ -11,6 +11,12 @@ public class SuccessMessage extends MetaMessage {
     private String message;
 
     /**
+     * 
+     */
+    public SuccessMessage() {
+    }
+
+    /**
      * @param code
      * @param message
      */

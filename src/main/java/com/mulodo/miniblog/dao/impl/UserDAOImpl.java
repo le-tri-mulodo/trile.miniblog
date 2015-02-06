@@ -10,8 +10,6 @@ import org.hibernate.Query;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.LogicalExpression;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -42,14 +40,14 @@ public class UserDAOImpl extends CommonDAOImpl<User> implements UserDAO {
 	Criteria cr = session.createCriteria(GENERIC_TYPE);
 	cr.add(Restrictions.or(userName, nameLE));
 	// Set select fields
-//	ProjectionList prjection = Projections.projectionList();
-//	prjection.add(Projections.property("id"));
-//	prjection.add(Projections.property("userName"));
-//	prjection.add(Projections.property("firstName"));
-//	prjection.add(Projections.property("lastName"));
-//	prjection.add(Projections.property("avatarLink"));
-//	prjection.add(Projections.property("joinDate"));
-//	cr.setProjection(prjection);
+	// ProjectionList prjection = Projections.projectionList();
+	// prjection.add(Projections.property("id"));
+	// prjection.add(Projections.property("userName"));
+	// prjection.add(Projections.property("firstName"));
+	// prjection.add(Projections.property("lastName"));
+	// prjection.add(Projections.property("avatarLink"));
+	// prjection.add(Projections.property("joinDate"));
+	// cr.setProjection(prjection);
 
 	return (List<User>) cr.list();
     }

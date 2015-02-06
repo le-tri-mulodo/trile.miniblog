@@ -12,7 +12,7 @@
 
 	<!-- Application Loggers -->
 	<logger name="com.mulodo.miniblog">
-		<level value="info" />
+		<level value="debug" />
 	</logger>
 
 	<logger name="org.hibernate.SQL">
@@ -20,7 +20,7 @@
 	</logger>
 
 	<logger name="org.hibernate.type">
-		<level value="info" />
+		<level value="trace" />
 	</logger>
 
 	<!-- 3rdparty Loggers -->

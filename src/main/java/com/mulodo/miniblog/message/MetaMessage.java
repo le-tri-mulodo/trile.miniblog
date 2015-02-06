@@ -1,7 +1,11 @@
 package com.mulodo.miniblog.message;
 
+
 public class MetaMessage {
     private int code;
+
+    public MetaMessage() {
+    }
 
     public MetaMessage(int code) {
 	this.code = code;

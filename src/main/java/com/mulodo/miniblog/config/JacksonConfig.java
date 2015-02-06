@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mulodo.miniblog.provider;
+package com.mulodo.miniblog.config;
 
 import java.text.SimpleDateFormat;
 

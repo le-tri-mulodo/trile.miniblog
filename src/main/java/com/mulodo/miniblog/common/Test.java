@@ -4,19 +4,14 @@
 package com.mulodo.miniblog.common;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
-import org.codehaus.jackson.annotate.JsonMethod;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
-
-import com.mulodo.miniblog.pojo.User;
+import org.codehaus.jackson.type.TypeReference;
 
 /**
  * @author TriLe
@@ -26,34 +21,63 @@ public class Test {
 
     /**
      * @param args
-     * @throws IOException 
-     * @throws JsonMappingException 
-     * @throws JsonGenerationException 
+     * @throws IOException
+     * @throws JsonMappingException
+     * @throws JsonGenerationException
      */
     public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
-	
-	List<User> users = new ArrayList<User>();
+	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
-	User user = new User();
-	user.setFirstName("Tri");
-	user.setLastName("Le");
+	Date d = null;
+	try {
+	    d = dateFormat.parse("2014/04/03");
+	} catch (ParseException e) {
+	    System.out.println(":(");
+	}
 
-	users.add(user);
+	System.out.println(d);
 
-	user = new User();
-	user.setFirstName("Peter");
-	user.setLastName("Parker");
+	//
+	//
+	// ObjectMapper mapper = new
+	// ObjectMapper().setVisibility(JsonMethod.FIELD, Visibility.ANY);
+	// mapper.setDateFormat(new
+	// SimpleDateFormat(Contants.DATE_FULL_FORMAT));
+	// mapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS,
+	// false);
+	// mapper.setSerializationInclusion(Inclusion.NON_NULL);
+	//
+	// String jsonStr = new String(
+	// Files.readAllBytes(Paths
+	// .get("/Users/TriLe/Documents/workspace-sts/trile.miniblog/src/main/java/com/mulodo/miniblog/common/json.txt")));
+	// // System.out.println(jsonStr);
+	//
+	// ResultMessage<ArrayList<User>> r = mapper
+	// .readValue(
+	// Files.readAllBytes(Paths
+	// .get("/Users/TriLe/Documents/workspace-sts/trile.miniblog/src/main/java/com/mulodo/miniblog/common/json.txt")),
+	// new TypeReference<ResultMessage<ArrayList<User>>>() {
+	// });
+	//
+	// // ResultMessage<ArrayList<User>> r = fromJSON(new
+	// // TypeReference<ResultMessage<ArrayList<User>>>() {
+	// // }, jsonStr);
+	//
+	// for (Object obj : r.getData()) {
+	// User u = (User) obj;
+	// System.out.println(u.getFirstName());
+	// }
+    }
 
-	users.add(user);
+    public static <T> T fromJSON(final TypeReference<T> type, final String jsonPacket) {
+	T data = null;
 
-	ObjectMapper mapper = new ObjectMapper().setVisibility(JsonMethod.FIELD, Visibility.ANY);
-	mapper.setDateFormat(new SimpleDateFormat(Contants.DATE_FULL_FORMAT));
-	mapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
-	mapper.setSerializationInclusion(Inclusion.NON_NULL);
-
-	String jsonStr = null;
-	    jsonStr = mapper.writeValueAsString(users);
-	System.out.println(jsonStr);
+	try {
+	    data = new ObjectMapper().readValue(jsonPacket, type);
+	} catch (Exception e) {
+	    // Handle the problem
+	}
+	return data;
     }
 
     public static void test() {

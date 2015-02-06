@@ -15,6 +15,12 @@ public class ErrorMessage extends MetaMessage {
     private List<String> messages;
 
     /**
+     * 
+     */
+    public ErrorMessage() {
+    }
+
+    /**
      * @param code
      * @param description
      * @param messages

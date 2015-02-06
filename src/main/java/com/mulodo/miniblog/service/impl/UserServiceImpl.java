@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 	// Load from Hibernate term userId
 	// User user = load(updateUser.getId());
 	// Change to get because response User info
-	User user = get(updateUser.getId());
+	User user = userDAO.get(updateUser.getId());
 	// change flag
 	boolean changeFlag = false;
 	// Check have change to set firstname, lastname, avatarlink
@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public User get(int id) {
 	return userDAO.get(id);
     }
@@ -141,7 +141,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User changePassword(int userId, String newPassword) {
 	// Change password
-	User user = get(userId);
+	User user = load(userId);
 	// Hash password
 	user.setPassHash(Util.hashSHA256(newPassword));
 	// Save to db

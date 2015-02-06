@@ -3,11 +3,21 @@ package com.mulodo.miniblog.message;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+
+import com.mulodo.miniblog.pojo.User;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ResultMessage<T> {
 
+    @JsonDeserialize(as = SuccessMessage.class)
     private MetaMessage meta;
 
     private T data;
+
+    public ResultMessage() {
+    }
 
     /**
      * @param meta

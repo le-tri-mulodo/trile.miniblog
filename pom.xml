@@ -62,7 +62,6 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${org.spring-version}</version>
-
 		</dependency>
 
 		<dependency>
@@ -145,6 +144,36 @@
 			</exclusions>
 			<scope>runtime</scope>
 		</dependency>
+
+		<!-- For unit test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.spring-version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-client</artifactId>
+			<version>${org.resteasy-version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxb-provider</artifactId>
+			<version>${org.resteasy-version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- <dependency> <groupId>junit</groupId> <artifactId>com.springsource.org.junit</artifactId> 
+			<version>4.11</version> <scope>test</scope> </dependency> -->
+
 	</dependencies>
 	<build>
 		<finalName>miniblog.api</finalName>

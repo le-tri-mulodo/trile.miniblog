@@ -3,7 +3,6 @@
  */
 package com.mulodo.miniblog.rest.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.Min;
@@ -20,7 +19,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.jboss.resteasy.annotations.providers.NoJackson;
+import org.hibernate.HibernateException;
 import org.jboss.resteasy.plugins.validation.hibernate.ValidateRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,7 +99,13 @@ public class UserController {
 	user.setAvatarLink(avatarlink);
 
 	// Call user service to insert into db
-	user = userSer.add(user);
+	try {
+	    user = userSer.add(user);
+	} catch (HibernateException e) {
+	    ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error", String.format(
+		    "Database error: %s", e.getMessage()));
+	    return Response.status(500).entity(dbErrMsg).build();
+	}
 
 	ResultMessage<User> resultMsg = new ResultMessage<User>(201, "Create user success!", user);
 	return Response.status(201).entity(resultMsg).build();
@@ -146,7 +151,13 @@ public class UserController {
 	user.setLastName(lastname);
 	user.setAvatarLink(avatarlink);
 	// Update user
-	user = userSer.update(user);
+	try {
+	    user = userSer.update(user);
+	} catch (HibernateException e) {
+	    ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error", String.format(
+		    "Database error: %s", e.getMessage()));
+	    return Response.status(500).entity(dbErrMsg).build();
+	}
 
 	ResultMessage<User> successMsg = new ResultMessage<User>(1, "Account updated success!",user);
 	return Response.status(200).entity(successMsg).build();
@@ -157,7 +168,6 @@ public class UserController {
     public Response search(@PathParam(value = "query") String query) {
 
 	List<User> users = userSer.search(query);
-
 	ResultMessage<List<User>> result = new ResultMessage<List<User>>(200, String.format(
 		"Search success! %d results", users.size()), users);
 
@@ -204,8 +214,14 @@ public class UserController {
 	}
 	
 	// Call service to change password
-	User user = userSer.changePassword(user_id, newpassword);
-
+	User user = null;
+	try {
+	    user = userSer.changePassword(user_id, newpassword);
+	} catch (HibernateException e) {
+	    ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error", String.format(
+		    "Database error: %s", e.getMessage()));
+	    return Response.status(500).entity(dbErrMsg).build();
+	}
 
 	ResultMessage<User> result = new ResultMessage<User>(200, "Change password success!", user);
 	return Response.status(200).entity(result).build();

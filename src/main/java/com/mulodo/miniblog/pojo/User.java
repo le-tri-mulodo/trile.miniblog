@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,8 +19,11 @@ import javax.persistence.Transient;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+
+import com.mulodo.miniblog.common.CustomerDateAndTimeDeserialize;
 
 /**
  * @author TriLe
@@ -28,8 +32,8 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 @Table(name = "users")
 @JsonPropertyOrder({ "user_id", "username", "firstname", "lastname", "joindate", "avatarlink", "token" })
-//@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class User {
+// @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+public class User implements Comparable<User> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,21 +63,28 @@ public class User {
 
     @Column(name = "join_date", columnDefinition = "DATE", nullable = false)
     @JsonProperty("joindate")
+    @JsonDeserialize(using = CustomerDateAndTimeDeserialize.class)
     private Date joinDate;
 
     // Origin password
     // private String passWord
 
+    // @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", targetEntity =
+    // Post.class)
     @OneToMany(mappedBy = "user", targetEntity = Post.class)
     @Cascade(CascadeType.SAVE_UPDATE)
     @JsonIgnore
     private Set<Post> posts;
 
+    // @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", targetEntity =
+    // Comment.class)
     @OneToMany(mappedBy = "user", targetEntity = Comment.class)
     @Cascade(CascadeType.SAVE_UPDATE)
     @JsonIgnore
     private Set<Comment> comments;
 
+    // @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", targetEntity =
+    // Token.class)
     @OneToMany(mappedBy = "user", targetEntity = Token.class)
     @Cascade(CascadeType.SAVE_UPDATE)
     @JsonIgnore
@@ -286,4 +297,50 @@ public class User {
     public void setToken(String token) {
 	this.token = token;
     }
+
+    @Override
+    public int compareTo(User o) {
+	return id - o.id;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	User other = (User) obj;
+	if (avatarLink == null) {
+	    if (other.avatarLink != null)
+		return false;
+	} else if (!avatarLink.equals(other.avatarLink))
+	    return false;
+	if (firstName == null) {
+	    if (other.firstName != null)
+		return false;
+	} else if (!firstName.equals(other.firstName))
+	    return false;
+	if (joinDate == null) {
+	    if (other.joinDate != null)
+		return false;
+	} else if (!joinDate.equals(other.joinDate))
+	    return false;
+	if (lastName == null) {
+	    if (other.lastName != null)
+		return false;
+	} else if (!lastName.equals(other.lastName))
+	    return false;
+	if (userName == null) {
+	    if (other.userName != null)
+		return false;
+	} else if (!userName.equals(other.userName))
+	    return false;
+	return true;
+    }
+
 }

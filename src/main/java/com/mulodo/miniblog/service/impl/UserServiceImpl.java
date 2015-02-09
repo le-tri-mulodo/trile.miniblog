@@ -163,4 +163,10 @@ public class UserServiceImpl implements UserService {
 
 	return result;
     }
+
+    @Override
+    @Transactional
+    public void deleteAll() {
+	userDAO.deleteAll();
+    }
 }

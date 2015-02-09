@@ -18,6 +18,7 @@ public interface UserService extends CommonService<User> {
     boolean checkUserNameExist(String username);
 
     boolean checkPassword(int user_id, String password);
-    
+
     User changePassword(int user_id, String newPassword);
+
 }

@@ -42,4 +42,5 @@ public interface CommonDAO<T> {
 
     T load(int id);
 
+    void deleteAll();
 }

@@ -4,14 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-
-import com.mulodo.miniblog.pojo.User;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ResultMessage<T> {
 
-    @JsonDeserialize(as = SuccessMessage.class)
     private MetaMessage meta;
 
     private T data;
@@ -41,7 +37,7 @@ public class ResultMessage<T> {
      */
     public ResultMessage(int code, String description, List<String> messages) {
 	super();
-	this.meta = new ErrorMessage(code, description, messages);
+	this.meta = new MetaMessage(code, description, messages);
 	this.data = null;
     }
 
@@ -60,7 +56,7 @@ public class ResultMessage<T> {
 	// Create array list with 1 element and add message
 	List<String> messages = new ArrayList<String>(1);
 	messages.add(message);
-	this.meta = new ErrorMessage(code, description, messages);
+	this.meta = new MetaMessage(code, description, messages);
 	this.data = null;
     }
 
@@ -76,7 +72,7 @@ public class ResultMessage<T> {
      */
     public ResultMessage(int code, String message, T data) {
 	super();
-	this.meta = new SuccessMessage(code, message);
+	this.meta = new MetaMessage(code, message);
 	this.data = data;
     }
 

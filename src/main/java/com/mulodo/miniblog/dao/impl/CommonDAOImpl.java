@@ -100,4 +100,11 @@ public class CommonDAOImpl<T> implements CommonDAO<T> {
     public void setSf(SessionFactory sf) {
 	this.sf = sf;
     }
+
+    @Override
+    public void deleteAll() {
+	Session session = sf.getCurrentSession();
+	Query query = session.createQuery("delete " + T_TYPE);
+	query.executeUpdate();
+    }
 }

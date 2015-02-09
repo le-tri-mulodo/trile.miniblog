@@ -18,4 +18,6 @@ public interface CommonService<T> {
     T load(int id);
     
     T get(int id);
+
+    void deleteAll();
 }

@@ -6,6 +6,7 @@ package com.mulodo.miniblog.common;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +26,11 @@ public class Util {
      * @return hash value of input
      */
     public static String hashSHA256(String value) {
+
+	// Check null and empty
+	if (StringUtils.isEmpty(value)) {
+	    return null;
+	}
 
 	MessageDigest md;
 	try {

@@ -51,8 +51,6 @@ public class Util {
 	    sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
 	}
 
-	System.out.println("Hex format : " + sb.toString());
-
 	// convert the byte to hex format method 2
 	StringBuffer hexString = new StringBuffer();
 	for (int i = 0; i < byteData.length; i++) {

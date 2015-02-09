@@ -18,11 +18,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.mulodo.miniblog.common.Contants;
+import com.mulodo.miniblog.common.Util;
 import com.mulodo.miniblog.message.ResultMessage;
 import com.mulodo.miniblog.pojo.User;
 import com.mulodo.miniblog.service.TokenService;
@@ -35,6 +38,7 @@ import com.mulodo.miniblog.service.UserService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath*:applicationContext.xml")
 public class UserControllerTest {
+    private static final Logger logger = LoggerFactory.getLogger(UserControllerTest.class);
 
     @Autowired
     private UserService userSer;
@@ -52,8 +56,8 @@ public class UserControllerTest {
 
     @Test
     public void testAddUser() {
-	ResteasyWebTarget target = client.target(USER_URL + "/");
-	System.out.println(USER_URL);
+	ResteasyWebTarget target = client.target(USER_URL);
+
 	// Create user
 	User user = new User();
 	user.setUserName("trile");
@@ -74,24 +78,24 @@ public class UserControllerTest {
 	});
 	response.close();
 
-	User responseUser = result.getData();
+	User rUser = result.getData();
 	// Check status
 	Assert.assertEquals(201, response.getStatus());
 	// Check Id
-	Assert.assertNotEquals(0, responseUser.getId());
+	Assert.assertNotEquals(0, rUser.getId());
 	// Check token
 	Assert.assertNotNull(result.getData().getToken());
 	// Check join date
-	Assert.assertEquals(user.getJoinDate().getYear(), responseUser.getJoinDate().getYear());
-	Assert.assertEquals(user.getJoinDate().getMonth(), responseUser.getJoinDate().getMonth());
-	Assert.assertEquals(user.getJoinDate().getDay(), responseUser.getJoinDate().getDay());
+	Assert.assertEquals(user.getJoinDate().getYear(), rUser.getJoinDate().getYear());
+	Assert.assertEquals(user.getJoinDate().getMonth(), rUser.getJoinDate().getMonth());
+	Assert.assertEquals(user.getJoinDate().getDay(), rUser.getJoinDate().getDay());
 
 	// Ignore join date
-	responseUser.setJoinDate(null);
+	rUser.setJoinDate(null);
 	user.setJoinDate(null);
 
 	// Assert
-	Assert.assertEquals(user, responseUser);
+	Assert.assertEquals(user, rUser);
     }
 
     // User existed
@@ -106,8 +110,7 @@ public class UserControllerTest {
 	user.setAvatarLink("test.jpg");
 	userSer.add(user);
 
-	ResteasyWebTarget target = client.target(USER_URL + "/");
-	System.out.println(USER_URL);
+	ResteasyWebTarget target = client.target(USER_URL);
 	// Create user
 	user = new User();
 	user.setUserName("trile");
@@ -134,8 +137,7 @@ public class UserControllerTest {
     // Fields required
     @Test
     public void testAddUser3() {
-	ResteasyWebTarget target = client.target(USER_URL + "/");
-	System.out.println(USER_URL);
+	ResteasyWebTarget target = client.target(USER_URL);
 	// Create user
 	User user = new User();
 	user = new User();
@@ -162,7 +164,6 @@ public class UserControllerTest {
     @Test
     public void testAddUser4() {
 	ResteasyWebTarget target = client.target(USER_URL + "/");
-	System.out.println(USER_URL);
 	// Create user
 	User user = new User();
 	user = new User();
@@ -190,7 +191,6 @@ public class UserControllerTest {
     @Test
     public void testAddUser5() {
 	ResteasyWebTarget target = client.target(USER_URL + "/");
-	System.out.println(USER_URL);
 	// Create user
 	User user = new User();
 	user = new User();
@@ -217,8 +217,7 @@ public class UserControllerTest {
     // Fields required
     @Test
     public void testAddUser6() {
-	ResteasyWebTarget target = client.target(USER_URL + "/");
-	System.out.println(USER_URL);
+	ResteasyWebTarget target = client.target(USER_URL);
 	// Create user
 	User user = new User();
 	user = new User();
@@ -247,7 +246,8 @@ public class UserControllerTest {
 	// Prepare data
 	searchPrepare();
 
-	String url = USER_URL + "/search/tri";
+	String query = "tri";
+	String url = USER_URL + "/search/" + query;
 	ResteasyWebTarget target = client.target(url);
 
 	Response response = target.request().get();
@@ -259,7 +259,7 @@ public class UserControllerTest {
 	List<User> users = result.getData();
 	Collections.sort(users);
 
-	List<User> usersDb = userSer.search("tri");
+	List<User> usersDb = userSer.search(query);
 	Collections.sort(usersDb);
 
 	// for (User u : users) {
@@ -320,5 +320,108 @@ public class UserControllerTest {
 	user.setLastName("ccrfzxc");
 	user.setPassHash("cddxz");
 	userSer.add(user);
+    }
+
+    // User not exist
+    @Test
+    public void testgetUserInfo1() {
+
+	// Create new user
+	User user = new User();
+	user.setUserName("trile");
+	user.setFirstName("Tri");
+	user.setLastName("Le");
+	user.setPassHash("test");
+	user.setAvatarLink("test.jpg");
+	user = userSer.add(user);
+
+	ResteasyWebTarget target = client.target(USER_URL + "/" + user.getId());
+
+	Response response = target.request().get();
+	ResultMessage<User> result = response.readEntity(new GenericType<ResultMessage<User>>() {
+	});
+	response.close();
+
+	// Check status
+	Assert.assertEquals(200, response.getStatus());
+
+	User rUser = result.getData();
+	// Check join date
+	Assert.assertEquals(user.getJoinDate().getYear(), rUser.getJoinDate().getYear());
+	Assert.assertEquals(user.getJoinDate().getMonth(), rUser.getJoinDate().getMonth());
+	Assert.assertEquals(user.getJoinDate().getDay(), rUser.getJoinDate().getDay());
+
+	// Ignore join date
+	rUser.setJoinDate(null);
+	user.setJoinDate(null);
+	// Check user info
+	Assert.assertEquals(user, rUser);
+    }
+
+    @Test
+    public void testgetUserInfo2() {
+	ResteasyWebTarget target = client.target(USER_URL + "/0");
+
+	Response response = target.request().get();
+	ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+	});
+	response.close();
+
+	// Check status
+	Assert.assertEquals(400, response.getStatus());
+    }
+
+    @Test
+    public void changePassword() {
+	ResteasyWebTarget target = client.target(USER_URL + Contants.URL_CHPWD);
+	String currentPass = "currentpass";
+	// Create new user
+	User user = new User();
+	user.setUserName("trile");
+	user.setFirstName("Tri");
+	user.setLastName("Le");
+	user.setPassHash(currentPass);
+	user.setAvatarLink("test.jpg");
+	user = userSer.add(user);
+
+	Form form = new Form();
+	// Convert int to String to add user_id into x-form
+	form.param("user_id", Integer.toString(user.getId()));
+	form.param("currentpassword", currentPass);
+	form.param("newpassword", "newpass");
+
+	Response response = target.request().put(Entity.form(form));
+
+	ResultMessage<User> result = response.readEntity(new GenericType<ResultMessage<User>>() {
+	});
+	response.close();
+	// Check status
+	Assert.assertEquals(200, response.getStatus());
+
+	User rUser = result.getData();
+	// Check check id
+	Assert.assertEquals(user.getId(), rUser.getId());
+	// Check token
+	Assert.assertNotNull(rUser.getToken());
+	Assert.assertTrue(tokenSer.checkToken(rUser.getId(), rUser.getToken()));
+    }
+
+    // User or password invaild
+    @Test
+    public void changePassword1() {
+	ResteasyWebTarget target = client.target(USER_URL + Contants.URL_CHPWD);
+	Form form = new Form();
+	// Convert int to String to add user_id into x-form
+	form.param("user_id", "123");
+	form.param("currentpassword", "1213");
+	form.param("newpassword", "newpass");
+
+	Response response = target.request().put(Entity.form(form));
+
+	ResultMessage<User> result = response.readEntity(new GenericType<ResultMessage<User>>() {
+	});
+	response.close();
+	// Check status
+	Assert.assertEquals(400, response.getStatus());
     }
 }

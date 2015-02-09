@@ -12,32 +12,32 @@
 
 	<!-- Application Loggers -->
 	<logger name="com.mulodo.miniblog">
-		<level value="debug" />
+		<level value="info" />
 	</logger>
 
 	<logger name="org.hibernate.SQL">
-		<level value="error" />
+		<level value="info" />
 	</logger>
 
 	<logger name="org.hibernate.type">
-		<level value="error" />
+		<level value="info" />
 	</logger>
 
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
-		<level value="error" />
+		<level value="info" />
 	</logger>
 
 	<logger name="org.springframework.beans">
-		<level value="error" />
+		<level value="info" />
 	</logger>
 
 	<logger name="org.springframework.context">
-		<level value="error" />
+		<level value="info" />
 	</logger>
 
 	<logger name="org.springframework.web">
-		<level value="error" />
+		<level value="info" />
 	</logger>
 
 	<!-- Root Logger -->

@@ -214,7 +214,7 @@ public class UserController {
         		@FormParam(value = "user_id")
         		@Min(value = 0)
         		Integer user_id,
-        	    
+
                 	@NotNull(message = "{password.NotNull}")
                 	@Size(min = 4, max = 999, message = "{password.Size}")
                 	@FormParam(value = "currentpassword") String currentpassword,

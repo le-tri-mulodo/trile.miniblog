@@ -163,11 +163,19 @@ public class UserController {
 	return Response.status(200).entity(successMsg).build();
     }
 
+    @SuppressWarnings("rawtypes")
     @Path(Contants.URL_SEARCH)
     @GET
     public Response search(@PathParam(value = "query") String query) {
 
-	List<User> users = userSer.search(query);
+	List<User> users = null;
+	try {
+	    users = userSer.search(query);
+	} catch (HibernateException e) {
+	    ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error", String.format(
+		    "Database error: %s", e.getMessage()));
+	    return Response.status(500).entity(dbErrMsg).build();
+	}
 	ResultMessage<List<User>> result = new ResultMessage<List<User>>(200, String.format(
 		"Search success! %d results", users.size()), users);
 
@@ -178,7 +186,15 @@ public class UserController {
     @Path(Contants.URL_GET_BY_ID)
     @GET
     public Response getById(@PathParam(value = "id") int userId) {
-	User user = userSer.get(userId);
+	
+	User user = null;
+	try {
+	    user = userSer.get(userId);
+	} catch (HibernateException e) {
+	    ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error", String.format(
+		    "Database error: %s", e.getMessage()));
+	    return Response.status(500).entity(dbErrMsg).build();
+	}
 
 	if (null == user) {
 	    ResultMessage userNotExistMsg = new ResultMessage(2001, "User ID in request does not exist", String.format(

@@ -35,4 +35,17 @@ public interface UserDAO extends CommonDAO<User> {
      */
     boolean checkPassword(int user_id, String passhash);
 
+    /**
+     * Check password with user name. If valid then return user info match with
+     * input user name
+     * 
+     * @param userName
+     *            Name of user
+     * @param passhash
+     *            Password hashed
+     * @return <b>User</b> if a pair User id and Password hashed valid <br>
+     *         <b>NULL</b> if username and passhash invalid
+     */
+    User checkPasswordGetUserInfo(String userName, String passhash);
+
 }

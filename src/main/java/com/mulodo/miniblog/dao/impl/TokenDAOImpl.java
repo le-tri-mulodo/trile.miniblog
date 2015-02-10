@@ -58,4 +58,17 @@ public class TokenDAOImpl extends CommonDAOImpl<Token> implements TokenDAO {
 
         return query.executeUpdate();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean deleteToken(String value) {
+        Session session = sf.getCurrentSession();
+
+        Query query = session.createQuery("delete from Token t where t.value = :value");
+        query.setString("value", value);
+
+        return (0 < query.executeUpdate());
+    }
 }

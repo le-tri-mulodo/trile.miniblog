@@ -29,4 +29,13 @@ public interface TokenDAO extends CommonDAO<Token> {
      * @return number of token deleted
      */
     int deleteTokenByUserId(int userId);
+
+    /**
+     * Delete token with input token value match value in Db
+     * 
+     * @param value
+     *            value of token Id of user
+     * @return <b>TRUE</b> if delete success
+     */
+    boolean deleteToken(String value);
 }

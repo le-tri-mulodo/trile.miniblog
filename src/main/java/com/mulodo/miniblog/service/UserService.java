@@ -53,4 +53,16 @@ public interface UserService extends CommonService<User> {
      */
     User changePassword(int user_id, String newPassword);
 
+    /**
+     * Check password with user name. If valid then return user info match with
+     * input user name
+     * 
+     * @param userName
+     *            Name of user
+     * @param password
+     *            Password hashed
+     * @return <b>User</b> if a pair User id and Password hashed valid <br>
+     *         <b>NULL</b> if username and password invalid
+     */
+    User checkPasswordGetUserInfo(String userName, String password);
 }

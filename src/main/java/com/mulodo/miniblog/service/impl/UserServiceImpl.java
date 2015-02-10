@@ -186,4 +186,10 @@ public class UserServiceImpl implements UserService {
     public void deleteAll() {
         userDAO.deleteAll();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public User checkPasswordGetUserInfo(String userName, String password) {
+        return userDAO.checkPasswordGetUserInfo(userName, Util.hashSHA256(password));
+    }
 }

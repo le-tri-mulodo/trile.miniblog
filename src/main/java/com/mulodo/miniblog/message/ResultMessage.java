@@ -29,6 +29,20 @@ public class ResultMessage<T> {
      * Create Error message
      * 
      * @param code
+     *            Response code
+     * @param description
+     *            Response description
+     */
+    public ResultMessage(int code, String description) {
+        super();
+        this.meta = new MetaMessage(code, description);
+        this.data = null;
+    }
+
+    /**
+     * Create Error message
+     * 
+     * @param code
      *            Error code
      * @param description
      *            Error description

@@ -90,4 +90,19 @@ public class UserDAOImpl extends CommonDAOImpl<User> implements UserDAO {
         // Return true if username existed in db
         return (0 < (long) query.uniqueResult());
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public User checkPasswordGetUserInfo(String userName, String passhash) {
+        Session session = sf.getCurrentSession();
+
+        Query query = session
+                .createQuery("from User u where u.userName = :userName and u.passHash = :passHash");
+        query.setString("userName", userName);
+        query.setString("passHash", passhash);
+        // Return true if username existed in db
+        return (User) query.uniqueResult();
+    }
 }

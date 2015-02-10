@@ -102,4 +102,24 @@ public class TokenServiceImpl implements TokenService {
     public void deleteAll() {
         tokenDAO.deleteAll();
     }
+
+    @Override
+    public Token login(User user) {
+        if (null == user) {
+            return null;
+        }
+
+        // Call token service to create and insert token into db
+        Token token = createNewToken(user);
+        // Set username and userId
+        token.setUserid(user.getId());
+        token.setUserName(user.getUserName());
+
+        return token;
+    }
+
+    @Override
+    public boolean logout(String token) {
+        return tokenDAO.deleteToken(token);
+    }
 }

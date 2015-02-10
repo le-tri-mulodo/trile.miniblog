@@ -10,7 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.ForeignKey;
@@ -20,27 +24,41 @@ import com.mulodo.miniblog.common.Util;
 
 @Entity
 @Table(name = "tokens")
+@JsonPropertyOrder({ "user_id", "username", "token", "create_time", "expired_time" })
 public class Token {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private int id;
 
     @Column(name = "create_time", columnDefinition = "TIMESTAMP", nullable = false)
+    @JsonProperty("create_time")
     private Timestamp createTime;
 
     @Column(name = "expired_time", columnDefinition = "TIMESTAMP", nullable = false)
+    @JsonProperty("expired_time")
     private Timestamp expiredTime;
 
     // use SHA-256 to hash (username + id + current time)
     @Column(name = "value", length = 64, nullable = false)
+    @JsonProperty("token")
     private String value;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @Cascade(CascadeType.SAVE_UPDATE)
     @ForeignKey(name = "fk_tokens_users")
+    @JsonIgnore
     private User user;
+
+    @JsonProperty("username")
+    @Transient
+    private String userName;
+
+    @JsonProperty("user_id")
+    @Transient
+    private int userid;
 
     /**
      * 
@@ -137,5 +155,35 @@ public class Token {
      */
     public void setUser(User user) {
         this.user = user;
+    }
+
+    /**
+     * @return the userName
+     */
+    public String getUserName() {
+        return userName;
+    }
+
+    /**
+     * @param userName
+     *            the userName to set
+     */
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    /**
+     * @return the userid
+     */
+    public int getUserid() {
+        return userid;
+    }
+
+    /**
+     * @param userid
+     *            the userid to set
+     */
+    public void setUserid(int userid) {
+        this.userid = userid;
     }
 }

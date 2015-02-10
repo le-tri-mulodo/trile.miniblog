@@ -46,29 +46,29 @@ public class Token {
      * 
      */
     public Token() {
-	this(null);
+        this(null);
     }
 
     /**
      * 
      */
     public Token(User user) {
-	createTime = new Timestamp(System.currentTimeMillis());
-	// Create expired time
-	expiredTime = new Timestamp(System.currentTimeMillis() + Contants.EXPIRED_TIME_ADDTION_MS);
+        createTime = new Timestamp(System.currentTimeMillis());
+        // Create expired time
+        expiredTime = new Timestamp(System.currentTimeMillis() + Contants.EXPIRED_TIME_ADDTION_MS);
 
-	if (null != user) {
-	    // Create new token from userId
-	    this.value = Util.createToken(user.getId());
-	    this.user = user;
-	}
+        if (null != user) {
+            // Create new token from userId
+            this.value = Util.createToken(user.getId());
+            this.user = user;
+        }
     }
 
     /**
      * @return the id
      */
     public int getId() {
-	return id;
+        return id;
     }
 
     /**
@@ -76,14 +76,14 @@ public class Token {
      *            the id to set
      */
     public void setId(int id) {
-	this.id = id;
+        this.id = id;
     }
 
     /**
      * @return the createTime
      */
     public Timestamp getCreateTime() {
-	return createTime;
+        return createTime;
     }
 
     /**
@@ -91,14 +91,14 @@ public class Token {
      *            the createTime to set
      */
     public void setCreateTime(Timestamp createTime) {
-	this.createTime = createTime;
+        this.createTime = createTime;
     }
 
     /**
      * @return the expiredTime
      */
     public Timestamp getExpiredTime() {
-	return expiredTime;
+        return expiredTime;
     }
 
     /**
@@ -106,14 +106,14 @@ public class Token {
      *            the expiredTime to set
      */
     public void setExpiredTime(Timestamp expiredTime) {
-	this.expiredTime = expiredTime;
+        this.expiredTime = expiredTime;
     }
 
     /**
      * @return the value
      */
     public String getValue() {
-	return value;
+        return value;
     }
 
     /**
@@ -121,14 +121,14 @@ public class Token {
      *            the value to set
      */
     public void setValue(String value) {
-	this.value = value;
+        this.value = value;
     }
 
     /**
      * @return the user
      */
     public User getUser() {
-	return user;
+        return user;
     }
 
     /**
@@ -136,6 +136,6 @@ public class Token {
      *            the user to set
      */
     public void setUser(User user) {
-	this.user = user;
+        this.user = user;
     }
 }

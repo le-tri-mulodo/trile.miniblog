@@ -9,7 +9,6 @@ import com.mulodo.miniblog.pojo.User;
 
 /**
  * @author TriLe
- *
  */
 public interface UserService extends CommonService<User> {
 

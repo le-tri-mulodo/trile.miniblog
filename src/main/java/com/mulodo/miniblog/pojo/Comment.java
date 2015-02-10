@@ -22,7 +22,6 @@ import org.hibernate.annotations.ForeignKey;
 
 /**
  * @author TriLe
- *
  */
 @Entity
 @Table(name = "comments")
@@ -65,7 +64,7 @@ public class Comment {
      * @return the id
      */
     public int getId() {
-	return id;
+        return id;
     }
 
     /**
@@ -73,14 +72,14 @@ public class Comment {
      *            the id to set
      */
     public void setId(int id) {
-	this.id = id;
+        this.id = id;
     }
 
     /**
      * @return the content
      */
     public String getContent() {
-	return content;
+        return content;
     }
 
     /**
@@ -88,14 +87,14 @@ public class Comment {
      *            the content to set
      */
     public void setContent(String content) {
-	this.content = content;
+        this.content = content;
     }
 
     /**
      * @return the createTime
      */
     public Timestamp getCreateTime() {
-	return createTime;
+        return createTime;
     }
 
     /**
@@ -103,14 +102,14 @@ public class Comment {
      *            the createTime to set
      */
     public void setCreateTime(Timestamp createTime) {
-	this.createTime = createTime;
+        this.createTime = createTime;
     }
 
     /**
      * @return the editTime
      */
     public Timestamp getEditTime() {
-	return editTime;
+        return editTime;
     }
 
     /**
@@ -118,14 +117,14 @@ public class Comment {
      *            the editTime to set
      */
     public void setEditTime(Timestamp editTime) {
-	this.editTime = editTime;
+        this.editTime = editTime;
     }
 
     /**
      * @return the user
      */
     public User getUser() {
-	return user;
+        return user;
     }
 
     /**
@@ -133,14 +132,14 @@ public class Comment {
      *            the user to set
      */
     public void setUser(User user) {
-	this.user = user;
+        this.user = user;
     }
 
     /**
      * @return the post
      */
     public Post getPost() {
-	return post;
+        return post;
     }
 
     /**
@@ -148,14 +147,14 @@ public class Comment {
      *            the post to set
      */
     public void setPost(Post post) {
-	this.post = post;
+        this.post = post;
     }
 
     /**
      * @return the parent
      */
     public Comment getParent() {
-	return parent;
+        return parent;
     }
 
     /**
@@ -163,14 +162,14 @@ public class Comment {
      *            the parent to set
      */
     public void setParent(Comment parent) {
-	this.parent = parent;
+        this.parent = parent;
     }
 
     /**
      * @return the comments
      */
     public Set<Comment> getComments() {
-	return comments;
+        return comments;
     }
 
     /**
@@ -178,6 +177,6 @@ public class Comment {
      *            the comments to set
      */
     public void setComments(Set<Comment> comments) {
-	this.comments = comments;
+        this.comments = comments;
     }
 }

@@ -17,7 +17,6 @@ import com.mulodo.miniblog.dao.CommonDAO;
 
 /**
  * @author TriLe
- *
  */
 public class CommonDAOImpl<T> implements CommonDAO<T> {
     private static final Logger logger = LoggerFactory.getLogger(CommonDAOImpl.class);
@@ -30,8 +29,9 @@ public class CommonDAOImpl<T> implements CommonDAO<T> {
 
     @SuppressWarnings("unchecked")
     public CommonDAOImpl() {
-	this.GENERIC_TYPE = (Class<T>) GenericTypeResolver.resolveTypeArgument(getClass(), CommonDAOImpl.class);
-	this.T_TYPE = "from " + GENERIC_TYPE.getName();
+        this.GENERIC_TYPE = (Class<T>) GenericTypeResolver.resolveTypeArgument(getClass(),
+                CommonDAOImpl.class);
+        this.T_TYPE = "from " + GENERIC_TYPE.getName();
     }
 
     /**
@@ -39,9 +39,9 @@ public class CommonDAOImpl<T> implements CommonDAO<T> {
      */
     @Override
     public T add(T entity) {
-	Session session = sf.getCurrentSession();
-	session.persist(entity);
-	return entity;
+        Session session = sf.getCurrentSession();
+        session.persist(entity);
+        return entity;
     }
 
     /**
@@ -49,9 +49,9 @@ public class CommonDAOImpl<T> implements CommonDAO<T> {
      */
     @Override
     public T update(T entity) {
-	Session session = sf.getCurrentSession();
-	session.update(entity);
-	return entity;
+        Session session = sf.getCurrentSession();
+        session.update(entity);
+        return entity;
     }
 
     /**
@@ -59,8 +59,8 @@ public class CommonDAOImpl<T> implements CommonDAO<T> {
      */
     @Override
     public void delete(T entity) {
-	Session session = sf.getCurrentSession();
-	session.delete(entity);
+        Session session = sf.getCurrentSession();
+        session.delete(entity);
     }
 
     /**
@@ -68,8 +68,8 @@ public class CommonDAOImpl<T> implements CommonDAO<T> {
      */
     @Override
     public boolean checkExist(int id) {
-	Session session = sf.getCurrentSession();
-	return (null != session.get(GENERIC_TYPE, id));
+        Session session = sf.getCurrentSession();
+        return (null != session.get(GENERIC_TYPE, id));
     }
 
     /**
@@ -78,33 +78,33 @@ public class CommonDAOImpl<T> implements CommonDAO<T> {
     @SuppressWarnings("unchecked")
     @Override
     public List<T> list() {
-	Session session = sf.getCurrentSession();
-	Query listQuery = session.createQuery("from " + T_TYPE);
-	return listQuery.list();
+        Session session = sf.getCurrentSession();
+        Query listQuery = session.createQuery("from " + T_TYPE);
+        return listQuery.list();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public T get(int id) {
-	Session session = sf.getCurrentSession();
-	return (T) session.get(GENERIC_TYPE, id);
+        Session session = sf.getCurrentSession();
+        return (T) session.get(GENERIC_TYPE, id);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public T load(int id) {
-	Session session = sf.getCurrentSession();
-	return (T) session.load(GENERIC_TYPE, id);
+        Session session = sf.getCurrentSession();
+        return (T) session.load(GENERIC_TYPE, id);
     }
 
     public void setSf(SessionFactory sf) {
-	this.sf = sf;
+        this.sf = sf;
     }
 
     @Override
     public void deleteAll() {
-	Session session = sf.getCurrentSession();
-	Query query = session.createQuery("delete " + T_TYPE);
-	query.executeUpdate();
+        Session session = sf.getCurrentSession();
+        Query query = session.createQuery("delete " + T_TYPE);
+        query.executeUpdate();
     }
 }

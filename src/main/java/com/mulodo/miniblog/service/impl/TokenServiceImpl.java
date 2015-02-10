@@ -18,7 +18,6 @@ import com.mulodo.miniblog.service.TokenService;
  */
 /**
  * @author TriLe
- *
  */
 @Service
 @Transactional
@@ -32,7 +31,7 @@ public class TokenServiceImpl implements TokenService {
      */
     @Override
     public Token add(Token entity) {
-	return tokenDAO.add(entity);
+        return tokenDAO.add(entity);
     }
 
     /**
@@ -40,7 +39,7 @@ public class TokenServiceImpl implements TokenService {
      */
     @Override
     public Token update(Token entity) {
-	return tokenDAO.update(entity);
+        return tokenDAO.update(entity);
     }
 
     /**
@@ -48,7 +47,7 @@ public class TokenServiceImpl implements TokenService {
      */
     @Override
     public void delete(Token entity) {
-	tokenDAO.delete(entity);
+        tokenDAO.delete(entity);
     }
 
     /**
@@ -56,12 +55,12 @@ public class TokenServiceImpl implements TokenService {
      */
     @Override
     public Token createNewToken(User user) {
-	// Create new token
-	Token token = new Token(user);
-	// Insert into DB
-	token = add(token);
+        // Create new token
+        Token token = new Token(user);
+        // Insert into DB
+        token = add(token);
 
-	return token;
+        return token;
     }
 
     /**
@@ -69,26 +68,26 @@ public class TokenServiceImpl implements TokenService {
      */
     @Override
     public boolean checkToken(int userId, String token) {
-	return tokenDAO.checkToken(userId, token);
+        return tokenDAO.checkToken(userId, token);
     }
 
     @Override
     public Token load(int id) {
-	return tokenDAO.get(id);
+        return tokenDAO.get(id);
     }
 
     @Override
     public Token get(int id) {
-	return tokenDAO.load(id);
+        return tokenDAO.load(id);
     }
 
     @Override
     public int deleteTokenByUserId(int userId) {
-	return tokenDAO.deleteTokenByUserId(userId);
+        return tokenDAO.deleteTokenByUserId(userId);
     }
 
     @Override
     public void deleteAll() {
-	tokenDAO.deleteAll();
+        tokenDAO.deleteAll();
     }
 }

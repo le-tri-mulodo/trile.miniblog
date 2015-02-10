@@ -15,7 +15,6 @@ import com.mulodo.miniblog.common.Contants;
 
 /**
  * @author TriLe
- *
  */
 @Controller
 @Path(Contants.URL_COMMENT)

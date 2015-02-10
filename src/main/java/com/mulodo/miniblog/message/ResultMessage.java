@@ -20,9 +20,9 @@ public class ResultMessage<T> {
      * @param data
      */
     public ResultMessage(MetaMessage meta, T data) {
-	super();
-	this.meta = meta;
-	this.data = data;
+        super();
+        this.meta = meta;
+        this.data = data;
     }
 
     /**
@@ -36,9 +36,9 @@ public class ResultMessage<T> {
      *            List error message
      */
     public ResultMessage(int code, String description, List<String> messages) {
-	super();
-	this.meta = new MetaMessage(code, description, messages);
-	this.data = null;
+        super();
+        this.meta = new MetaMessage(code, description, messages);
+        this.data = null;
     }
 
     /**
@@ -52,12 +52,12 @@ public class ResultMessage<T> {
      *            Stand-alone error message
      */
     public ResultMessage(int code, String description, String message) {
-	super();
-	// Create array list with 1 element and add message
-	List<String> messages = new ArrayList<String>(1);
-	messages.add(message);
-	this.meta = new MetaMessage(code, description, messages);
-	this.data = null;
+        super();
+        // Create array list with 1 element and add message
+        List<String> messages = new ArrayList<String>(1);
+        messages.add(message);
+        this.meta = new MetaMessage(code, description, messages);
+        this.data = null;
     }
 
     /**
@@ -71,16 +71,16 @@ public class ResultMessage<T> {
      *            Data
      */
     public ResultMessage(int code, String message, T data) {
-	super();
-	this.meta = new MetaMessage(code, message);
-	this.data = data;
+        super();
+        this.meta = new MetaMessage(code, message);
+        this.data = data;
     }
 
     /**
      * @return the meta
      */
     public MetaMessage getMeta() {
-	return meta;
+        return meta;
     }
 
     /**
@@ -88,14 +88,14 @@ public class ResultMessage<T> {
      *            the meta to set
      */
     public void setMeta(MetaMessage meta) {
-	this.meta = meta;
+        this.meta = meta;
     }
 
     /**
      * @return the data
      */
     public T getData() {
-	return data;
+        return data;
     }
 
     /**
@@ -103,6 +103,6 @@ public class ResultMessage<T> {
      *            the data to set
      */
     public void setData(T data) {
-	this.data = data;
+        this.data = data;
     }
 }

@@ -5,7 +5,6 @@ package com.mulodo.miniblog.common;
 
 /**
  * @author TriLe
- *
  */
 public class Contants {
 

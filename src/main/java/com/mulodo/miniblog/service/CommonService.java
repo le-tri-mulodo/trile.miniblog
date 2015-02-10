@@ -5,7 +5,6 @@ package com.mulodo.miniblog.service;
 
 /**
  * @author TriLe
- *
  */
 public interface CommonService<T> {
 
@@ -16,7 +15,7 @@ public interface CommonService<T> {
     void delete(T entity);
 
     T load(int id);
-    
+
     T get(int id);
 
     void deleteAll();

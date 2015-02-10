@@ -24,7 +24,6 @@ import com.mulodo.miniblog.service.UserService;
 
 /**
  * @author TriLe
- *
  */
 
 @Controller
@@ -39,32 +38,33 @@ public class TokenController {
     @Path(Contants.URL_LOGIN)
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response userLogin(@FormParam("username") String username, @FormParam("password") String password) {
-	int status = 401;
-	if ("tri".equals(username)) {
-	    status = 200;
-	}
-	logger.info("User: {}, pass {}", username, password);
+    public Response userLogin(@FormParam("username") String username,
+            @FormParam("password") String password) {
+        int status = 401;
+        if ("tri".equals(username)) {
+            status = 200;
+        }
+        logger.info("User: {}, pass {}", username, password);
 
-	User user = new User();
-	user.setPassHash(password);
-	user.setUserName(username);
-	user.setFirstName(username + password);
-	user.setLastName(password + username);
-	user.setJoinDate(new Date());
+        User user = new User();
+        user.setPassHash(password);
+        user.setUserName(username);
+        user.setFirstName(username + password);
+        user.setLastName(password + username);
+        user.setJoinDate(new Date());
 
-	userSer.add(user);
+        userSer.add(user);
 
-	// userSer.search(password);
+        // userSer.search(password);
 
-	return Response.status(status).entity(user).build();
+        return Response.status(status).entity(user).build();
     }
 
     @Path(Contants.URL_LOGOUT)
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response userLogout(@FormParam("token") String token) {
-	return Response.status(200).build();
+        return Response.status(200).build();
     }
 
 }

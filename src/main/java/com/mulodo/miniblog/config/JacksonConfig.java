@@ -19,7 +19,6 @@ import com.mulodo.miniblog.common.Contants;
 
 /**
  * @author TriLe
- *
  */
 @Provider
 @Component
@@ -27,14 +26,14 @@ public class JacksonConfig implements ContextResolver<ObjectMapper> {
     private final ObjectMapper objectMapper;
 
     public JacksonConfig() throws Exception {
-	this.objectMapper = new ObjectMapper().setVisibility(JsonMethod.FIELD, Visibility.ANY);
-	this.objectMapper.setDateFormat(new SimpleDateFormat(Contants.DATE_FULL_FORMAT));
-	this.objectMapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
-	this.objectMapper.setSerializationInclusion(Inclusion.NON_NULL);
+        this.objectMapper = new ObjectMapper().setVisibility(JsonMethod.FIELD, Visibility.ANY);
+        this.objectMapper.setDateFormat(new SimpleDateFormat(Contants.DATE_FULL_FORMAT));
+        this.objectMapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
+        this.objectMapper.setSerializationInclusion(Inclusion.NON_NULL);
     }
 
     @Override
     public ObjectMapper getContext(Class<?> objectType) {
-	return objectMapper;
+        return objectMapper;
     }
 }

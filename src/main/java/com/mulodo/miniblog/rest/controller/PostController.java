@@ -23,7 +23,6 @@ import com.mulodo.miniblog.common.Contants;
 
 /**
  * @author TriLe
- *
  */
 @Controller
 @Path(Contants.URL_POST)
@@ -35,57 +34,57 @@ public class PostController {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response add(@FormParam("token") String token) {
-	return Response.status(200).build();
+        return Response.status(200).build();
     }
 
     @Path(Contants.URL_UPDATE)
     @PUT
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response update(@FormParam("token") String token) {
-	return Response.status(200).build();
+        return Response.status(200).build();
     }
 
     @Path(Contants.URL_DELETE)
     @DELETE
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response delete(@FormParam("token") String token) {
-	return Response.status(200).build();
+        return Response.status(200).build();
     }
 
     @Path(Contants.URL_PUBLICT)
     @PUT
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response activeDeactive(@FormParam("token") String token) {
-	return Response.status(200).build();
+        return Response.status(200).build();
     }
 
     @Path(Contants.URL_GET)
     @GET
     public Response allPost() {
-	return Response.status(200).build();
+        return Response.status(200).build();
     }
 
     @Path(Contants.URL_TOP)
     @GET
     public Response topPost() {
-	return Response.status(200).build();
+        return Response.status(200).build();
     }
 
     @Path(Contants.URL_TOP)
     @GET
     public Response getById(@FormParam("token") String token) {
-	return Response.status(200).build();
+        return Response.status(200).build();
     }
 
     @Path(Contants.URL_GET_BY_USER)
     @GET
     public Response getByUser(@PathParam("user_id") int UserID) {
-	return Response.status(200).build();
+        return Response.status(200).build();
     }
 
     @Path(Contants.URL_SEARCH)
     @GET
     public Response search(@PathParam("query") String query) {
-	return Response.status(200).build();
+        return Response.status(200).build();
     }
 }

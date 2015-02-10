@@ -10,7 +10,7 @@ public class SpringExceptionHandler {
 
     @ExceptionHandler(HibernateException.class)
     public void handleHibernateException(HibernateException exc) {
-	logger.error("Have a error: {}", exc);
+        logger.error("Have a error: {}", exc);
     }
 
 }

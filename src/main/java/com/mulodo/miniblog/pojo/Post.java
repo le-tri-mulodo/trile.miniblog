@@ -57,7 +57,7 @@ public class Post {
      * @return the id
      */
     public int getId() {
-	return id;
+        return id;
     }
 
     /**
@@ -65,14 +65,14 @@ public class Post {
      *            the id to set
      */
     public void setId(int id) {
-	this.id = id;
+        this.id = id;
     }
 
     /**
      * @return the title
      */
     public String getTitle() {
-	return title;
+        return title;
     }
 
     /**
@@ -80,14 +80,14 @@ public class Post {
      *            the title to set
      */
     public void setTitle(String title) {
-	this.title = title;
+        this.title = title;
     }
 
     /**
      * @return the description
      */
     public String getDescription() {
-	return description;
+        return description;
     }
 
     /**
@@ -95,14 +95,14 @@ public class Post {
      *            the description to set
      */
     public void setDescription(String description) {
-	this.description = description;
+        this.description = description;
     }
 
     /**
      * @return the content
      */
     public String getContent() {
-	return content;
+        return content;
     }
 
     /**
@@ -110,14 +110,14 @@ public class Post {
      *            the content to set
      */
     public void setContent(String content) {
-	this.content = content;
+        this.content = content;
     }
 
     /**
      * @return the createTime
      */
     public Timestamp getCreateTime() {
-	return createTime;
+        return createTime;
     }
 
     /**
@@ -125,14 +125,14 @@ public class Post {
      *            the createTime to set
      */
     public void setCreateTime(Timestamp createTime) {
-	this.createTime = createTime;
+        this.createTime = createTime;
     }
 
     /**
      * @return the editTime
      */
     public Timestamp getEditTime() {
-	return editTime;
+        return editTime;
     }
 
     /**
@@ -140,14 +140,14 @@ public class Post {
      *            the editTime to set
      */
     public void setEditTime(Timestamp editTime) {
-	this.editTime = editTime;
+        this.editTime = editTime;
     }
 
     /**
      * @return the publicTime
      */
     public Timestamp getPublicTime() {
-	return publicTime;
+        return publicTime;
     }
 
     /**
@@ -155,14 +155,14 @@ public class Post {
      *            the publicTime to set
      */
     public void setPublicTime(Timestamp publicTime) {
-	this.publicTime = publicTime;
+        this.publicTime = publicTime;
     }
 
     /**
      * @return the user
      */
     public User getUser() {
-	return user;
+        return user;
     }
 
     /**
@@ -170,14 +170,14 @@ public class Post {
      *            the user to set
      */
     public void setUser(User user) {
-	this.user = user;
+        this.user = user;
     }
 
     /**
      * @return the comments
      */
     public Set<Comment> getComments() {
-	return comments;
+        return comments;
     }
 
     /**
@@ -185,7 +185,7 @@ public class Post {
      *            the comments to set
      */
     public void setComments(Set<Comment> comments) {
-	this.comments = comments;
+        this.comments = comments;
     }
 
 }

@@ -17,7 +17,6 @@ import com.mulodo.miniblog.message.ResultMessage;
 
 /**
  * @author TriLe
- *
  */
 @Provider
 @Component
@@ -27,8 +26,9 @@ public class ReaderExceptionHandler implements ExceptionMapper<ReaderException> 
     @Override
     @Produces(MediaType.APPLICATION_JSON)
     public Response toResponse(ReaderException exception) {
-	ResultMessage resultMsg = new ResultMessage(1, "Input validation failed", exception.getMessage());
+        ResultMessage resultMsg = new ResultMessage(1, "Input validation failed",
+                exception.getMessage());
 
-	return Response.status(Status.BAD_REQUEST).entity(resultMsg).build();
+        return Response.status(Status.BAD_REQUEST).entity(resultMsg).build();
     }
 }

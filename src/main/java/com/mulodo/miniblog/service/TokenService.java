@@ -8,7 +8,6 @@ import com.mulodo.miniblog.pojo.User;
 
 /**
  * @author TriLe
- *
  */
 public interface TokenService extends CommonService<Token> {
 
@@ -21,6 +20,6 @@ public interface TokenService extends CommonService<Token> {
     Token createNewToken(User user);
 
     boolean checkToken(int userId, String token);
-    
+
     int deleteTokenByUserId(int userId);
 }

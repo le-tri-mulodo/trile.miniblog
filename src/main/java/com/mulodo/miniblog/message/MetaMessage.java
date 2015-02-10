@@ -15,7 +15,7 @@ public class MetaMessage {
     }
 
     public MetaMessage(int code) {
-	this.code = code;
+        this.code = code;
     }
 
     /**
@@ -23,8 +23,8 @@ public class MetaMessage {
      * @param message
      */
     public MetaMessage(int code, String message) {
-	this.code = code;
-	this.message = message;
+        this.code = code;
+        this.message = message;
     }
 
     /**
@@ -33,16 +33,16 @@ public class MetaMessage {
      * @param messages
      */
     public MetaMessage(int code, String description, List<String> messages) {
-	this.code = code;
-	this.description = description;
-	this.messages = messages;
+        this.code = code;
+        this.description = description;
+        this.messages = messages;
     }
 
     /**
      * @return the code
      */
     public int getCode() {
-	return code;
+        return code;
     }
 
     /**
@@ -50,14 +50,14 @@ public class MetaMessage {
      *            the code to set
      */
     public void setCode(int code) {
-	this.code = code;
+        this.code = code;
     }
 
     /**
      * @return the message
      */
     public String getMessage() {
-	return message;
+        return message;
     }
 
     /**
@@ -65,14 +65,14 @@ public class MetaMessage {
      *            the message to set
      */
     public void setMessage(String message) {
-	this.message = message;
+        this.message = message;
     }
 
     /**
      * @return the description
      */
     public String getDescription() {
-	return description;
+        return description;
     }
 
     /**
@@ -80,14 +80,14 @@ public class MetaMessage {
      *            the description to set
      */
     public void setDescription(String description) {
-	this.description = description;
+        this.description = description;
     }
 
     /**
      * @return the messages
      */
     public List<String> getMessages() {
-	return messages;
+        return messages;
     }
 
     /**
@@ -95,6 +95,6 @@ public class MetaMessage {
      *            the messages to set
      */
     public void setMessages(List<String> messages) {
-	this.messages = messages;
+        this.messages = messages;
     }
 }

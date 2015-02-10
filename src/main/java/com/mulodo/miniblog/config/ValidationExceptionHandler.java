@@ -21,7 +21,6 @@ import com.mulodo.miniblog.message.ResultMessage;
 
 /**
  * @author TriLe
- *
  */
 @Provider
 @Component
@@ -32,12 +31,12 @@ public class ValidationExceptionHandler implements ExceptionMapper<ResteasyViola
     @Produces(MediaType.APPLICATION_JSON)
     public Response toResponse(ResteasyViolationException exception) {
 
-	List<String> messages = new ArrayList<String>();
-	for (ResteasyConstraintViolation violation : exception.getViolations()) {
-	    messages.add(violation.getMessage());
-	}
-	ResultMessage resultMsg = new ResultMessage(1, "Input validation failed", messages);
+        List<String> messages = new ArrayList<String>();
+        for (ResteasyConstraintViolation violation : exception.getViolations()) {
+            messages.add(violation.getMessage());
+        }
+        ResultMessage resultMsg = new ResultMessage(1, "Input validation failed", messages);
 
-	return Response.status(Status.BAD_REQUEST).entity(resultMsg).build();
+        return Response.status(Status.BAD_REQUEST).entity(resultMsg).build();
     }
 }

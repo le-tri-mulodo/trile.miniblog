@@ -8,7 +8,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,11 +26,11 @@ import com.mulodo.miniblog.common.CustomerDateAndTimeDeserialize;
 
 /**
  * @author TriLe
- *
  */
 @Entity
 @Table(name = "users")
-@JsonPropertyOrder({ "user_id", "username", "firstname", "lastname", "joindate", "avatarlink", "token" })
+@JsonPropertyOrder({ "user_id", "username", "firstname", "lastname", "joindate", "avatarlink",
+        "token" })
 // @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class User implements Comparable<User> {
 
@@ -98,14 +97,14 @@ public class User implements Comparable<User> {
      * 
      */
     public User() {
-	this.joinDate = new Date();
+        this.joinDate = new Date();
     }
 
     /**
      * @return the id
      */
     public int getId() {
-	return id;
+        return id;
     }
 
     /**
@@ -113,14 +112,14 @@ public class User implements Comparable<User> {
      *            the id to set
      */
     public void setId(int id) {
-	this.id = id;
+        this.id = id;
     }
 
     /**
      * @return the userName
      */
     public String getUserName() {
-	return userName;
+        return userName;
     }
 
     /**
@@ -128,14 +127,14 @@ public class User implements Comparable<User> {
      *            the userName to set
      */
     public void setUserName(String userName) {
-	this.userName = userName;
+        this.userName = userName;
     }
 
     /**
      * @return the firstName
      */
     public String getFirstName() {
-	return firstName;
+        return firstName;
     }
 
     /**
@@ -143,14 +142,14 @@ public class User implements Comparable<User> {
      *            the firstName to set
      */
     public void setFirstName(String firstName) {
-	this.firstName = firstName;
+        this.firstName = firstName;
     }
 
     /**
      * @return the lastName
      */
     public String getLastName() {
-	return lastName;
+        return lastName;
     }
 
     /**
@@ -158,7 +157,7 @@ public class User implements Comparable<User> {
      *            the lastName to set
      */
     public void setLastName(String lastName) {
-	this.lastName = lastName;
+        this.lastName = lastName;
     }
 
     // /**
@@ -173,39 +172,14 @@ public class User implements Comparable<User> {
      *            the passHash to set
      */
     public void setPassHash(String passHash) {
-	this.passHash = passHash;
-    }
-
-    // /**
-    // * @return the passWord
-    // */
-    // public String getPassWord() {
-    // return passWord;
-    // }
-
-    /**
-     * @param passWord
-     *            the passWord to set
-     */
-    public void setPassWord(String passWord) {
-	// Reset hash password
-	passHash = hashSHA(passWord);
-    }
-
-    public boolean isMatchPass(String org) {
-	// TODO: Add hash compare
-	return true;
-    }
-
-    private String hashSHA(String ip) {
-	return ip;
+        this.passHash = passHash;
     }
 
     /**
      * @return the avatarLink
      */
     public String getAvatarLink() {
-	return avatarLink;
+        return avatarLink;
     }
 
     /**
@@ -213,21 +187,21 @@ public class User implements Comparable<User> {
      *            the avatarLink to set
      */
     public void setAvatarLink(String avatarLink) {
-	this.avatarLink = avatarLink;
+        this.avatarLink = avatarLink;
     }
 
     /**
      * @return the passHash
      */
     public String getPassHash() {
-	return passHash;
+        return passHash;
     }
 
     /**
      * @return the joinDate
      */
     public Date getJoinDate() {
-	return joinDate;
+        return joinDate;
     }
 
     /**
@@ -235,14 +209,14 @@ public class User implements Comparable<User> {
      *            the joinDate to set
      */
     public void setJoinDate(Date joinDate) {
-	this.joinDate = joinDate;
+        this.joinDate = joinDate;
     }
 
     /**
      * @return the posts
      */
     public Set<Post> getPosts() {
-	return posts;
+        return posts;
     }
 
     /**
@@ -250,14 +224,14 @@ public class User implements Comparable<User> {
      *            the posts to set
      */
     public void setPosts(Set<Post> posts) {
-	this.posts = posts;
+        this.posts = posts;
     }
 
     /**
      * @return the comments
      */
     public Set<Comment> getComments() {
-	return comments;
+        return comments;
     }
 
     /**
@@ -265,14 +239,14 @@ public class User implements Comparable<User> {
      *            the comments to set
      */
     public void setComments(Set<Comment> comments) {
-	this.comments = comments;
+        this.comments = comments;
     }
 
     /**
      * @return the tokens
      */
     public Set<Token> getTokens() {
-	return tokens;
+        return tokens;
     }
 
     /**
@@ -280,14 +254,14 @@ public class User implements Comparable<User> {
      *            the tokens to set
      */
     public void setTokens(Set<Token> tokens) {
-	this.tokens = tokens;
+        this.tokens = tokens;
     }
 
     /**
      * @return the token
      */
     public String getToken() {
-	return token;
+        return token;
     }
 
     /**
@@ -295,12 +269,12 @@ public class User implements Comparable<User> {
      *            the token to set
      */
     public void setToken(String token) {
-	this.token = token;
+        this.token = token;
     }
 
     @Override
     public int compareTo(User o) {
-	return id - o.id;
+        return id - o.id;
     }
 
     /**
@@ -308,39 +282,62 @@ public class User implements Comparable<User> {
      */
     @Override
     public boolean equals(Object obj) {
-	if (this == obj)
-	    return true;
-	if (obj == null)
-	    return false;
-	if (getClass() != obj.getClass())
-	    return false;
-	User other = (User) obj;
-	if (avatarLink == null) {
-	    if (other.avatarLink != null)
-		return false;
-	} else if (!avatarLink.equals(other.avatarLink))
-	    return false;
-	if (firstName == null) {
-	    if (other.firstName != null)
-		return false;
-	} else if (!firstName.equals(other.firstName))
-	    return false;
-	if (joinDate == null) {
-	    if (other.joinDate != null)
-		return false;
-	} else if (!joinDate.equals(other.joinDate))
-	    return false;
-	if (lastName == null) {
-	    if (other.lastName != null)
-		return false;
-	} else if (!lastName.equals(other.lastName))
-	    return false;
-	if (userName == null) {
-	    if (other.userName != null)
-		return false;
-	} else if (!userName.equals(other.userName))
-	    return false;
-	return true;
+        if (this == obj)
+            return true;
+        if (obj == null) {
+            System.out.println("null");
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            System.out.println("class");
+            return false;
+        }
+        User other = (User) obj;
+        if (avatarLink == null) {
+            if (other.avatarLink != null) {
+                System.out.println("avatarLink");
+                return false;
+            }
+        } else if (!avatarLink.equals(other.avatarLink)) {
+            System.out.println("avatarLink");
+            return false;
+        }
+        if (firstName == null) {
+            if (other.firstName != null)
+                System.out.println("firstName");
+            return false;
+        } else if (!firstName.equals(other.firstName)) {
+            System.out.println("firstName");
+            return false;
+        }
+        if (joinDate == null) {
+            if (other.joinDate != null) {
+                System.out.println("joinDate");
+                return false;
+            }
+        } else if (!joinDate.equals(other.joinDate)) {
+            System.out.println("joinDate");
+            return false;
+        }
+        if (lastName == null) {
+            if (other.lastName != null) {
+                System.out.println("lastName");
+                return false;
+            }
+        } else if (!lastName.equals(other.lastName)) {
+            System.out.println("lastName");
+            return false;
+        }
+        if (userName == null) {
+            if (other.userName != null) {
+                System.out.println("userName");
+                return false;
+            }
+        } else if (!userName.equals(other.userName)) {
+            System.out.println("userName");
+            return false;
+        }
+        return true;
     }
 
 }

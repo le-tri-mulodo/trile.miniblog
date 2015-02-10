@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 
 /**
  * @author TriLe
- *
  */
 @Controller
 @Path("/")
@@ -23,6 +22,6 @@ public class RootController {
     @Path("/")
     @GET
     public Response hello() {
-	return Response.status(200).entity("Hello").build();
+        return Response.status(200).entity("Hello").build();
     }
 }

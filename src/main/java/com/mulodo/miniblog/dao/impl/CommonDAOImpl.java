@@ -83,6 +83,9 @@ public class CommonDAOImpl<T> implements CommonDAO<T> {
         return listQuery.list();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
     @Override
     public T get(int id) {
@@ -90,6 +93,9 @@ public class CommonDAOImpl<T> implements CommonDAO<T> {
         return (T) session.get(GENERIC_TYPE, id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
     @Override
     public T load(int id) {
@@ -101,6 +107,9 @@ public class CommonDAOImpl<T> implements CommonDAO<T> {
         this.sf = sf;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteAll() {
         Session session = sf.getCurrentSession();

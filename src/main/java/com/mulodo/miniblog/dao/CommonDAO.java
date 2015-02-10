@@ -34,13 +34,28 @@ public interface CommonDAO<T> {
      * Check entity is exist in DB
      * 
      * @param id
-     * @return entity with input id is exist
+     * @return <b>TRUE</b> if entity existed in Db
      */
     boolean checkExist(int id);
 
+    /**
+     * Get object from DB with id
+     * 
+     * @param id
+     * @return entity with input id is exist
+     */
     T get(int id);
 
+    /**
+     * Load object from Hibernate term with id
+     * 
+     * @param id
+     * @return proxy with input id is exist
+     */
     T load(int id);
 
+    /**
+     * Delete all rows in table
+     */
     void deleteAll();
 }

@@ -12,12 +12,45 @@ import com.mulodo.miniblog.pojo.User;
  */
 public interface UserService extends CommonService<User> {
 
+    /**
+     * Search in username, first name, last name contian query string
+     * 
+     * @param query
+     *            Query to search username, first name, last name contain
+     * @return list of users match with query
+     */
     List<User> search(String query);
 
+    /**
+     * Check username existed in db
+     * 
+     * @param username
+     *            Username
+     * @return <b>TRUE</b> if user name existed in Db
+     */
     boolean checkUserNameExist(String username);
 
+    /**
+     * Check password with user id valid
+     * 
+     * @param user_id
+     *            Id of user
+     * @param password
+     *            Password
+     * @return <b>TRUE</b> if a pair User id and Password hashed valid
+     */
     boolean checkPassword(int user_id, String password);
 
+    /**
+     * Change password of user, delete all token of user and then create new
+     * token
+     * 
+     * @param user_id
+     *            Id of user
+     * @param newPassword
+     *            New password
+     * @return User info after change password (include new token)
+     */
     User changePassword(int user_id, String newPassword);
 
 }

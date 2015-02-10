@@ -132,13 +132,19 @@ public class UserServiceImpl implements UserService {
         return userDAO.load(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public boolean checkPassword(int user_id, String password) {
         // Check username and passhash
         return userDAO.checkPassword(user_id, Util.hashSHA256(password));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public User changePassword(int userId, String newPassword) {
@@ -166,6 +172,9 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void deleteAll() {

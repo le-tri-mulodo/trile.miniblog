@@ -46,6 +46,9 @@ public class TokenDAOImpl extends CommonDAOImpl<Token> implements TokenDAO {
         return (0 < (long) query.uniqueResult());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int deleteTokenByUserId(int userId) {
         Session session = sf.getCurrentSession();

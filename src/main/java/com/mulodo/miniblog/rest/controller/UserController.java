@@ -103,11 +103,13 @@ public class UserController {
         try {
             user = userSer.add(user);
         } catch (HibernateException e) {
+            // Response error
             ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error",
                     String.format("Database error: %s", e.getMessage()));
             return Response.status(500).entity(dbErrMsg).build();
         }
 
+        // Response success
         ResultMessage<User> resultMsg = new ResultMessage<User>(201, "Create user success!", user);
         return Response.status(201).entity(resultMsg).build();
     }
@@ -156,11 +158,13 @@ public class UserController {
         try {
             user = userSer.update(user);
         } catch (HibernateException e) {
+            // Response error
             ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error",
                     String.format("Database error: %s", e.getMessage()));
             return Response.status(500).entity(dbErrMsg).build();
         }
 
+        // Response success
         ResultMessage<User> successMsg = new ResultMessage<User>(1, "Account updated success!",
                 user);
         return Response.status(200).entity(successMsg).build();
@@ -175,13 +179,15 @@ public class UserController {
         try {
             users = userSer.search(query);
         } catch (HibernateException e) {
+            // Response error
             ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error",
                     String.format("Database error: %s", e.getMessage()));
             return Response.status(500).entity(dbErrMsg).build();
         }
+
+        // Response success
         ResultMessage<List<User>> result = new ResultMessage<List<User>>(200, String.format(
                 "Search success! %d results", users.size()), users);
-
         return Response.status(200).entity(result).build();
     }
 
@@ -194,18 +200,21 @@ public class UserController {
         try {
             user = userSer.get(userId);
         } catch (HibernateException e) {
+            // Response error
             ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error",
                     String.format("Database error: %s", e.getMessage()));
             return Response.status(500).entity(dbErrMsg).build();
         }
 
         if (null == user) {
+            // Response error
             ResultMessage userNotExistMsg = new ResultMessage(2001,
                     "User ID in request does not exist", String.format(
                             "User with id=%d does not exist", userId));
             return Response.status(400).entity(userNotExistMsg).build();
         }
 
+        // Response success
         ResultMessage<User> result = new ResultMessage<User>(200, "Get user info success!", user);
         return Response.status(200).entity(result).build();
     }
@@ -228,6 +237,7 @@ public class UserController {
                     @FormParam(value = "newpassword") String newpassword) {
 
         if (!userSer.checkPassword(user_id, currentpassword)) {
+            // Response error
             ResultMessage invalidMsg = new ResultMessage(1002, "User id or password invalid",
                     "User id or password invalid");
             return Response.status(400).entity(invalidMsg).build();
@@ -238,11 +248,13 @@ public class UserController {
         try {
             user = userSer.changePassword(user_id, newpassword);
         } catch (HibernateException e) {
+            // Response error
             ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error",
                     String.format("Database error: %s", e.getMessage()));
             return Response.status(500).entity(dbErrMsg).build();
         }
 
+        // Response success
         ResultMessage<User> result = new ResultMessage<User>(200, "Change password success!", user);
         return Response.status(200).entity(result).build();
     }

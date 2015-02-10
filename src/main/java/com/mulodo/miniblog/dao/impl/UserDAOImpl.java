@@ -65,6 +65,9 @@ public class UserDAOImpl extends CommonDAOImpl<User> implements UserDAO {
         return (0 < (long) query.uniqueResult());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User update(User user) {
         Session session = sf.getCurrentSession();
@@ -73,6 +76,9 @@ public class UserDAOImpl extends CommonDAOImpl<User> implements UserDAO {
         return user;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean checkPassword(int user_id, String passhash) {
         Session session = sf.getCurrentSession();

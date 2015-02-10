@@ -6,10 +6,33 @@ import com.mulodo.miniblog.pojo.User;
 
 public interface UserDAO extends CommonDAO<User> {
 
+    /**
+     * Search in username, first name, last name contian query string
+     * 
+     * @param query
+     *            Query to search username, first name, last name contain
+     * @return list of users match with query
+     */
     List<User> search(String query);
 
+    /**
+     * Check username existed in db
+     * 
+     * @param username
+     *            Username
+     * @return <b>TRUE</b> if user name existed in Db
+     */
     boolean checkUserNameExist(String username);
 
+    /**
+     * Check password with user id valid
+     * 
+     * @param user_id
+     *            Id of user
+     * @param passhash
+     *            Password hashed
+     * @return <b>TRUE</b> if a pair User id and Password hashed valid
+     */
     boolean checkPassword(int user_id, String passhash);
 
 }

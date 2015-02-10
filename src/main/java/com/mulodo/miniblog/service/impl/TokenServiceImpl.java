@@ -71,21 +71,33 @@ public class TokenServiceImpl implements TokenService {
         return tokenDAO.checkToken(userId, token);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Token load(int id) {
         return tokenDAO.get(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Token get(int id) {
         return tokenDAO.load(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int deleteTokenByUserId(int userId) {
         return tokenDAO.deleteTokenByUserId(userId);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteAll() {
         tokenDAO.deleteAll();

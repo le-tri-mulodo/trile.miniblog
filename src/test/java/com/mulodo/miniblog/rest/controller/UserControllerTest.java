@@ -11,6 +11,7 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
@@ -422,5 +423,239 @@ public class UserControllerTest {
         response.close();
         // Check status
         Assert.assertEquals(400, response.getStatus());
+    }
+
+    // Change firstname
+    @Test
+    public void testEditUser1() {
+        ResteasyWebTarget target = client.target(USER_URL);
+
+        // Create user
+        User user = new User();
+        user = new User();
+        user.setUserName("asjdhaskjf");
+        user.setFirstName("asxzdas");
+        user.setLastName("ccrfzxc");
+        user.setPassHash("cddxz");
+        userSer.add(user);
+
+        String newFirstName = "changed";
+        // Edit info
+        Form form = new Form();
+        form.param("user_id", Integer.toString(user.getId()));
+        form.param("token", user.getToken());
+        form.param("firstname", newFirstName);
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage<User> result = response.readEntity(new GenericType<ResultMessage<User>>() {
+        });
+        response.close();
+
+        User rUser = result.getData();
+        // Check status
+        Assert.assertEquals(200, response.getStatus());
+        // Assert
+        Assert.assertNotEquals(user, rUser);
+        // Check firstname
+        Assert.assertEquals(newFirstName, rUser.getFirstName());
+    }
+
+    // Change lastname
+    @Test
+    public void testEditUser2() {
+        ResteasyWebTarget target = client.target(USER_URL);
+
+        // Create user
+        User user = new User();
+        user = new User();
+        user.setUserName("asjdhaskjf");
+        user.setFirstName("asxzdas");
+        user.setLastName("ccrfzxc");
+        user.setPassHash("cddxz");
+        userSer.add(user);
+
+        String newLastName = "changed";
+        // Edit info
+        Form form = new Form();
+        form.param("user_id", Integer.toString(user.getId()));
+        form.param("token", user.getToken());
+        form.param("lastname", newLastName);
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage<User> result = response.readEntity(new GenericType<ResultMessage<User>>() {
+        });
+        response.close();
+
+        User rUser = result.getData();
+        // Check status
+        Assert.assertEquals(200, response.getStatus());
+        // Assert
+        Assert.assertNotEquals(user, rUser);
+        // Check lastname
+        Assert.assertEquals(newLastName, rUser.getLastName());
+    }
+
+    // Change avatarlink
+    /**
+     * 
+     */
+    @Test
+    public void testEditUser3() {
+        ResteasyWebTarget target = client.target(USER_URL);
+
+        // Create user
+        User user = new User();
+        user = new User();
+        user.setUserName("asjdhaskjf");
+        user.setFirstName("asxzdas");
+        user.setLastName("ccrfzxc");
+        user.setPassHash("cddxz");
+        userSer.add(user);
+
+        String newAvatarLink = "changed";
+        // Edit info
+        Form form = new Form();
+        form.param("user_id", Integer.toString(user.getId()));
+        form.param("token", user.getToken());
+        form.param("avatarlink", newAvatarLink);
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage<User> result = response.readEntity(new GenericType<ResultMessage<User>>() {
+        });
+        response.close();
+
+        User rUser = result.getData();
+        // Check status
+        Assert.assertEquals(200, response.getStatus());
+        // Assert
+        Assert.assertNotEquals(user, rUser);
+        // Check avatarlink
+        Assert.assertEquals(newAvatarLink, rUser.getAvatarLink());
+    }
+
+    // Change all
+    /**
+     * 
+     */
+    @Test
+    public void testEditUser4() {
+        ResteasyWebTarget target = client.target(USER_URL);
+
+        // Create user
+        User user = new User();
+        user = new User();
+        user.setUserName("asjdhaskjf");
+        user.setFirstName("asxzdas");
+        user.setLastName("ccrfzxc");
+        user.setPassHash("cddxz");
+        userSer.add(user);
+
+        String newAvatarLink = "changed";
+        String newLastName = "changed";
+        String newFirstName = "changed";
+        // Edit info
+        Form form = new Form();
+        form.param("user_id", Integer.toString(user.getId()));
+        form.param("token", user.getToken());
+        form.param("avatarlink", newAvatarLink);
+        form.param("lastname", newLastName);
+        form.param("firstname", newFirstName);
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage<User> result = response.readEntity(new GenericType<ResultMessage<User>>() {
+        });
+        response.close();
+
+        User rUser = result.getData();
+        // Check status
+        Assert.assertEquals(200, response.getStatus());
+        // Assert
+        Assert.assertNotEquals(user, rUser);
+        // Check avatarlink
+        Assert.assertEquals(newAvatarLink, rUser.getAvatarLink());
+        // Check lastname
+        Assert.assertEquals(newLastName, rUser.getLastName());
+        // Check firstname
+        Assert.assertEquals(newFirstName, rUser.getFirstName());
+    }
+
+    // validate: miss token
+    /**
+     * 
+     */
+    @Test
+    public void testEditUser5() {
+        ResteasyWebTarget target = client.target(USER_URL);
+
+        // Create user
+        User user = new User();
+        user = new User();
+        user.setUserName("asjdhaskjf");
+        user.setFirstName("asxzdas");
+        user.setLastName("ccrfzxc");
+        user.setPassHash("cddxz");
+        userSer.add(user);
+
+        String newAvatarLink = "changed";
+        String newLastName = "changed";
+        String newFirstName = "changed";
+        // Edit info
+        Form form = new Form();
+        form.param("user_id", Integer.toString(user.getId()));
+        form.param("avatarlink", newAvatarLink);
+        form.param("lastname", newLastName);
+        form.param("firstname", newFirstName);
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+        });
+        response.close();
+
+        // Check status
+        Assert.assertEquals(400, response.getStatus());
+    }
+    
+    // Unauthorized: token invalid
+    /**
+     * 
+     */
+    @Test
+    public void testEditUser6() {
+        ResteasyWebTarget target = client.target(USER_URL);
+
+        // Create user
+        User user = new User();
+        user = new User();
+        user.setUserName("asjdhaskjf");
+        user.setFirstName("asxzdas");
+        user.setLastName("ccrfzxc");
+        user.setPassHash("cddxz");
+        userSer.add(user);
+
+        String newAvatarLink = "changed";
+        String newLastName = "changed";
+        String newFirstName = "changed";
+        // Edit info
+        Form form = new Form();
+        form.param("user_id", Integer.toString(user.getId()));
+        // reverse token to create invalid token
+        form.param("token", StringUtils.reverse(user.getToken()));
+        form.param("avatarlink", newAvatarLink);
+        form.param("lastname", newLastName);
+        form.param("firstname", newFirstName);
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+        });
+        response.close();
+
+        // Check status
+        Assert.assertEquals(401, response.getStatus());
     }
 }

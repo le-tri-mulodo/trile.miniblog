@@ -223,10 +223,10 @@ public class UserController {
     @Path(Contants.URL_CHPWD)
     @PUT
     public Response changePassword(
-                @NotNull(message = "{user_id.NotNull}")
-                @FormParam(value = "user_id")
-                @Min(value = 0)
-                Integer user_id,
+                    @NotNull(message = "{user_id.NotNull}")
+                    @FormParam(value = "user_id")
+                    @Min(value = 0)
+                    Integer user_id,
 
                     @NotNull(message = "{password.NotNull}")
                     @Size(min = 4, max = 999, message = "{password.Size}")

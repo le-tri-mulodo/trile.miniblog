@@ -67,17 +67,17 @@ public class UserServiceImpl implements UserService {
         boolean changeFlag = false;
         // Check have change to set firstname, lastname, avatarlink
         if (null != updateUser.getFirstName()
-                && !user.getFirstName().equals(updateUser.getFirstName())) {
+                && !updateUser.getFirstName().equals(user.getFirstName())) {
             user.setFirstName(updateUser.getFirstName());
             changeFlag = true;
         }
         if (null != updateUser.getLastName()
-                && !user.getLastName().equals(updateUser.getLastName())) {
+                && !updateUser.getLastName().equals(user.getLastName())) {
             user.setLastName(updateUser.getLastName());
             changeFlag = true;
         }
         if (null != updateUser.getAvatarLink()
-                && !user.getAvatarLink().equals(updateUser.getAvatarLink())) {
+                && !updateUser.getAvatarLink().equals(user.getAvatarLink())) {
             user.setAvatarLink(updateUser.getAvatarLink());
             changeFlag = true;
         }
@@ -121,12 +121,18 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public User get(int id) {
         return userDAO.get(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User load(int id) {
         return userDAO.load(id);

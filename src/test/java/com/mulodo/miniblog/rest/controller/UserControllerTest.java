@@ -49,6 +49,7 @@ public class UserControllerTest {
 
     @Before
     public void prepareData() {
+        // Delete all data
         tokenSer.deleteAll();
         userSer.deleteAll();
     }
@@ -619,7 +620,7 @@ public class UserControllerTest {
         // Check status
         Assert.assertEquals(400, response.getStatus());
     }
-    
+
     // Unauthorized: token invalid
     /**
      * 

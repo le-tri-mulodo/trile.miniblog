@@ -9,7 +9,7 @@ package com.mulodo.miniblog.common;
 public class Contants {
 
     public static final String HASH_ALGORITHM = "SHA-256";
-    public static final String DATE_TIME_FULL_FORMAT = "yyyy/MM/dd HH:mm:ss";
+    public static final String DATE_TIME_FULL_FORMAT = "HH:mm a yyyy/MM/dd";
     public static final String DATE_FULL_FORMAT = "yyyy/MM/dd";
 
     // 10 days

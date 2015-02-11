@@ -19,10 +19,12 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
-import com.mulodo.miniblog.common.CustomerDateAndTimeDeserialize;
+import com.mulodo.miniblog.config.CustomerDateDeserialize;
+import com.mulodo.miniblog.config.CustomerDateSerialize;
 
 /**
  * @author TriLe
@@ -62,7 +64,8 @@ public class User implements Comparable<User> {
 
     @Column(name = "join_date", columnDefinition = "DATE", nullable = false)
     @JsonProperty("joindate")
-    @JsonDeserialize(using = CustomerDateAndTimeDeserialize.class)
+    @JsonDeserialize(using = CustomerDateDeserialize.class)
+    @JsonSerialize(using = CustomerDateSerialize.class)
     private Date joinDate;
 
     // Origin password

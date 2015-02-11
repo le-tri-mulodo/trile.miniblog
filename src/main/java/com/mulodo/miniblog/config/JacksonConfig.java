@@ -36,12 +36,15 @@ public class JacksonConfig implements ContextResolver<ObjectMapper> {
         // serialize all fields in object
         this.objectMapper = new ObjectMapper().setVisibility(JsonMethod.FIELD, Visibility.ANY);
         // set date time format
-        this.objectMapper.setDateFormat(new SimpleDateFormat(Contants.DATE_FULL_FORMAT));
+        this.objectMapper.setDateFormat(new SimpleDateFormat(Contants.DATE_TIME_FULL_FORMAT));
         this.objectMapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
         // ignore null fields
         this.objectMapper.setSerializationInclusion(Inclusion.NON_NULL);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ObjectMapper getContext(Class<?> objectType) {
         return objectMapper;

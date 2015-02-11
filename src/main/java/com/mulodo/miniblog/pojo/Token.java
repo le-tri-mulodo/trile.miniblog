@@ -15,12 +15,14 @@ import javax.persistence.Transient;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.ForeignKey;
 
 import com.mulodo.miniblog.common.Contants;
 import com.mulodo.miniblog.common.Util;
+import com.mulodo.miniblog.config.CustomerTimestampDeserialize;
 
 @Entity
 @Table(name = "tokens")
@@ -34,10 +36,12 @@ public class Token {
 
     @Column(name = "create_time", columnDefinition = "TIMESTAMP", nullable = false)
     @JsonProperty("create_time")
+    @JsonDeserialize(using = CustomerTimestampDeserialize.class)
     private Timestamp createTime;
 
     @Column(name = "expired_time", columnDefinition = "TIMESTAMP", nullable = false)
     @JsonProperty("expired_time")
+    @JsonDeserialize(using = CustomerTimestampDeserialize.class)
     private Timestamp expiredTime;
 
     // use SHA-256 to hash (username + id + current time)

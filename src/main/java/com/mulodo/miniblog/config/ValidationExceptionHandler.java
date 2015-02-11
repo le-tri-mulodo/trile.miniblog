@@ -26,6 +26,9 @@ import com.mulodo.miniblog.message.ResultMessage;
 @Component
 public class ValidationExceptionHandler implements ExceptionMapper<ResteasyViolationException> {
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     @Produces(MediaType.APPLICATION_JSON)

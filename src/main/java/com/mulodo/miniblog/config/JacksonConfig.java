@@ -25,10 +25,20 @@ import com.mulodo.miniblog.common.Contants;
 public class JacksonConfig implements ContextResolver<ObjectMapper> {
     private final ObjectMapper objectMapper;
 
+    /**
+     * This class is a config class which call when Resteasy use Jackson to
+     * serialize Object to Json string
+     * 
+     * @throws Exception
+     */
     public JacksonConfig() throws Exception {
+
+        // serialize all fields in object
         this.objectMapper = new ObjectMapper().setVisibility(JsonMethod.FIELD, Visibility.ANY);
+        // set date time format
         this.objectMapper.setDateFormat(new SimpleDateFormat(Contants.DATE_FULL_FORMAT));
         this.objectMapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
+        // ignore null fields
         this.objectMapper.setSerializationInclusion(Inclusion.NON_NULL);
     }
 

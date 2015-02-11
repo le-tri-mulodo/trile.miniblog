@@ -16,11 +16,11 @@
 	</logger>
 
 	<logger name="org.hibernate.SQL">
-		<level value="info" />
+		<level value="debug" />
 	</logger>
 
 	<logger name="org.hibernate.type">
-		<level value="info" />
+		<level value="trace" />
 	</logger>
 
 	<!-- 3rdparty Loggers -->

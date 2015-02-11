@@ -12,46 +12,70 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.ForeignKey;
 
 @Entity
 @Table(name = "posts")
+@JsonPropertyOrder({ "user_id", "post_id", "title", "description", "create_time", "edit_time",
+        "public_time" })
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("post_id")
     private int id;
 
     @Column(name = "title", length = 128, nullable = false)
+    @JsonProperty("title")
     private String title;
 
     @Column(name = "description", length = 128, nullable = false)
+    @JsonProperty("description")
     private String description;
 
     @Column(name = "content", length = 8192, columnDefinition = "TINYTEXT", nullable = false)
+    @JsonProperty("content")
     private String content;
 
     @Column(name = "create_time", columnDefinition = "TIMESTAMP", nullable = false)
+    @JsonProperty("create_time")
     private Timestamp createTime;
 
     @Column(name = "edit_time", columnDefinition = "TIMESTAMP", nullable = true)
+    @JsonProperty("edit_time")
     private Timestamp editTime;
 
     @Column(name = "public_time", columnDefinition = "TIMESTAMP", nullable = true)
+    @JsonProperty("public_time")
     private Timestamp publicTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @Cascade(CascadeType.SAVE_UPDATE)
     @ForeignKey(name = "fk_posts_users")
+    @JsonIgnore
     private User user;
 
     @OneToMany(mappedBy = "post", targetEntity = Comment.class)
     @Cascade(CascadeType.SAVE_UPDATE)
+    @JsonIgnore
     private Set<Comment> comments;
+
+    @Transient
+    @JsonProperty("user_id")
+    private int userId;
+
+    public Post() {
+        // Current time
+        this.createTime = new Timestamp(System.currentTimeMillis());
+    }
 
     /**
      * @return the id
@@ -186,6 +210,21 @@ public class Post {
      */
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+
+    /**
+     * @return the userId
+     */
+    public int getUserId() {
+        return userId;
+    }
+
+    /**
+     * @param userId
+     *            the userId to set
+     */
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
 }

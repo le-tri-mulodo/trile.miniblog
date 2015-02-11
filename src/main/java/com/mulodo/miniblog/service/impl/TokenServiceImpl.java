@@ -20,7 +20,6 @@ import com.mulodo.miniblog.service.TokenService;
  * @author TriLe
  */
 @Service
-@Transactional
 public class TokenServiceImpl implements TokenService {
 
     @Autowired
@@ -29,6 +28,7 @@ public class TokenServiceImpl implements TokenService {
     /**
      * {@inheritDoc}
      */
+    @Transactional
     @Override
     public Token add(Token entity) {
         return tokenDAO.add(entity);
@@ -37,6 +37,7 @@ public class TokenServiceImpl implements TokenService {
     /**
      * {@inheritDoc}
      */
+    @Transactional
     @Override
     public Token update(Token entity) {
         return tokenDAO.update(entity);
@@ -45,6 +46,7 @@ public class TokenServiceImpl implements TokenService {
     /**
      * {@inheritDoc}
      */
+    @Transactional
     @Override
     public void delete(Token entity) {
         tokenDAO.delete(entity);
@@ -53,6 +55,7 @@ public class TokenServiceImpl implements TokenService {
     /**
      * {@inheritDoc}
      */
+    @Transactional
     @Override
     public Token createNewToken(User user) {
         // Create new token
@@ -66,6 +69,7 @@ public class TokenServiceImpl implements TokenService {
     /**
      * {@inheritDoc}
      */
+    @Transactional(readOnly = true)
     @Override
     public boolean checkToken(int userId, String token) {
         return tokenDAO.checkToken(userId, token);
@@ -74,6 +78,7 @@ public class TokenServiceImpl implements TokenService {
     /**
      * {@inheritDoc}
      */
+    @Transactional
     @Override
     public Token load(int id) {
         return tokenDAO.get(id);
@@ -82,6 +87,7 @@ public class TokenServiceImpl implements TokenService {
     /**
      * {@inheritDoc}
      */
+    @Transactional
     @Override
     public Token get(int id) {
         return tokenDAO.load(id);
@@ -90,6 +96,7 @@ public class TokenServiceImpl implements TokenService {
     /**
      * {@inheritDoc}
      */
+    @Transactional
     @Override
     public int deleteTokenByUserId(int userId) {
         return tokenDAO.deleteTokenByUserId(userId);
@@ -98,11 +105,16 @@ public class TokenServiceImpl implements TokenService {
     /**
      * {@inheritDoc}
      */
+    @Transactional
     @Override
     public void deleteAll() {
         tokenDAO.deleteAll();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Transactional
     @Override
     public Token login(User user) {
         if (null == user) {
@@ -118,6 +130,10 @@ public class TokenServiceImpl implements TokenService {
         return token;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Transactional
     @Override
     public boolean logout(String token) {
         return tokenDAO.deleteToken(token);

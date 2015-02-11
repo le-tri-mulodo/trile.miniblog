@@ -40,16 +40,30 @@ public interface TokenService extends CommonService<Token> {
      */
     int deleteTokenByUserId(int userId);
 
-//    /**
-//     * Delete token with input token value match value in Db
-//     * 
-//     * @param value
-//     *            value of token Id of user
-//     * @return number of token deleted
-//     */
-//    int deleteToken(String value);
+    // /**
+    // * Delete token with input token value match value in Db
+    // *
+    // * @param value
+    // * value of token Id of user
+    // * @return number of token deleted
+    // */
+    // int deleteToken(String value);
 
+    /**
+     * Create new token if input username and password valid
+     * 
+     * @param user
+     *            User info include username and password
+     * @return Token info
+     */
     Token login(User user);
 
+    /**
+     * Delete valid token in Db
+     * 
+     * @param token
+     *            Token value which deleted in Db
+     * @return Logout status
+     */
     boolean logout(String token);
 }

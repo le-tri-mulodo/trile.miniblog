@@ -104,7 +104,7 @@ public class PostController {
 
         // Response success
         ResultMessage<Post> result = new ResultMessage<Post>(201, "Create post success!", post);
-        return Response.status(200).entity(result).build();
+        return Response.status(201).entity(result).build();
     }
 
     @Path(Contants.URL_UPDATE)

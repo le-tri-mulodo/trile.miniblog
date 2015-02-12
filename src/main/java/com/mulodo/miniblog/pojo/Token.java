@@ -83,6 +83,7 @@ public class Token {
             // Create new token from userId
             this.value = Util.createToken(user.getId());
             this.user = user;
+            this.userid = user.getId();
         }
     }
 
@@ -158,7 +159,12 @@ public class Token {
      *            the user to set
      */
     public void setUser(User user) {
-        this.user = user;
+        if (null != user) {
+            // Create new token from userId
+            this.value = Util.createToken(user.getId());
+            this.user = user;
+            this.userid = user.getId();
+        }
     }
 
     /**

@@ -23,6 +23,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import com.mulodo.miniblog.common.Util;
 import com.mulodo.miniblog.config.CustomerDateDeserialize;
 import com.mulodo.miniblog.config.CustomerDateSerialize;
 
@@ -100,7 +101,8 @@ public class User implements Comparable<User> {
      * 
      */
     public User() {
-        this.joinDate = new Date();
+        // Create Date ignore time
+        this.joinDate = Util.createDateIgnoreTime();
     }
 
     /**

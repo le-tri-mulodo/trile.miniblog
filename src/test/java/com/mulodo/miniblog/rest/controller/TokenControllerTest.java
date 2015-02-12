@@ -3,6 +3,9 @@
  */
 package com.mulodo.miniblog.rest.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
@@ -12,7 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,9 +40,10 @@ public class TokenControllerTest {
     private UserService userSer;
     @Autowired
     private TokenService tokenSer;
+
     ResteasyClient client = new ResteasyClientBuilder().build();
     String ROOT_URL = "http://localhost:8080/miniblog.api";
-    String TOKENURL = ROOT_URL + Contants.URL_TOKEN;
+    String TOKEN_URL = ROOT_URL + Contants.URL_TOKEN;
 
     @Before
     public void prepareData() {
@@ -64,10 +67,10 @@ public class TokenControllerTest {
 
     // Normal case
     @Test
-    public void testLogin1() {
+    public void testLogin() {
         createDummyData();
 
-        ResteasyWebTarget target = client.target(TOKENURL + Contants.URL_LOGIN);
+        ResteasyWebTarget target = client.target(TOKEN_URL + Contants.URL_LOGIN);
 
         Form form = new Form();
         form.param("username", "thanhtri");
@@ -80,9 +83,9 @@ public class TokenControllerTest {
         response.close();
 
         // Check status
-        Assert.assertEquals(200, response.getStatus());
+        assertEquals(200, response.getStatus());
         // Check token not null
-        Assert.assertNotNull(result.getData().getValue());
+        assertNotNull(result.getData().getValue());
     }
 
     // Miss username
@@ -90,7 +93,7 @@ public class TokenControllerTest {
     public void testLogin2() {
         createDummyData();
 
-        ResteasyWebTarget target = client.target(TOKENURL + Contants.URL_LOGIN);
+        ResteasyWebTarget target = client.target(TOKEN_URL + Contants.URL_LOGIN);
 
         Form form = new Form();
         form.param("password", "password");
@@ -102,7 +105,7 @@ public class TokenControllerTest {
         response.close();
 
         // Check status
-        Assert.assertEquals(400, response.getStatus());
+        assertEquals(400, response.getStatus());
     }
 
     // Miss password
@@ -110,7 +113,7 @@ public class TokenControllerTest {
     public void testLogin3() {
         createDummyData();
 
-        ResteasyWebTarget target = client.target(TOKENURL + Contants.URL_LOGIN);
+        ResteasyWebTarget target = client.target(TOKEN_URL + Contants.URL_LOGIN);
 
         Form form = new Form();
         form.param("username", "thanhtri");
@@ -122,7 +125,7 @@ public class TokenControllerTest {
         response.close();
 
         // Check status
-        Assert.assertEquals(400, response.getStatus());
+        assertEquals(400, response.getStatus());
     }
 
     // Username password invalid
@@ -130,7 +133,7 @@ public class TokenControllerTest {
     public void testLogin4() {
         createDummyData();
 
-        ResteasyWebTarget target = client.target(TOKENURL + Contants.URL_LOGIN);
+        ResteasyWebTarget target = client.target(TOKEN_URL + Contants.URL_LOGIN);
 
         Form form = new Form();
         form.param("username", "thanhtri");
@@ -143,15 +146,15 @@ public class TokenControllerTest {
         response.close();
 
         // Check status
-        Assert.assertEquals(401, response.getStatus());
+        assertEquals(401, response.getStatus());
     }
 
     // Normal
     @Test
-    public void testLogout1() {
+    public void testLogout() {
         Token token = createDummyData();
 
-        ResteasyWebTarget target = client.target(TOKENURL + Contants.URL_LOGOUT);
+        ResteasyWebTarget target = client.target(TOKEN_URL + Contants.URL_LOGOUT);
 
         Form form = new Form();
         form.param("token", token.getValue());
@@ -163,7 +166,7 @@ public class TokenControllerTest {
         response.close();
 
         // Check status
-        Assert.assertEquals(200, response.getStatus());
+        assertEquals(200, response.getStatus());
     }
 
     // Miss token
@@ -171,7 +174,7 @@ public class TokenControllerTest {
     public void testLogout2() {
         Token token = createDummyData();
 
-        ResteasyWebTarget target = client.target(TOKENURL + Contants.URL_LOGOUT);
+        ResteasyWebTarget target = client.target(TOKEN_URL + Contants.URL_LOGOUT);
 
         Response response = target.request().post(null);
 
@@ -180,7 +183,7 @@ public class TokenControllerTest {
         response.close();
 
         // Check status
-        Assert.assertEquals(400, response.getStatus());
+        assertEquals(400, response.getStatus());
     }
 
     // Miss token size < 64
@@ -188,7 +191,7 @@ public class TokenControllerTest {
     public void testLogout3() {
         Token token = createDummyData();
 
-        ResteasyWebTarget target = client.target(TOKENURL + Contants.URL_LOGOUT);
+        ResteasyWebTarget target = client.target(TOKEN_URL + Contants.URL_LOGOUT);
 
         Form form = new Form();
         form.param("token", token.getValue().substring(32));
@@ -200,7 +203,7 @@ public class TokenControllerTest {
         response.close();
 
         // Check status
-        Assert.assertEquals(400, response.getStatus());
+        assertEquals(400, response.getStatus());
     }
 
     // Token invalid
@@ -208,7 +211,7 @@ public class TokenControllerTest {
     public void testLogout4() {
         Token token = createDummyData();
 
-        ResteasyWebTarget target = client.target(TOKENURL + Contants.URL_LOGOUT);
+        ResteasyWebTarget target = client.target(TOKEN_URL + Contants.URL_LOGOUT);
 
         Form form = new Form();
         // Reverse token to create invalid token
@@ -221,6 +224,6 @@ public class TokenControllerTest {
         response.close();
 
         // Check status
-        Assert.assertEquals(401, response.getStatus());
+        assertEquals(401, response.getStatus());
     }
 }

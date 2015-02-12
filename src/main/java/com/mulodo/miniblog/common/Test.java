@@ -13,6 +13,8 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
+import com.mulodo.miniblog.pojo.User;
+
 /**
  * @author TriLe
  */
@@ -35,7 +37,18 @@ public class Test {
             System.out.println(":(");
         }
 
-        System.out.println(d);
+        User user = new User();
+
+        user.setJoinDate(d);
+
+        ObjectMapper op = new ObjectMapper();
+
+        String jsonStr = op.writeValueAsString(user);
+        System.out.println(jsonStr);
+
+        User user2 = op.readValue(jsonStr, User.class);
+
+        System.out.println(dateFormat.format(user2.getJoinDate()));
 
         //
         //

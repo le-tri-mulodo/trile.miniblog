@@ -23,6 +23,7 @@ import com.mulodo.miniblog.common.Contants;
 @Provider
 @Component
 public class JacksonConfig implements ContextResolver<ObjectMapper> {
+
     private final ObjectMapper objectMapper;
 
     /**

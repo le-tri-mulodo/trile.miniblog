@@ -45,6 +45,7 @@ public class PostServiceImpl implements PostService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Post update(Post entity) {
         // TODO Auto-generated method stub
         return null;
@@ -54,6 +55,7 @@ public class PostServiceImpl implements PostService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void delete(Post entity) {
         // TODO Auto-generated method stub
 
@@ -63,6 +65,7 @@ public class PostServiceImpl implements PostService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Post load(int id) {
         // TODO Auto-generated method stub
         return null;
@@ -72,6 +75,7 @@ public class PostServiceImpl implements PostService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Post get(int id) {
         // TODO Auto-generated method stub
         return null;
@@ -81,15 +85,16 @@ public class PostServiceImpl implements PostService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void deleteAll() {
-        // TODO Auto-generated method stub
-
+        postDAO.deleteAll();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Transactional(readOnly = true)
     public List<Post> search(String query) {
         // TODO Auto-generated method stub
         return null;

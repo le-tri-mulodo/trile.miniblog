@@ -5,6 +5,9 @@ package com.mulodo.miniblog.common;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -84,5 +87,35 @@ public class Util {
         // Append username and current date time and then hash to create new
         // token
         return hashSHA256(userID + "@" + currentMs);
+    }
+
+    /**
+     * Create current <b>Date</b> without <b>Time</b>
+     * 
+     * @return Current <b>Date</b> without <b>Time</b>
+     */
+    public static Date createDateIgnoreTime() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        return cal.getTime();
+    }
+
+    /**
+     * Create current <b>Timestamp</b> without <b>Secord</b> and
+     * <b>Milisecord</b>
+     * 
+     * @return Current <b>Timestamp</b> without <b>Secord</b> and
+     *         <b>Milisecord</b>
+     */
+    public static Timestamp createTimestampIgnoreSecord() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        return new Timestamp(cal.getTimeInMillis());
     }
 }

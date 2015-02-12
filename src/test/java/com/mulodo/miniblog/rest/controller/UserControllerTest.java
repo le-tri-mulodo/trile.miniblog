@@ -3,6 +3,11 @@
  */
 package com.mulodo.miniblog.rest.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -15,7 +20,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +32,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.mulodo.miniblog.common.Contants;
 import com.mulodo.miniblog.message.ResultMessage;
 import com.mulodo.miniblog.pojo.User;
+import com.mulodo.miniblog.service.PostService;
 import com.mulodo.miniblog.service.TokenService;
 import com.mulodo.miniblog.service.UserService;
 
@@ -43,6 +48,9 @@ public class UserControllerTest {
     private UserService userSer;
     @Autowired
     private TokenService tokenSer;
+    @Autowired
+    private PostService postSer;
+
     ResteasyClient client = new ResteasyClientBuilder().build();
     String ROOT_URL = "http://localhost:8080/miniblog.api";
     String USER_URL = ROOT_URL + Contants.URL_USER;
@@ -51,6 +59,7 @@ public class UserControllerTest {
     public void prepareData() {
         // Delete all data
         tokenSer.deleteAll();
+        postSer.deleteAll();
         userSer.deleteAll();
     }
 
@@ -80,22 +89,25 @@ public class UserControllerTest {
 
         User rUser = result.getData();
         // Check status
-        Assert.assertEquals(201, response.getStatus());
+        assertEquals(201, response.getStatus());
         // Check Id
-        Assert.assertNotEquals(0, rUser.getId());
+        assertNotEquals(0, rUser.getId());
         // Check token
-        Assert.assertNotNull(result.getData().getToken());
-        // Check join date
-        Assert.assertEquals(user.getJoinDate().getYear(), rUser.getJoinDate().getYear());
-        Assert.assertEquals(user.getJoinDate().getMonth(), rUser.getJoinDate().getMonth());
-        Assert.assertEquals(user.getJoinDate().getDay(), rUser.getJoinDate().getDay());
-
-        // Ignore join date
-        rUser.setJoinDate(null);
-        user.setJoinDate(null);
+        assertNotNull(result.getData().getToken());
+        // // Check join date
+        // assertEquals(user.getJoinDate().getYear(),
+        // rUser.getJoinDate().getYear());
+        // assertEquals(user.getJoinDate().getMonth(),
+        // rUser.getJoinDate().getMonth());
+        // assertEquals(user.getJoinDate().getDay(),
+        // rUser.getJoinDate().getDay());
+        //
+        // // Ignore join date
+        // rUser.setJoinDate(null);
+        // user.setJoinDate(null);
 
         // Assert
-        Assert.assertEquals(user, rUser);
+        assertEquals(user, rUser);
     }
 
     // User existed
@@ -131,7 +143,7 @@ public class UserControllerTest {
         });
         response.close();
 
-        Assert.assertEquals(400, response.getStatus());
+        assertEquals(400, response.getStatus());
     }
 
     // Fields required
@@ -157,7 +169,7 @@ public class UserControllerTest {
         });
         response.close();
 
-        Assert.assertEquals(400, response.getStatus());
+        assertEquals(400, response.getStatus());
     }
 
     // Fields required
@@ -184,7 +196,7 @@ public class UserControllerTest {
         });
         response.close();
 
-        Assert.assertEquals(400, response.getStatus());
+        assertEquals(400, response.getStatus());
     }
 
     // Fields required
@@ -211,7 +223,7 @@ public class UserControllerTest {
         });
         response.close();
 
-        Assert.assertEquals(400, response.getStatus());
+        assertEquals(400, response.getStatus());
     }
 
     // Fields required
@@ -238,7 +250,7 @@ public class UserControllerTest {
         });
         response.close();
 
-        Assert.assertEquals(400, response.getStatus());
+        assertEquals(400, response.getStatus());
     }
 
     @Test
@@ -274,7 +286,7 @@ public class UserControllerTest {
         // u.getLastName(), u.getUserName(),
         // u.getAvatarLink());
         // }
-        Assert.assertEquals(users, usersDb);
+        assertEquals(users, usersDb);
 
     }
 
@@ -325,7 +337,7 @@ public class UserControllerTest {
 
     // User not exist
     @Test
-    public void testgetUserInfo1() {
+    public void testgetUserInfo() {
 
         // Create new user
         User user = new User();
@@ -344,19 +356,19 @@ public class UserControllerTest {
         response.close();
 
         // Check status
-        Assert.assertEquals(200, response.getStatus());
+        assertEquals(200, response.getStatus());
 
         User rUser = result.getData();
         // Check join date
-        Assert.assertEquals(user.getJoinDate().getYear(), rUser.getJoinDate().getYear());
-        Assert.assertEquals(user.getJoinDate().getMonth(), rUser.getJoinDate().getMonth());
-        Assert.assertEquals(user.getJoinDate().getDay(), rUser.getJoinDate().getDay());
+        assertEquals(user.getJoinDate().getYear(), rUser.getJoinDate().getYear());
+        assertEquals(user.getJoinDate().getMonth(), rUser.getJoinDate().getMonth());
+        assertEquals(user.getJoinDate().getDay(), rUser.getJoinDate().getDay());
 
         // Ignore join date
         rUser.setJoinDate(null);
         user.setJoinDate(null);
         // Check user info
-        Assert.assertEquals(user, rUser);
+        assertEquals(user, rUser);
     }
 
     @Test
@@ -369,7 +381,7 @@ public class UserControllerTest {
         response.close();
 
         // Check status
-        Assert.assertEquals(400, response.getStatus());
+        assertEquals(400, response.getStatus());
     }
 
     @Test
@@ -397,19 +409,19 @@ public class UserControllerTest {
         });
         response.close();
         // Check status
-        Assert.assertEquals(200, response.getStatus());
+        assertEquals(200, response.getStatus());
 
         User rUser = result.getData();
         // Check check id
-        Assert.assertEquals(user.getId(), rUser.getId());
+        assertEquals(user.getId(), rUser.getId());
         // Check token
-        Assert.assertNotNull(rUser.getToken());
-        Assert.assertTrue(tokenSer.checkToken(rUser.getId(), rUser.getToken()));
+        assertNotNull(rUser.getToken());
+        assertTrue(tokenSer.checkToken(rUser.getId(), rUser.getToken()));
     }
 
     // User or password invaild
     @Test
-    public void changePassword1() {
+    public void changePassword2() {
         ResteasyWebTarget target = client.target(USER_URL + Contants.URL_CHPWD);
         Form form = new Form();
         // Convert int to String to add user_id into x-form
@@ -423,12 +435,12 @@ public class UserControllerTest {
         });
         response.close();
         // Check status
-        Assert.assertEquals(400, response.getStatus());
+        assertEquals(400, response.getStatus());
     }
 
     // Change firstname
     @Test
-    public void testEditUser1() {
+    public void testEditUser() {
         ResteasyWebTarget target = client.target(USER_URL);
 
         // Create user
@@ -455,11 +467,11 @@ public class UserControllerTest {
 
         User rUser = result.getData();
         // Check status
-        Assert.assertEquals(200, response.getStatus());
+        assertEquals(200, response.getStatus());
         // Assert
-        Assert.assertNotEquals(user, rUser);
+        assertNotEquals(user, rUser);
         // Check firstname
-        Assert.assertEquals(newFirstName, rUser.getFirstName());
+        assertEquals(newFirstName, rUser.getFirstName());
     }
 
     // Change lastname
@@ -491,11 +503,11 @@ public class UserControllerTest {
 
         User rUser = result.getData();
         // Check status
-        Assert.assertEquals(200, response.getStatus());
+        assertEquals(200, response.getStatus());
         // Assert
-        Assert.assertNotEquals(user, rUser);
+        assertNotEquals(user, rUser);
         // Check lastname
-        Assert.assertEquals(newLastName, rUser.getLastName());
+        assertEquals(newLastName, rUser.getLastName());
     }
 
     // Change avatarlink
@@ -530,11 +542,11 @@ public class UserControllerTest {
 
         User rUser = result.getData();
         // Check status
-        Assert.assertEquals(200, response.getStatus());
+        assertEquals(200, response.getStatus());
         // Assert
-        Assert.assertNotEquals(user, rUser);
+        assertNotEquals(user, rUser);
         // Check avatarlink
-        Assert.assertEquals(newAvatarLink, rUser.getAvatarLink());
+        assertEquals(newAvatarLink, rUser.getAvatarLink());
     }
 
     // Change all
@@ -573,15 +585,15 @@ public class UserControllerTest {
 
         User rUser = result.getData();
         // Check status
-        Assert.assertEquals(200, response.getStatus());
+        assertEquals(200, response.getStatus());
         // Assert
-        Assert.assertNotEquals(user, rUser);
+        assertNotEquals(user, rUser);
         // Check avatarlink
-        Assert.assertEquals(newAvatarLink, rUser.getAvatarLink());
+        assertEquals(newAvatarLink, rUser.getAvatarLink());
         // Check lastname
-        Assert.assertEquals(newLastName, rUser.getLastName());
+        assertEquals(newLastName, rUser.getLastName());
         // Check firstname
-        Assert.assertEquals(newFirstName, rUser.getFirstName());
+        assertEquals(newFirstName, rUser.getFirstName());
     }
 
     // validate: miss token
@@ -618,7 +630,7 @@ public class UserControllerTest {
         response.close();
 
         // Check status
-        Assert.assertEquals(400, response.getStatus());
+        assertEquals(400, response.getStatus());
     }
 
     // Unauthorized: token invalid
@@ -657,6 +669,6 @@ public class UserControllerTest {
         response.close();
 
         // Check status
-        Assert.assertEquals(401, response.getStatus());
+        assertEquals(401, response.getStatus());
     }
 }

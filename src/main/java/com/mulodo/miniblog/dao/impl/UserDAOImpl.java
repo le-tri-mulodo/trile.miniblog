@@ -62,7 +62,7 @@ public class UserDAOImpl extends CommonDAOImpl<User> implements UserDAO
         Session session = sf.getCurrentSession();
         // Query to check username exist not select any fields
         Query query = session
-                .createQuery("select count(*) from User u where u.userName = :username");
+                .createQuery("SELECT COUNT(*) FROM User u WHERE u.userName = :username");
         query.setString("username", username);
         // Return true if username existed in db
         return (0 < (long) query.uniqueResult());
@@ -88,8 +88,8 @@ public class UserDAOImpl extends CommonDAOImpl<User> implements UserDAO
     {
         Session session = sf.getCurrentSession();
 
-        Query query = session
-                .createQuery("select count(*) from User u where u.id = :user_id and u.passHash = :passHash");
+        Query query = session.createQuery("SELECT COUNT(*) FROM User u WHERE u.id = :user_id "
+                + "AND u.passHash = :passHash");
         query.setInteger("user_id", user_id);
         query.setString("passHash", passhash);
         // Return true if username existed in db
@@ -105,7 +105,7 @@ public class UserDAOImpl extends CommonDAOImpl<User> implements UserDAO
         Session session = sf.getCurrentSession();
 
         Query query = session
-                .createQuery("from User u where u.userName = :userName and u.passHash = :passHash");
+                .createQuery("FROM User u WHERE u.userName = :userName AND u.passHash = :passHash");
         query.setString("userName", userName);
         query.setString("passHash", passhash);
         // Return true if username existed in db

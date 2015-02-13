@@ -84,11 +84,12 @@ public class UserController
         // Check username existed in db
         if (userSer.checkUserNameExist(username)) {
             // Log
-            logger.info("Username [{}] existed", username);
+            logger.warn("Username [{}] existed", username);
 
-            ResultMessage errorMsg = new ResultMessage(1001, "Username existed", "Username existed");
+            ResultMessage errorMsg = new ResultMessage(Contants.CODE_USER_EXIST,
+                    Contants.MSG_USER_EXIST, Contants.MSG_USER_EXIST);
 
-            return Response.status(400).entity(errorMsg).build();
+            return Response.status(Contants.CODE_BAD_REQUEST).entity(errorMsg).build();
         }
 
         User user = new User();
@@ -107,15 +108,18 @@ public class UserController
         try {
             user = userSer.add(user);
         } catch (HibernateException e) {
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
             // Response error
-            ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error",
-                    String.format("Database error: %s", e.getMessage()));
-            return Response.status(500).entity(dbErrMsg).build();
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
         }
 
         // Response success
-        ResultMessage<User> resultMsg = new ResultMessage<User>(201, "Create user success!", user);
-        return Response.status(201).entity(resultMsg).build();
+        ResultMessage<User> resultMsg = new ResultMessage<User>(Contants.CODE_CREATED,
+                Contants.MSG_CREATE_USER_SCC, user);
+        return Response.status(Contants.CODE_CREATED).entity(resultMsg).build();
     }
 
     @SuppressWarnings("rawtypes")
@@ -149,10 +153,12 @@ public class UserController
 
         // Check token
         if (!tokenSer.checkToken(user_id, token)) {
-            ResultMessage unauthorizedMsg = new ResultMessage(1001,
-                    "Token in request invaild or expired", String.format(
-                            "Token [%s] invaild or expired", token));
-            return Response.status(401).entity(unauthorizedMsg).build();
+            // Log
+            logger.warn("Token {} invaild or expired", token);
+            // Unauthorized
+            ResultMessage unauthorizedMsg = new ResultMessage(Contants.CODE_USER_EXIST,
+                    Contants.MSG_TOKEN_ERR, String.format(Contants.FOR_TOKEN_ERR, token));
+            return Response.status(Contants.CODE_UNAUTHORIZED).entity(unauthorizedMsg).build();
         }
 
         // Create new user object to call user service
@@ -166,16 +172,18 @@ public class UserController
         try {
             user = userSer.update(user);
         } catch (HibernateException e) {
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
             // Response error
-            ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error",
-                    String.format("Database error: %s", e.getMessage()));
-            return Response.status(500).entity(dbErrMsg).build();
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
         }
 
         // Response success
-        ResultMessage<User> successMsg = new ResultMessage<User>(200, "Account updated success!",
-                user);
-        return Response.status(200).entity(successMsg).build();
+        ResultMessage<User> successMsg = new ResultMessage<User>(Contants.CODE_OK,
+                Contants.MSG_UPDATE_USER_SCC, user);
+        return Response.status(Contants.CODE_OK).entity(successMsg).build();
     }
 
     @SuppressWarnings("rawtypes")
@@ -192,16 +200,18 @@ public class UserController
         try {
             users = userSer.search(query);
         } catch (HibernateException e) {
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
             // Response error
-            ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error",
-                    String.format("Database error: %s", e.getMessage()));
-            return Response.status(500).entity(dbErrMsg).build();
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
         }
 
         // Response success
-        ResultMessage<List<User>> result = new ResultMessage<List<User>>(200, String.format(
-                "Search success! %d results", users.size()), users);
-        return Response.status(200).entity(result).build();
+        ResultMessage<List<User>> result = new ResultMessage<List<User>>(Contants.CODE_OK,
+                String.format(Contants.FOR_UPDATE_USER_SCC, users.size()), users);
+        return Response.status(Contants.CODE_OK).entity(result).build();
     }
 
     @SuppressWarnings("rawtypes")
@@ -214,23 +224,27 @@ public class UserController
         try {
             user = userSer.get(userId);
         } catch (HibernateException e) {
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
             // Response error
-            ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error",
-                    String.format("Database error: %s", e.getMessage()));
-            return Response.status(500).entity(dbErrMsg).build();
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
         }
 
         if (null == user) {
+            // log
+            logger.warn("User with id={} does not exist", userId);
             // Response error
-            ResultMessage userNotExistMsg = new ResultMessage(2001,
-                    "User ID in request does not exist", String.format(
-                            "User with id=%d does not exist", userId));
-            return Response.status(400).entity(userNotExistMsg).build();
+            ResultMessage userNotExistMsg = new ResultMessage(Contants.CODE_USER_NOT_EXIST,
+                    Contants.MSG_USER_NOT_EXIST, String.format(Contants.FOR_USER_NOT_EXIST, userId));
+            return Response.status(Contants.CODE_BAD_REQUEST).entity(userNotExistMsg).build();
         }
 
         // Response success
-        ResultMessage<User> result = new ResultMessage<User>(200, "Get user info success!", user);
-        return Response.status(200).entity(result).build();
+        ResultMessage<User> result = new ResultMessage<User>(Contants.CODE_OK,
+                Contants.MSG_GET_USER_SCC, user);
+        return Response.status(Contants.CODE_OK).entity(result).build();
     }
 
     @SuppressWarnings("rawtypes")
@@ -254,10 +268,12 @@ public class UserController
     {
 
         if (!userSer.checkPassword(user_id, currentpassword)) {
+            // log
+            logger.warn("User id={} or password invalid", user_id);
             // Response error
-            ResultMessage invalidMsg = new ResultMessage(1002, "User id or password invalid",
-                    "User id or password invalid");
-            return Response.status(400).entity(invalidMsg).build();
+            ResultMessage invalidMsg = new ResultMessage(Contants.CODE_PWD_INVALID,
+                    Contants.MSG_PWD_INVALID, Contants.MSG_PWD_INVALID);
+            return Response.status(Contants.CODE_BAD_REQUEST).entity(invalidMsg).build();
         }
 
         // Call service to change password
@@ -265,14 +281,17 @@ public class UserController
         try {
             user = userSer.changePassword(user_id, newpassword);
         } catch (HibernateException e) {
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
             // Response error
-            ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error",
-                    String.format("Database error: %s", e.getMessage()));
-            return Response.status(500).entity(dbErrMsg).build();
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
         }
 
         // Response success
-        ResultMessage<User> result = new ResultMessage<User>(200, "Change password success!", user);
-        return Response.status(200).entity(result).build();
+        ResultMessage<User> result = new ResultMessage<User>(Contants.CODE_PWD_INVALID,
+                Contants.MSG_CHANGE_PWD_SCC, user);
+        return Response.status(Contants.CODE_PWD_INVALID).entity(result).build();
     }
 }

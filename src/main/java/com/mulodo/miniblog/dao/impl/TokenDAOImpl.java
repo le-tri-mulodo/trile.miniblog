@@ -36,8 +36,8 @@ public class TokenDAOImpl extends CommonDAOImpl<Token> implements TokenDAO
         // Timestamp(System.currentTimeMillis())));
         // // Count row
         // cr.setProjection(Projections.rowCount());
-        Query query = session
-                .createQuery("select count(*) from Token t where t.user.id = :userId and t.value = :token and t.expiredTime >= :currentTime");
+        Query query = session.createQuery("SELECT COUNT(*) FROM Token t WHERE t.user.id = :userId "
+                + "AND t.value = :token AND t.expiredTime >= :currentTime");
         // Set userId
         query.setInteger("userId", userId);
         // Set token
@@ -56,7 +56,7 @@ public class TokenDAOImpl extends CommonDAOImpl<Token> implements TokenDAO
     {
         Session session = sf.getCurrentSession();
 
-        Query query = session.createQuery("delete from Token t where t.user.id = :userId");
+        Query query = session.createQuery("DELETE FROM Token t WHERE t.user.id = :userId");
         query.setInteger("userId", userId);
 
         return query.executeUpdate();
@@ -70,7 +70,7 @@ public class TokenDAOImpl extends CommonDAOImpl<Token> implements TokenDAO
     {
         Session session = sf.getCurrentSession();
 
-        Query query = session.createQuery("delete from Token t where t.value = :value");
+        Query query = session.createQuery("DELETE FROM Token t WHERE t.value = :value");
         query.setString("value", value);
 
         return (0 < query.executeUpdate());

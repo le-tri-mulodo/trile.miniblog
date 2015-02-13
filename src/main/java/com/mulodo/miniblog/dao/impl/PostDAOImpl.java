@@ -25,8 +25,8 @@ public class PostDAOImpl extends CommonDAOImpl<Post> implements PostDAO
     {
         Session session = sf.getCurrentSession();
 
-        Query query = session.createQuery("select count(*) from Post p where p.id = :postId "
-                + "and p.user.id = :userId");
+        Query query = session.createQuery("SELECT COUNT(*) FROM Post p WHERE p.id = :postId "
+                + "AND p.user.id = :userId");
         // Set postId
         query.setInteger("postId", postId);
         // Set userId

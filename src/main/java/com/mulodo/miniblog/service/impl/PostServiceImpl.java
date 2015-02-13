@@ -68,7 +68,7 @@ public class PostServiceImpl implements PostService
             return null;
         }
 
-        // Check have change then set post info
+        // Check have any change then set new post info
         boolean changeFlg = false;
         // Title
         if (null != updatePost.getTitle() && !updatePost.getTitle().equals(post.getTitle())) {

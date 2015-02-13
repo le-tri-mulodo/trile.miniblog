@@ -6,7 +6,8 @@ package com.mulodo.miniblog.common;
 /**
  * @author TriLe
  */
-public class Contants {
+public class Contants
+{
 
     public static final String HASH_ALGORITHM = "SHA-256";
     public static final String DATE_TIME_FULL_FORMAT = "HH:mm a yyyy/MM/dd";

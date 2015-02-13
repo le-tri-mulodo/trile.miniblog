@@ -17,11 +17,13 @@ import org.springframework.stereotype.Controller;
 @Controller
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
-public class RootController {
+public class RootController
+{
 
     @Path("/")
     @GET
-    public Response hello() {
+    public Response hello()
+    {
         return Response.status(200).entity("Hello").build();
     }
 }

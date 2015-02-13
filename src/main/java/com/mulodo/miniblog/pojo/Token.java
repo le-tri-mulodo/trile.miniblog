@@ -27,7 +27,8 @@ import com.mulodo.miniblog.config.CustomerTimestampDeserialize;
 @Entity
 @Table(name = "tokens")
 @JsonPropertyOrder({ "user_id", "username", "token", "create_time", "expired_time" })
-public class Token {
+public class Token
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -90,7 +91,8 @@ public class Token {
     /**
      * @return the id
      */
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
@@ -98,14 +100,16 @@ public class Token {
      * @param id
      *            the id to set
      */
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
 
     /**
      * @return the createTime
      */
-    public Timestamp getCreateTime() {
+    public Timestamp getCreateTime()
+    {
         return createTime;
     }
 
@@ -113,14 +117,16 @@ public class Token {
      * @param createTime
      *            the createTime to set
      */
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(Timestamp createTime)
+    {
         this.createTime = createTime;
     }
 
     /**
      * @return the expiredTime
      */
-    public Timestamp getExpiredTime() {
+    public Timestamp getExpiredTime()
+    {
         return expiredTime;
     }
 
@@ -128,14 +134,16 @@ public class Token {
      * @param expiredTime
      *            the expiredTime to set
      */
-    public void setExpiredTime(Timestamp expiredTime) {
+    public void setExpiredTime(Timestamp expiredTime)
+    {
         this.expiredTime = expiredTime;
     }
 
     /**
      * @return the value
      */
-    public String getValue() {
+    public String getValue()
+    {
         return value;
     }
 
@@ -143,14 +151,16 @@ public class Token {
      * @param value
      *            the value to set
      */
-    public void setValue(String value) {
+    public void setValue(String value)
+    {
         this.value = value;
     }
 
     /**
      * @return the user
      */
-    public User getUser() {
+    public User getUser()
+    {
         return user;
     }
 
@@ -158,7 +168,8 @@ public class Token {
      * @param user
      *            the user to set
      */
-    public void setUser(User user) {
+    public void setUser(User user)
+    {
         if (null != user) {
             // Create new token from userId
             this.value = Util.createToken(user.getId());
@@ -170,7 +181,8 @@ public class Token {
     /**
      * @return the userName
      */
-    public String getUserName() {
+    public String getUserName()
+    {
         return userName;
     }
 
@@ -178,14 +190,16 @@ public class Token {
      * @param userName
      *            the userName to set
      */
-    public void setUserName(String userName) {
+    public void setUserName(String userName)
+    {
         this.userName = userName;
     }
 
     /**
      * @return the userid
      */
-    public int getUserid() {
+    public int getUserid()
+    {
         return userid;
     }
 
@@ -193,7 +207,8 @@ public class Token {
      * @param userid
      *            the userid to set
      */
-    public void setUserid(int userid) {
+    public void setUserid(int userid)
+    {
         this.userid = userid;
     }
 }

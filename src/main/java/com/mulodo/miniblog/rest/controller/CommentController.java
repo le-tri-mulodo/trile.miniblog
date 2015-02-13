@@ -19,6 +19,7 @@ import com.mulodo.miniblog.common.Contants;
 @Controller
 @Path(Contants.URL_COMMENT)
 @Produces(MediaType.APPLICATION_JSON)
-public class CommentController {
+public class CommentController
+{
     private static final Logger logger = LoggerFactory.getLogger(CommentController.class);
 }

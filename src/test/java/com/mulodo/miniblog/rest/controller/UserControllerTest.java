@@ -41,7 +41,8 @@ import com.mulodo.miniblog.service.UserService;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath*:applicationContext.xml")
-public class UserControllerTest {
+public class UserControllerTest
+{
     private static final Logger logger = LoggerFactory.getLogger(UserControllerTest.class);
 
     @Autowired
@@ -56,7 +57,8 @@ public class UserControllerTest {
     String USER_URL = ROOT_URL + Contants.URL_USER;
 
     @Before
-    public void prepareData() {
+    public void prepareData()
+    {
         // Delete all data
         tokenSer.deleteAll();
         postSer.deleteAll();
@@ -64,7 +66,8 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testAddUser() {
+    public void testAddUser()
+    {
         ResteasyWebTarget target = client.target(USER_URL);
 
         // Create user
@@ -112,7 +115,8 @@ public class UserControllerTest {
 
     // User existed
     @Test
-    public void testAddUser2() {
+    public void testAddUser2()
+    {
         // Add user
         User user = new User();
         user.setUserName("trile");
@@ -148,7 +152,8 @@ public class UserControllerTest {
 
     // Fields required
     @Test
-    public void testAddUser3() {
+    public void testAddUser3()
+    {
         ResteasyWebTarget target = client.target(USER_URL);
         // Create user
         User user = new User();
@@ -174,7 +179,8 @@ public class UserControllerTest {
 
     // Fields required
     @Test
-    public void testAddUser4() {
+    public void testAddUser4()
+    {
         ResteasyWebTarget target = client.target(USER_URL + "/");
         // Create user
         User user = new User();
@@ -201,7 +207,8 @@ public class UserControllerTest {
 
     // Fields required
     @Test
-    public void testAddUser5() {
+    public void testAddUser5()
+    {
         ResteasyWebTarget target = client.target(USER_URL + "/");
         // Create user
         User user = new User();
@@ -228,7 +235,8 @@ public class UserControllerTest {
 
     // Fields required
     @Test
-    public void testAddUser6() {
+    public void testAddUser6()
+    {
         ResteasyWebTarget target = client.target(USER_URL);
         // Create user
         User user = new User();
@@ -254,7 +262,8 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testSearch() {
+    public void testSearch()
+    {
         // Prepare data
         searchPrepare();
 
@@ -290,7 +299,8 @@ public class UserControllerTest {
 
     }
 
-    private void searchPrepare() {
+    private void searchPrepare()
+    {
         User user = new User();
         user.setUserName("trile");
         user.setFirstName("Tri");
@@ -337,7 +347,8 @@ public class UserControllerTest {
 
     // User not exist
     @Test
-    public void testgetUserInfo() {
+    public void testgetUserInfo()
+    {
 
         // Create new user
         User user = new User();
@@ -372,7 +383,8 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testgetUserInfo2() {
+    public void testgetUserInfo2()
+    {
         ResteasyWebTarget target = client.target(USER_URL + "/0");
 
         Response response = target.request().get();
@@ -385,7 +397,8 @@ public class UserControllerTest {
     }
 
     @Test
-    public void changePassword() {
+    public void changePassword()
+    {
         ResteasyWebTarget target = client.target(USER_URL + Contants.URL_CHPWD);
         String currentPass = "currentpass";
         // Create new user
@@ -421,7 +434,8 @@ public class UserControllerTest {
 
     // User or password invaild
     @Test
-    public void changePassword2() {
+    public void changePassword2()
+    {
         ResteasyWebTarget target = client.target(USER_URL + Contants.URL_CHPWD);
         Form form = new Form();
         // Convert int to String to add user_id into x-form
@@ -440,7 +454,8 @@ public class UserControllerTest {
 
     // Change firstname
     @Test
-    public void testEditUser() {
+    public void testEditUser()
+    {
         ResteasyWebTarget target = client.target(USER_URL);
 
         // Create user
@@ -476,7 +491,8 @@ public class UserControllerTest {
 
     // Change lastname
     @Test
-    public void testEditUser2() {
+    public void testEditUser2()
+    {
         ResteasyWebTarget target = client.target(USER_URL);
 
         // Create user
@@ -515,7 +531,8 @@ public class UserControllerTest {
      * 
      */
     @Test
-    public void testEditUser3() {
+    public void testEditUser3()
+    {
         ResteasyWebTarget target = client.target(USER_URL);
 
         // Create user
@@ -554,7 +571,8 @@ public class UserControllerTest {
      * 
      */
     @Test
-    public void testEditUser4() {
+    public void testEditUser4()
+    {
         ResteasyWebTarget target = client.target(USER_URL);
 
         // Create user
@@ -601,7 +619,8 @@ public class UserControllerTest {
      * 
      */
     @Test
-    public void testEditUser5() {
+    public void testEditUser5()
+    {
         ResteasyWebTarget target = client.target(USER_URL);
 
         // Create user
@@ -638,7 +657,8 @@ public class UserControllerTest {
      * 
      */
     @Test
-    public void testEditUser6() {
+    public void testEditUser6()
+    {
         ResteasyWebTarget target = client.target(USER_URL);
 
         // Create user

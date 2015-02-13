@@ -6,7 +6,8 @@ package com.mulodo.miniblog.service;
 /**
  * @author TriLe
  */
-public interface CommonService<T> {
+public interface CommonService<T>
+{
 
     /**
      * Insert entity into DB

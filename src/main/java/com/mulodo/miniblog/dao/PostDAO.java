@@ -8,6 +8,7 @@ import com.mulodo.miniblog.pojo.Post;
 /**
  * @author TriLe
  */
-public interface PostDAO extends CommonDAO<Post> {
+public interface PostDAO extends CommonDAO<Post>
+{
 
 }

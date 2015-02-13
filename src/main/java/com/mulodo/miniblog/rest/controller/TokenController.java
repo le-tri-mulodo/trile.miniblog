@@ -36,7 +36,8 @@ import com.mulodo.miniblog.service.UserService;
 @Path(Contants.URL_TOKEN)
 @Produces(MediaType.APPLICATION_JSON)
 @ValidateRequest
-public class TokenController {
+public class TokenController
+{
     private static final Logger logger = LoggerFactory.getLogger(TokenController.class);
 
     @Autowired
@@ -45,7 +46,9 @@ public class TokenController {
     private TokenService tokenSer;
 
     /**
-     * Create new token and response to user if input username and password valid
+     * Create new token and response to user if input username and password
+     * valid
+     * 
      * @param username
      * @param password
      * @return Response to client
@@ -57,13 +60,15 @@ public class TokenController {
     public Response userLogin(
             @NotNull(message = "{username.NotNull}")
             @Pattern(regexp = Contants.WORDS_VALID_REGEX, message = "{username.Invalid}")
-            @Size(min = 4, max = 64, message = "{username.Size}") @FormParam("username")
+            @Size(min = 4, max = 64, message = "{username.Size}")
+            @FormParam("username")
             String username,
 
             @NotNull(message = "{password.NotNull}")
             @Size(min = 4, max = 999, message = "{password.Size}")
             @FormParam("password")
-            String password) {
+            String password)
+    {
 
         User userInfo = userSer.checkPasswordGetUserInfo(username, password);
         if (null == userInfo) {
@@ -101,7 +106,8 @@ public class TokenController {
             @NotNull(message = "{token.NotNull}")
             @Size(min = 64, max = 64, message = "{token.Size}")
             @FormParam(value = "token")
-            String token) {
+            String token)
+    {
 
         boolean deleteStatus;
         try {
@@ -121,8 +127,8 @@ public class TokenController {
 
         // Response token invalid or expired
         ResultMessage unauthorizedMsg = new ResultMessage(1001,
-                "Token in request invaild or expired", String.format("Token [%s] invaild or expired",
-                        token));
+                "Token in request invaild or expired", String.format(
+                        "Token [%s] invaild or expired", token));
         return Response.status(401).entity(unauthorizedMsg).build();
     }
 

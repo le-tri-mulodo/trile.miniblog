@@ -2,7 +2,8 @@ package com.mulodo.miniblog.message;
 
 import java.util.List;
 
-public class MetaMessage {
+public class MetaMessage
+{
     private int code;
 
     private String description;
@@ -41,7 +42,8 @@ public class MetaMessage {
     /**
      * @return the code
      */
-    public int getCode() {
+    public int getCode()
+    {
         return code;
     }
 
@@ -49,14 +51,16 @@ public class MetaMessage {
      * @param code
      *            the code to set
      */
-    public void setCode(int code) {
+    public void setCode(int code)
+    {
         this.code = code;
     }
 
     /**
      * @return the message
      */
-    public String getMessage() {
+    public String getMessage()
+    {
         return message;
     }
 
@@ -64,14 +68,16 @@ public class MetaMessage {
      * @param message
      *            the message to set
      */
-    public void setMessage(String message) {
+    public void setMessage(String message)
+    {
         this.message = message;
     }
 
     /**
      * @return the description
      */
-    public String getDescription() {
+    public String getDescription()
+    {
         return description;
     }
 
@@ -79,14 +85,16 @@ public class MetaMessage {
      * @param description
      *            the description to set
      */
-    public void setDescription(String description) {
+    public void setDescription(String description)
+    {
         this.description = description;
     }
 
     /**
      * @return the messages
      */
-    public List<String> getMessages() {
+    public List<String> getMessages()
+    {
         return messages;
     }
 
@@ -94,7 +102,8 @@ public class MetaMessage {
      * @param messages
      *            the messages to set
      */
-    public void setMessages(List<String> messages) {
+    public void setMessages(List<String> messages)
+    {
         this.messages = messages;
     }
 }

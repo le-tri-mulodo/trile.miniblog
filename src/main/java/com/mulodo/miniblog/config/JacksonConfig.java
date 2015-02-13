@@ -22,7 +22,8 @@ import com.mulodo.miniblog.common.Contants;
  */
 @Provider
 @Component
-public class JacksonConfig implements ContextResolver<ObjectMapper> {
+public class JacksonConfig implements ContextResolver<ObjectMapper>
+{
 
     private final ObjectMapper objectMapper;
 
@@ -47,7 +48,8 @@ public class JacksonConfig implements ContextResolver<ObjectMapper> {
      * {@inheritDoc}
      */
     @Override
-    public ObjectMapper getContext(Class<?> objectType) {
+    public ObjectMapper getContext(Class<?> objectType)
+    {
         return objectMapper;
     }
 }

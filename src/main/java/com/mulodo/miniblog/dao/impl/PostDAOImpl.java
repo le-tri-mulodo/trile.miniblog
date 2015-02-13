@@ -12,6 +12,7 @@ import com.mulodo.miniblog.pojo.Post;
  * @author TriLe
  */
 @Repository
-public class PostDAOImpl extends CommonDAOImpl<Post> implements PostDAO {
+public class PostDAOImpl extends CommonDAOImpl<Post> implements PostDAO
+{
 
 }

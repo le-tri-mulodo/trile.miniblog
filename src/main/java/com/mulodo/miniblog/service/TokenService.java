@@ -9,7 +9,8 @@ import com.mulodo.miniblog.pojo.User;
 /**
  * @author TriLe
  */
-public interface TokenService extends CommonService<Token> {
+public interface TokenService extends CommonService<Token>
+{
 
     /**
      * Create new token for User

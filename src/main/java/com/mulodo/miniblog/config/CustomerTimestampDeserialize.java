@@ -21,7 +21,8 @@ import com.mulodo.miniblog.common.Contants;
  * 
  * @author TriLe
  */
-public class CustomerTimestampDeserialize extends JsonDeserializer<Timestamp> {
+public class CustomerTimestampDeserialize extends JsonDeserializer<Timestamp>
+{
 
     private static final Logger logger = LoggerFactory
             .getLogger(CustomerTimestampDeserialize.class);
@@ -31,7 +32,8 @@ public class CustomerTimestampDeserialize extends JsonDeserializer<Timestamp> {
     @Override
     public Timestamp deserialize(JsonParser paramJsonParser,
             DeserializationContext paramDeserializationContext) throws IOException,
-            JsonProcessingException {
+            JsonProcessingException
+    {
         String str = paramJsonParser.getText().trim();
         try {
             Date date = dateFormat.parse(str);

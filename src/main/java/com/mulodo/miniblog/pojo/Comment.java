@@ -25,7 +25,8 @@ import org.hibernate.annotations.ForeignKey;
  */
 @Entity
 @Table(name = "comments")
-public class Comment {
+public class Comment
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,7 +64,8 @@ public class Comment {
     /**
      * @return the id
      */
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
@@ -71,14 +73,16 @@ public class Comment {
      * @param id
      *            the id to set
      */
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
 
     /**
      * @return the content
      */
-    public String getContent() {
+    public String getContent()
+    {
         return content;
     }
 
@@ -86,14 +90,16 @@ public class Comment {
      * @param content
      *            the content to set
      */
-    public void setContent(String content) {
+    public void setContent(String content)
+    {
         this.content = content;
     }
 
     /**
      * @return the createTime
      */
-    public Timestamp getCreateTime() {
+    public Timestamp getCreateTime()
+    {
         return createTime;
     }
 
@@ -101,14 +107,16 @@ public class Comment {
      * @param createTime
      *            the createTime to set
      */
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(Timestamp createTime)
+    {
         this.createTime = createTime;
     }
 
     /**
      * @return the editTime
      */
-    public Timestamp getEditTime() {
+    public Timestamp getEditTime()
+    {
         return editTime;
     }
 
@@ -116,14 +124,16 @@ public class Comment {
      * @param editTime
      *            the editTime to set
      */
-    public void setEditTime(Timestamp editTime) {
+    public void setEditTime(Timestamp editTime)
+    {
         this.editTime = editTime;
     }
 
     /**
      * @return the user
      */
-    public User getUser() {
+    public User getUser()
+    {
         return user;
     }
 
@@ -131,14 +141,16 @@ public class Comment {
      * @param user
      *            the user to set
      */
-    public void setUser(User user) {
+    public void setUser(User user)
+    {
         this.user = user;
     }
 
     /**
      * @return the post
      */
-    public Post getPost() {
+    public Post getPost()
+    {
         return post;
     }
 
@@ -146,14 +158,16 @@ public class Comment {
      * @param post
      *            the post to set
      */
-    public void setPost(Post post) {
+    public void setPost(Post post)
+    {
         this.post = post;
     }
 
     /**
      * @return the parent
      */
-    public Comment getParent() {
+    public Comment getParent()
+    {
         return parent;
     }
 
@@ -161,14 +175,16 @@ public class Comment {
      * @param parent
      *            the parent to set
      */
-    public void setParent(Comment parent) {
+    public void setParent(Comment parent)
+    {
         this.parent = parent;
     }
 
     /**
      * @return the comments
      */
-    public Set<Comment> getComments() {
+    public Set<Comment> getComments()
+    {
         return comments;
     }
 
@@ -176,7 +192,8 @@ public class Comment {
      * @param comments
      *            the comments to set
      */
-    public void setComments(Set<Comment> comments) {
+    public void setComments(Set<Comment> comments)
+    {
         this.comments = comments;
     }
 }

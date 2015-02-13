@@ -20,14 +20,16 @@ import com.mulodo.miniblog.pojo.User;
  * @author TriLe
  */
 @Repository
-public class UserDAOImpl extends CommonDAOImpl<User> implements UserDAO {
+public class UserDAOImpl extends CommonDAOImpl<User> implements UserDAO
+{
 
     /**
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
     @Override
-    public List<User> search(String query) {
+    public List<User> search(String query)
+    {
         String likeQueryString = "%" + query + "%";
         Criterion userName = Restrictions.ilike("userName", likeQueryString);
         Criterion firstName = Restrictions.ilike("firstName", likeQueryString);
@@ -55,7 +57,8 @@ public class UserDAOImpl extends CommonDAOImpl<User> implements UserDAO {
      * {@inheritDoc}
      */
     @Override
-    public boolean checkUserNameExist(String username) {
+    public boolean checkUserNameExist(String username)
+    {
         Session session = sf.getCurrentSession();
         // Query to check username exist not select any fields
         Query query = session
@@ -69,7 +72,8 @@ public class UserDAOImpl extends CommonDAOImpl<User> implements UserDAO {
      * {@inheritDoc}
      */
     @Override
-    public User update(User user) {
+    public User update(User user)
+    {
         Session session = sf.getCurrentSession();
         // Load from Hibernate term
         session.merge(user);
@@ -80,7 +84,8 @@ public class UserDAOImpl extends CommonDAOImpl<User> implements UserDAO {
      * {@inheritDoc}
      */
     @Override
-    public boolean checkPassword(int user_id, String passhash) {
+    public boolean checkPassword(int user_id, String passhash)
+    {
         Session session = sf.getCurrentSession();
 
         Query query = session
@@ -95,7 +100,8 @@ public class UserDAOImpl extends CommonDAOImpl<User> implements UserDAO {
      * {@inheritDoc}
      */
     @Override
-    public User checkPasswordGetUserInfo(String userName, String passhash) {
+    public User checkPasswordGetUserInfo(String userName, String passhash)
+    {
         Session session = sf.getCurrentSession();
 
         Query query = session

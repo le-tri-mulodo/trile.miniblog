@@ -32,16 +32,15 @@ import com.mulodo.miniblog.pojo.User;
 import com.mulodo.miniblog.service.TokenService;
 import com.mulodo.miniblog.service.UserService;
 
-
 /**
  * @author TriLe
- *
  */
 @Controller
 @Path(Contants.URL_USER)
 @Produces(MediaType.APPLICATION_JSON)
 @ValidateRequest
-public class UserController {
+public class UserController
+{
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
@@ -54,35 +53,40 @@ public class UserController {
     @POST
     @ValidateRequest
     public Response add(
-        @NotNull(message= "{username.NotNull}")
-        @Pattern(regexp = Contants.WORDS_VALID_REGEX, message = "{username.Invalid}")
-        @Size(min = 4, max = 64, message = "{username.Size}")
-        @FormParam(value = "username") String username,
-        
-        @NotNull(message = "{password.NotNull}")
-        @Size(min = 4, max = 999, message = "{password.Size}")
-        @FormParam(value = "password") String password,
-        
-        @NotNull(message = "{firstname.NotNull}")
-        @Pattern(regexp = Contants.WORDS_VALID_REGEX, message = "{firstname.Invalid}")
-        @Size(min = 1, max = 64, message = "{firstname.Size}")
-        @FormParam(value = "firstname") String firstname,
-        
-        @NotNull(message = "{lastname.NotNull}")
-        @Pattern(regexp = Contants.WORDS_VALID_REGEX, message = "{lastname.Invalid}")
-        @Size(min = 1, max = 64, message = "{lastname.Size}")
-        @FormParam(value = "lastname") String lastname,
-        
-        @Size(min = 1, max = 256, message = "{avatarlink.Size}")
-        @FormParam(value = "avatarlink") String avatarlink) {
+            @NotNull(message = "{username.NotNull}")
+            @Pattern(regexp = Contants.WORDS_VALID_REGEX, message = "{username.Invalid}")
+            @Size(min = 4, max = 64, message = "{username.Size}")
+            @FormParam(value = "username")
+            String username,
+
+            @NotNull(message = "{password.NotNull}")
+            @Size(min = 4, max = 999, message = "{password.Size}")
+            @FormParam(value = "password")
+            String password,
+
+            @NotNull(message = "{firstname.NotNull}")
+            @Pattern(regexp = Contants.WORDS_VALID_REGEX, message = "{firstname.Invalid}")
+            @Size(min = 1, max = 64, message = "{firstname.Size}")
+            @FormParam(value = "firstname")
+            String firstname,
+
+            @NotNull(message = "{lastname.NotNull}")
+            @Pattern(regexp = Contants.WORDS_VALID_REGEX, message = "{lastname.Invalid}")
+            @Size(min = 1, max = 64, message = "{lastname.Size}")
+            @FormParam(value = "lastname")
+            String lastname,
+
+            @Size(min = 1, max = 256, message = "{avatarlink.Size}")
+            @FormParam(value = "avatarlink")
+            String avatarlink)
+    {
 
         // Check username existed in db
         if (userSer.checkUserNameExist(username)) {
             // Log
             logger.info("Username [{}] existed", username);
 
-            ResultMessage errorMsg = new ResultMessage(1001, "Username existed",
-                    "Username existed");
+            ResultMessage errorMsg = new ResultMessage(1001, "Username existed", "Username existed");
 
             return Response.status(400).entity(errorMsg).build();
         }
@@ -118,26 +122,30 @@ public class UserController {
     @Path(Contants.URL_UPDATE)
     @PUT
     public Response update(
-                @NotNull(message = "{user_id.NotNull}")
-                @FormParam(value = "user_id")
-                @Min(value = 0)
-                Integer user_id,
+            @NotNull(message = "{user_id.NotNull}")
+            @FormParam(value = "user_id")
+            @Min(value = 0)
+            Integer user_id,
 
-                @Pattern(regexp = Contants.WORDS_VALID_REGEX, message = "{firstname.Invalid}")
-                @Size(min = 1, max = 64, message = "{firstname.Size}")
-                @FormParam(value = "firstname") String firstname,
+            @Pattern(regexp = Contants.WORDS_VALID_REGEX, message = "{firstname.Invalid}")
+            @Size(min = 1, max = 64, message = "{firstname.Size}")
+            @FormParam(value = "firstname")
+            String firstname,
 
-                @Pattern(regexp = Contants.WORDS_VALID_REGEX, message = "{lastname.Invalid}")
-                @Size(min = 1, max = 64, message = "{lastname.Size}")
-                @FormParam(value = "lastname") String lastname,
+            @Pattern(regexp = Contants.WORDS_VALID_REGEX, message = "{lastname.Invalid}")
+            @Size(min = 1, max = 64, message = "{lastname.Size}")
+            @FormParam(value = "lastname")
+            String lastname,
 
-                @Size(min = 1, max = 256, message = "{avatarlink.Size}")
-                @FormParam(value = "avatarlink") String avatarlink,
+            @Size(min = 1, max = 256, message = "{avatarlink.Size}")
+            @FormParam(value = "avatarlink")
+            String avatarlink,
 
-                @NotNull(message = "{token.NotNull}")
-                @Size(min = 64, max = 64, message = "{token.Size}")
-                @FormParam(value = "token")
-                String token) {
+            @NotNull(message = "{token.NotNull}")
+            @Size(min = 64, max = 64, message = "{token.Size}")
+            @FormParam(value = "token")
+            String token)
+    {
 
         // Check token
         if (!tokenSer.checkToken(user_id, token)) {
@@ -173,7 +181,12 @@ public class UserController {
     @SuppressWarnings("rawtypes")
     @Path(Contants.URL_SEARCH)
     @GET
-    public Response search(@PathParam(value = "query") String query) {
+    public Response search(
+            @NotNull(message = "{query.NotNull}")
+            @Size(min = 1, max = 64, message = "{query.Size}")
+            @PathParam(value = "query")
+            String query)
+    {
 
         List<User> users = null;
         try {
@@ -194,8 +207,9 @@ public class UserController {
     @SuppressWarnings("rawtypes")
     @Path(Contants.URL_GET_BY_ID)
     @GET
-    public Response getById(@PathParam(value = "id") int userId) {
-    
+    public Response getById(@PathParam(value = "id") int userId)
+    {
+
         User user = null;
         try {
             user = userSer.get(userId);
@@ -223,18 +237,21 @@ public class UserController {
     @Path(Contants.URL_CHPWD)
     @PUT
     public Response changePassword(
-                    @NotNull(message = "{user_id.NotNull}")
-                    @FormParam(value = "user_id")
-                    @Min(value = 0)
-                    Integer user_id,
+            @NotNull(message = "{user_id.NotNull}")
+            @FormParam(value = "user_id")
+            @Min(value = 0)
+            Integer user_id,
 
-                    @NotNull(message = "{password.NotNull}")
-                    @Size(min = 4, max = 999, message = "{password.Size}")
-                    @FormParam(value = "currentpassword") String currentpassword,
+            @NotNull(message = "{password.NotNull}")
+            @Size(min = 4, max = 999, message = "{password.Size}")
+            @FormParam(value = "currentpassword")
+            String currentpassword,
 
-                    @NotNull(message = "{newpassword.NotNull}")
-                    @Size(min = 4, max = 999, message = "{newpassword.Size}")
-                    @FormParam(value = "newpassword") String newpassword) {
+            @NotNull(message = "{newpassword.NotNull}")
+            @Size(min = 4, max = 999, message = "{newpassword.Size}")
+            @FormParam(value = "newpassword")
+            String newpassword)
+    {
 
         if (!userSer.checkPassword(user_id, currentpassword)) {
             // Response error

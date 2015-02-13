@@ -4,7 +4,8 @@ import java.util.List;
 
 import com.mulodo.miniblog.pojo.User;
 
-public interface UserDAO extends CommonDAO<User> {
+public interface UserDAO extends CommonDAO<User>
+{
 
     /**
      * Search in username, first name, last name contian query string

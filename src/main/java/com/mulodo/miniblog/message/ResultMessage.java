@@ -6,7 +6,8 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ResultMessage<T> {
+public class ResultMessage<T>
+{
 
     private MetaMessage meta;
 
@@ -93,7 +94,8 @@ public class ResultMessage<T> {
     /**
      * @return the meta
      */
-    public MetaMessage getMeta() {
+    public MetaMessage getMeta()
+    {
         return meta;
     }
 
@@ -101,14 +103,16 @@ public class ResultMessage<T> {
      * @param meta
      *            the meta to set
      */
-    public void setMeta(MetaMessage meta) {
+    public void setMeta(MetaMessage meta)
+    {
         this.meta = meta;
     }
 
     /**
      * @return the data
      */
-    public T getData() {
+    public T getData()
+    {
         return data;
     }
 
@@ -116,7 +120,8 @@ public class ResultMessage<T> {
      * @param data
      *            the data to set
      */
-    public void setData(T data) {
+    public void setData(T data)
+    {
         this.data = data;
     }
 }

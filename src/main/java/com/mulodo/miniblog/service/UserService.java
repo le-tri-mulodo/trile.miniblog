@@ -10,7 +10,8 @@ import com.mulodo.miniblog.pojo.User;
 /**
  * @author TriLe
  */
-public interface UserService extends CommonService<User> {
+public interface UserService extends CommonService<User>
+{
 
     /**
      * Search in username, first name, last name contian query string

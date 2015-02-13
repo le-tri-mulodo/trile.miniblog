@@ -18,7 +18,8 @@ import com.mulodo.miniblog.pojo.User;
 /**
  * @author TriLe
  */
-public class Test {
+public class Test
+{
 
     /**
      * @param args
@@ -27,7 +28,8 @@ public class Test {
      * @throws JsonGenerationException
      */
     public static void main(String[] args) throws JsonGenerationException, JsonMappingException,
-            IOException {
+            IOException
+    {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
         Date d = null;
@@ -82,7 +84,8 @@ public class Test {
         // }
     }
 
-    public static <T> T fromJSON(final TypeReference<T> type, final String jsonPacket) {
+    public static <T> T fromJSON(final TypeReference<T> type, final String jsonPacket)
+    {
         T data = null;
 
         try {
@@ -93,7 +96,8 @@ public class Test {
         return data;
     }
 
-    public static void test() {
+    public static void test()
+    {
         int i = 0;
         long prev_time = System.currentTimeMillis();
         long time;

@@ -34,7 +34,8 @@ import com.mulodo.miniblog.service.UserService;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath*:applicationContext.xml")
-public class TokenControllerTest {
+public class TokenControllerTest
+{
 
     @Autowired
     private UserService userSer;
@@ -46,13 +47,15 @@ public class TokenControllerTest {
     String TOKEN_URL = ROOT_URL + Contants.URL_TOKEN;
 
     @Before
-    public void prepareData() {
+    public void prepareData()
+    {
         // Delete all data
         tokenSer.deleteAll();
         userSer.deleteAll();
     }
 
-    private Token createDummyData() {
+    private Token createDummyData()
+    {
         // Create user
         User user = new User();
         user = new User();
@@ -67,7 +70,8 @@ public class TokenControllerTest {
 
     // Normal case
     @Test
-    public void testLogin() {
+    public void testLogin()
+    {
         createDummyData();
 
         ResteasyWebTarget target = client.target(TOKEN_URL + Contants.URL_LOGIN);
@@ -90,7 +94,8 @@ public class TokenControllerTest {
 
     // Miss username
     @Test
-    public void testLogin2() {
+    public void testLogin2()
+    {
         createDummyData();
 
         ResteasyWebTarget target = client.target(TOKEN_URL + Contants.URL_LOGIN);
@@ -110,7 +115,8 @@ public class TokenControllerTest {
 
     // Miss password
     @Test
-    public void testLogin3() {
+    public void testLogin3()
+    {
         createDummyData();
 
         ResteasyWebTarget target = client.target(TOKEN_URL + Contants.URL_LOGIN);
@@ -130,7 +136,8 @@ public class TokenControllerTest {
 
     // Username password invalid
     @Test
-    public void testLogin4() {
+    public void testLogin4()
+    {
         createDummyData();
 
         ResteasyWebTarget target = client.target(TOKEN_URL + Contants.URL_LOGIN);
@@ -151,7 +158,8 @@ public class TokenControllerTest {
 
     // Normal
     @Test
-    public void testLogout() {
+    public void testLogout()
+    {
         Token token = createDummyData();
 
         ResteasyWebTarget target = client.target(TOKEN_URL + Contants.URL_LOGOUT);
@@ -171,7 +179,8 @@ public class TokenControllerTest {
 
     // Miss token
     @Test
-    public void testLogout2() {
+    public void testLogout2()
+    {
         Token token = createDummyData();
 
         ResteasyWebTarget target = client.target(TOKEN_URL + Contants.URL_LOGOUT);
@@ -188,7 +197,8 @@ public class TokenControllerTest {
 
     // Miss token size < 64
     @Test
-    public void testLogout3() {
+    public void testLogout3()
+    {
         Token token = createDummyData();
 
         ResteasyWebTarget target = client.target(TOKEN_URL + Contants.URL_LOGOUT);
@@ -208,7 +218,8 @@ public class TokenControllerTest {
 
     // Token invalid
     @Test
-    public void testLogout4() {
+    public void testLogout4()
+    {
         Token token = createDummyData();
 
         ResteasyWebTarget target = client.target(TOKEN_URL + Contants.URL_LOGOUT);

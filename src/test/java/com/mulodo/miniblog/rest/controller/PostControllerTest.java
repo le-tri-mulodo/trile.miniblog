@@ -5,6 +5,8 @@ package com.mulodo.miniblog.rest.controller;
 
 import static org.junit.Assert.assertEquals;
 
+import java.sql.Timestamp;
+
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
@@ -15,6 +17,7 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +38,8 @@ import com.mulodo.miniblog.service.UserService;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath*:applicationContext.xml")
-public class PostControllerTest {
+public class PostControllerTest
+{
 
     @Autowired
     private UserService userSer;
@@ -48,15 +52,21 @@ public class PostControllerTest {
     String ROOT_URL = "http://localhost:8080/miniblog.api";
     String POST_URL = ROOT_URL + Contants.URL_POST;
 
+    private Token dummyToken = null;
+    private Post dummyPost = null;
+    private User dummyUser = null;
+
     @Before
-    public void prepareData() {
+    public void prepareData()
+    {
         // Delete all data
         postSer.deleteAll();
         tokenSer.deleteAll();
         userSer.deleteAll();
     }
 
-    private Token createDummyData() {
+    private User createDummyData()
+    {
         // Create user
         User user = new User();
         user = new User();
@@ -64,20 +74,45 @@ public class PostControllerTest {
         user.setFirstName("asxzdas");
         user.setLastName("ccrfzxc");
         user.setPassHash("password");
-        userSer.add(user);
-        // Create token
-        return tokenSer.createNewToken(user);
+
+        return userSer.add(user);
+    }
+
+    private void createDummyPost(boolean active)
+    {
+        // Create user
+        dummyUser = new User();
+        dummyUser.setUserName("thanhtri");
+        dummyUser.setFirstName("asxzdas");
+        dummyUser.setLastName("ccrfzxc");
+        dummyUser.setPassHash("password");
+        userSer.add(dummyUser);
+
+        dummyPost = new Post();
+
+        dummyPost.setTitle("title");
+        dummyPost.setDescription("description");
+        dummyPost.setContent("content");
+        if (active) {
+            dummyPost.setPublicTime(new Timestamp(System.currentTimeMillis()));
+        }
+
+        dummyPost.setUser(dummyUser);
+
+        // dummyPost = postSer.add(dummyPost);
     }
 
     // Normal case
     @Test
-    public void testAddPost() {
-        Token token = createDummyData();
+    // @Ignore
+    public void testAddPost()
+    {
+        User user = createDummyData();
 
         // Create new post
         Post post = new Post();
         // User ID
-        post.setUserId(token.getUserid());
+        post.setUserId(user.getId());
         post.setTitle("title");
         post.setDescription("description");
         post.setContent("content");
@@ -85,8 +120,8 @@ public class PostControllerTest {
         ResteasyWebTarget target = client.target(POST_URL);
 
         Form form = new Form();
-        form.param("user_id", Integer.toString(token.getUserid()));
-        form.param("token", token.getValue());
+        form.param("user_id", Integer.toString(user.getId()));
+        form.param("token", user.getToken());
         form.param("title", post.getTitle());
         form.param("description", post.getDescription());
         form.param("content", post.getContent());
@@ -105,13 +140,15 @@ public class PostControllerTest {
 
     // Miss user_id
     @Test
-    public void testAddPost1() {
-        Token token = createDummyData();
+    // @Ignore
+    public void testAddPost1()
+    {
+        User user = createDummyData();
 
         // Create new post
         Post post = new Post();
         // User ID
-        post.setUserId(token.getUserid());
+        post.setUserId(user.getId());
         post.setTitle("title");
         post.setDescription("description");
         post.setContent("content");
@@ -119,7 +156,7 @@ public class PostControllerTest {
         ResteasyWebTarget target = client.target(POST_URL);
 
         Form form = new Form();
-        form.param("token", token.getValue());
+        form.param("token", user.getToken());
         form.param("title", post.getTitle());
         form.param("description", post.getDescription());
         form.param("content", post.getContent());
@@ -136,13 +173,15 @@ public class PostControllerTest {
 
     // Miss token
     @Test
-    public void testAddPost2() {
-        Token token = createDummyData();
+    // @Ignore
+    public void testAddPost2()
+    {
+        User user = createDummyData();
 
         // Create new post
         Post post = new Post();
         // User ID
-        post.setUserId(token.getUserid());
+        post.setUserId(user.getId());
         post.setTitle("title");
         post.setDescription("description");
         post.setContent("content");
@@ -150,7 +189,7 @@ public class PostControllerTest {
         ResteasyWebTarget target = client.target(POST_URL);
 
         Form form = new Form();
-        form.param("user_id", Integer.toString(token.getUserid()));
+        form.param("user_id", Integer.toString(user.getId()));
         form.param("title", post.getTitle());
         form.param("description", post.getDescription());
         form.param("content", post.getContent());
@@ -167,13 +206,15 @@ public class PostControllerTest {
 
     // Miss title
     @Test
-    public void testAddPost3() {
-        Token token = createDummyData();
+    // @Ignore
+    public void testAddPost3()
+    {
+        User user = createDummyData();
 
         // Create new post
         Post post = new Post();
         // User ID
-        post.setUserId(token.getUserid());
+        post.setUserId(user.getId());
         post.setTitle("title");
         post.setDescription("description");
         post.setContent("content");
@@ -181,8 +222,8 @@ public class PostControllerTest {
         ResteasyWebTarget target = client.target(POST_URL);
 
         Form form = new Form();
-        form.param("user_id", Integer.toString(token.getUserid()));
-        form.param("token", token.getValue());
+        form.param("user_id", Integer.toString(user.getId()));
+        form.param("token", user.getToken());
         form.param("description", post.getDescription());
         form.param("content", post.getContent());
 
@@ -198,13 +239,15 @@ public class PostControllerTest {
 
     // Miss description
     @Test
-    public void testAddPost4() {
-        Token token = createDummyData();
+    // @Ignore
+    public void testAddPost4()
+    {
+        User user = createDummyData();
 
         // Create new post
         Post post = new Post();
         // User ID
-        post.setUserId(token.getUserid());
+        post.setUserId(user.getId());
         post.setTitle("title");
         post.setDescription("description");
         post.setContent("content");
@@ -212,8 +255,8 @@ public class PostControllerTest {
         ResteasyWebTarget target = client.target(POST_URL);
 
         Form form = new Form();
-        form.param("user_id", Integer.toString(token.getUserid()));
-        form.param("token", token.getValue());
+        form.param("user_id", Integer.toString(user.getId()));
+        form.param("token", user.getToken());
         form.param("title", post.getTitle());
         form.param("content", post.getContent());
 
@@ -229,13 +272,15 @@ public class PostControllerTest {
 
     // Miss content
     @Test
-    public void testAddPost5() {
-        Token token = createDummyData();
+    // @Ignore
+    public void testAddPost5()
+    {
+        User user = createDummyData();
 
         // Create new post
         Post post = new Post();
         // User ID
-        post.setUserId(token.getUserid());
+        post.setUserId(user.getId());
         post.setTitle("title");
         post.setDescription("description");
         post.setContent("content");
@@ -243,8 +288,8 @@ public class PostControllerTest {
         ResteasyWebTarget target = client.target(POST_URL);
 
         Form form = new Form();
-        form.param("user_id", Integer.toString(token.getUserid()));
-        form.param("token", token.getValue());
+        form.param("user_id", Integer.toString(user.getId()));
+        form.param("token", user.getToken());
         form.param("title", post.getTitle());
         form.param("description", post.getDescription());
 
@@ -260,13 +305,15 @@ public class PostControllerTest {
 
     // Token invalid
     @Test
-    public void testAddPost6() {
-        Token token = createDummyData();
+    // @Ignore
+    public void testAddPost6()
+    {
+        User user = createDummyData();
 
         // Create new post
         Post post = new Post();
         // User ID
-        post.setUserId(token.getUserid());
+        post.setUserId(user.getId());
         post.setTitle("title");
         post.setDescription("description");
         post.setContent("content");
@@ -274,9 +321,9 @@ public class PostControllerTest {
         ResteasyWebTarget target = client.target(POST_URL);
 
         Form form = new Form();
-        form.param("user_id", Integer.toString(token.getUserid()));
+        form.param("user_id", Integer.toString(user.getId()));
         // Reverse token to create invalid token
-        form.param("token", StringUtils.reverse(token.getValue()));
+        form.param("token", StringUtils.reverse(user.getToken()));
         form.param("title", post.getTitle());
         form.param("description", post.getDescription());
         form.param("content", post.getContent());
@@ -289,5 +336,31 @@ public class PostControllerTest {
 
         // Check status
         assertEquals(401, response.getStatus());
+    }
+
+    // Normal case. Active
+    @Test
+    // @Ignore
+    public void testActiveDeactivePost()
+    {
+        createDummyPost(false);
+
+        ResteasyWebTarget target = client.target(POST_URL + Contants.URL_PUBLICT);
+
+        Form form = new Form();
+        form.param("user_id", Integer.toString(dummyToken.getUserid()));
+        form.param("token", dummyToken.getValue());
+        form.param("post_id", Integer.toString(dummyPost.getId()));
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage<Post> result = response.readEntity(new GenericType<ResultMessage<Post>>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(200, response.getStatus());
+        // Check token not null
+        assertEquals(dummyPost, result.getData());
     }
 }

@@ -11,10 +11,10 @@ import com.mulodo.miniblog.service.UserService;
 
 /**
  * @author TriLe
- *
  */
 @Component
-public class TestUtil {
+public class TestUtil
+{
 
     @Autowired
     public TokenService tokenSer;

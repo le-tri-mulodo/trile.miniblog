@@ -20,7 +20,8 @@ import com.mulodo.miniblog.common.Contants;
  * 
  * @author TriLe
  */
-public class CustomerDateDeserialize extends JsonDeserializer<Date> {
+public class CustomerDateDeserialize extends JsonDeserializer<Date>
+{
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerDateDeserialize.class);
 
@@ -29,7 +30,8 @@ public class CustomerDateDeserialize extends JsonDeserializer<Date> {
     @Override
     public Date deserialize(JsonParser paramJsonParser,
             DeserializationContext paramDeserializationContext) throws IOException,
-            JsonProcessingException {
+            JsonProcessingException
+    {
         String str = paramJsonParser.getText().trim();
         try {
             return dateFormat.parse(str);

@@ -26,7 +26,8 @@ import com.mulodo.miniblog.message.ResultMessage;
  */
 @Provider
 @Component
-public class ValidationExceptionHandler implements ExceptionMapper<ResteasyViolationException> {
+public class ValidationExceptionHandler implements ExceptionMapper<ResteasyViolationException>
+{
 
     private static final Logger logger = LoggerFactory.getLogger(ValidationExceptionHandler.class);
 
@@ -36,7 +37,8 @@ public class ValidationExceptionHandler implements ExceptionMapper<ResteasyViola
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     @Produces(MediaType.APPLICATION_JSON)
-    public Response toResponse(ResteasyViolationException exception) {
+    public Response toResponse(ResteasyViolationException exception)
+    {
 
         StringBuilder sb = new StringBuilder();
         List<String> messages = new ArrayList<String>();

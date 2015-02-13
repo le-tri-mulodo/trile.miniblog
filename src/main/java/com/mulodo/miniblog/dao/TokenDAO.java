@@ -8,7 +8,8 @@ import com.mulodo.miniblog.pojo.Token;
 /**
  * @author TriLe
  */
-public interface TokenDAO extends CommonDAO<Token> {
+public interface TokenDAO extends CommonDAO<Token>
+{
 
     /**
      * Check token valid

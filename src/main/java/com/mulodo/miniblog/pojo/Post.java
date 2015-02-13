@@ -30,7 +30,8 @@ import com.mulodo.miniblog.config.CustomerTimestampDeserialize;
 @Table(name = "posts")
 @JsonPropertyOrder({ "user_id", "post_id", "title", "description", "create_time", "edit_time",
         "public_time" })
-public class Post {
+public class Post
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -88,7 +89,8 @@ public class Post {
     /**
      * @return the id
      */
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
@@ -96,14 +98,16 @@ public class Post {
      * @param id
      *            the id to set
      */
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
 
     /**
      * @return the title
      */
-    public String getTitle() {
+    public String getTitle()
+    {
         return title;
     }
 
@@ -111,14 +115,16 @@ public class Post {
      * @param title
      *            the title to set
      */
-    public void setTitle(String title) {
+    public void setTitle(String title)
+    {
         this.title = title;
     }
 
     /**
      * @return the description
      */
-    public String getDescription() {
+    public String getDescription()
+    {
         return description;
     }
 
@@ -126,14 +132,16 @@ public class Post {
      * @param description
      *            the description to set
      */
-    public void setDescription(String description) {
+    public void setDescription(String description)
+    {
         this.description = description;
     }
 
     /**
      * @return the content
      */
-    public String getContent() {
+    public String getContent()
+    {
         return content;
     }
 
@@ -141,14 +149,16 @@ public class Post {
      * @param content
      *            the content to set
      */
-    public void setContent(String content) {
+    public void setContent(String content)
+    {
         this.content = content;
     }
 
     /**
      * @return the createTime
      */
-    public Timestamp getCreateTime() {
+    public Timestamp getCreateTime()
+    {
         return createTime;
     }
 
@@ -156,14 +166,16 @@ public class Post {
      * @param createTime
      *            the createTime to set
      */
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(Timestamp createTime)
+    {
         this.createTime = createTime;
     }
 
     /**
      * @return the editTime
      */
-    public Timestamp getEditTime() {
+    public Timestamp getEditTime()
+    {
         return editTime;
     }
 
@@ -171,14 +183,16 @@ public class Post {
      * @param editTime
      *            the editTime to set
      */
-    public void setEditTime(Timestamp editTime) {
+    public void setEditTime(Timestamp editTime)
+    {
         this.editTime = editTime;
     }
 
     /**
      * @return the publicTime
      */
-    public Timestamp getPublicTime() {
+    public Timestamp getPublicTime()
+    {
         return publicTime;
     }
 
@@ -186,14 +200,16 @@ public class Post {
      * @param publicTime
      *            the publicTime to set
      */
-    public void setPublicTime(Timestamp publicTime) {
+    public void setPublicTime(Timestamp publicTime)
+    {
         this.publicTime = publicTime;
     }
 
     /**
      * @return the user
      */
-    public User getUser() {
+    public User getUser()
+    {
         return user;
     }
 
@@ -201,14 +217,16 @@ public class Post {
      * @param user
      *            the user to set
      */
-    public void setUser(User user) {
+    public void setUser(User user)
+    {
         this.user = user;
     }
 
     /**
      * @return the comments
      */
-    public Set<Comment> getComments() {
+    public Set<Comment> getComments()
+    {
         return comments;
     }
 
@@ -216,14 +234,16 @@ public class Post {
      * @param comments
      *            the comments to set
      */
-    public void setComments(Set<Comment> comments) {
+    public void setComments(Set<Comment> comments)
+    {
         this.comments = comments;
     }
 
     /**
      * @return the userId
      */
-    public int getUserId() {
+    public int getUserId()
+    {
         return userId;
     }
 
@@ -231,81 +251,84 @@ public class Post {
      * @param userId
      *            the userId to set
      */
-    public void setUserId(int userId) {
+    public void setUserId(int userId)
+    {
         this.userId = userId;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj)
+    {
         if (this == obj)
             return true;
-        if (obj == null)
+        if (null == obj)
             return false;
         if (getClass() != obj.getClass())
             return false;
         Post other = (Post) obj;
-        if (content == null) {
+        if (null == content) {
             if (other.content != null) {
-                System.out.println("content");
+                // System.out.println("content");
                 return false;
             }
         } else if (!content.equals(other.content)) {
-            System.out.println("content");
+            // System.out.println("content");
             return false;
         }
-        if (createTime == null) {
+        if (null == createTime) {
             if (other.createTime != null) {
-                System.out.println("createTime");
+                // System.out.println("createTime");
                 return false;
             }
         } else if (!timestampEqualIgnoreSecord(createTime, other.createTime)) {
-            System.out.println("createTime");
+            // System.out.println("createTime");
             return false;
         }
-        if (description == null) {
+        if (null == description) {
             if (other.description != null) {
-                System.out.println("description");
+                // System.out.println("description");
                 return false;
             }
         } else if (!description.equals(other.description)) {
-            System.out.println("description");
+            // System.out.println("description");
             return false;
         }
-        if (editTime == null) {
+        if (null == editTime) {
             if (other.editTime != null) {
-                System.out.println("editTime");
+                // System.out.println("editTime");
                 return false;
             }
         } else if (!timestampEqualIgnoreSecord(editTime, other.editTime)) {
-            System.out.println("editTime");
+            // System.out.println("editTime");
             return false;
         }
-        if (publicTime == null) {
+        if (null == publicTime) {
             if (other.publicTime != null) {
-                System.out.println("publicTime");
+                // System.out.println("publicTime");
                 return false;
             }
         } else if (!timestampEqualIgnoreSecord(publicTime, other.publicTime)) {
-            System.out.println("publicTime");
+            // System.out.println("publicTime");
             return false;
         }
-        if (title == null) {
+        if (null == title) {
             if (other.title != null) {
-                System.out.println("title");
+                // System.out.println("title");
                 return false;
             }
         } else if (!title.equals(other.title)) {
-            System.out.println("title");
+            // System.out.println("title");
             return false;
         }
         if (userId != other.userId) {
-            System.out.println("userId");
+            // System.out.println("userId");
             return false;
         }
         return true;
     }
 
-    private boolean timestampEqualIgnoreSecord(Timestamp a, Timestamp b) {
+    private boolean timestampEqualIgnoreSecord(Timestamp a, Timestamp b)
+    {
         if (null == a && null == b) {
             return true;
         }

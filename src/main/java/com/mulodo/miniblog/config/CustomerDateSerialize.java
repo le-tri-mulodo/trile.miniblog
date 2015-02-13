@@ -17,13 +17,15 @@ import com.mulodo.miniblog.common.Contants;
  * 
  * @author TriLe
  */
-public class CustomerDateSerialize extends JsonSerializer<Date> {
+public class CustomerDateSerialize extends JsonSerializer<Date>
+{
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat(Contants.DATE_FULL_FORMAT);
 
     @Override
     public void serialize(Date value, JsonGenerator jgen, SerializerProvider provider)
-            throws IOException, JsonProcessingException {
+            throws IOException, JsonProcessingException
+    {
 
         jgen.writeString(dateFormat.format(value));
     }

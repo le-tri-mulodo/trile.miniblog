@@ -16,13 +16,15 @@ import com.mulodo.miniblog.pojo.Token;
  * @author TriLe
  */
 @Repository
-public class TokenDAOImpl extends CommonDAOImpl<Token> implements TokenDAO {
+public class TokenDAOImpl extends CommonDAOImpl<Token> implements TokenDAO
+{
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean checkToken(int userId, String token) {
+    public boolean checkToken(int userId, String token)
+    {
         Session session = sf.getCurrentSession();
         // Criteria cr = session.createCriteria(GENERIC_TYPE.getClass());
         //
@@ -50,7 +52,8 @@ public class TokenDAOImpl extends CommonDAOImpl<Token> implements TokenDAO {
      * {@inheritDoc}
      */
     @Override
-    public int deleteTokenByUserId(int userId) {
+    public int deleteTokenByUserId(int userId)
+    {
         Session session = sf.getCurrentSession();
 
         Query query = session.createQuery("delete from Token t where t.user.id = :userId");
@@ -63,7 +66,8 @@ public class TokenDAOImpl extends CommonDAOImpl<Token> implements TokenDAO {
      * {@inheritDoc}
      */
     @Override
-    public boolean deleteToken(String value) {
+    public boolean deleteToken(String value)
+    {
         Session session = sf.getCurrentSession();
 
         Query query = session.createQuery("delete from Token t where t.value = :value");

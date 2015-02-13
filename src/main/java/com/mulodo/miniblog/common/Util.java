@@ -16,7 +16,8 @@ import org.slf4j.LoggerFactory;
 /**
  * @author TriLe
  */
-public class Util {
+public class Util
+{
 
     private static final Logger logger = LoggerFactory.getLogger(Util.class);
 
@@ -27,7 +28,8 @@ public class Util {
      *            string which need to hash
      * @return hash value of input
      */
-    public static String hashSHA256(String value) {
+    public static String hashSHA256(String value)
+    {
 
         // Check null and empty
         if (StringUtils.isEmpty(value)) {
@@ -77,7 +79,8 @@ public class Util {
      *            ID of user
      * @return new token if userID > 0 and NULL otherwise
      */
-    public static String createToken(int userID) {
+    public static String createToken(int userID)
+    {
         // Validate userID
         if (0 > userID) {
             return null;
@@ -94,7 +97,8 @@ public class Util {
      * 
      * @return Current <b>Date</b> without <b>Time</b>
      */
-    public static Date createDateIgnoreTime() {
+    public static Date createDateIgnoreTime()
+    {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR, 0);
         cal.set(Calendar.MINUTE, 0);
@@ -111,7 +115,8 @@ public class Util {
      * @return Current <b>Timestamp</b> without <b>Secord</b> and
      *         <b>Milisecord</b>
      */
-    public static Timestamp createTimestampIgnoreSecord() {
+    public static Timestamp createTimestampIgnoreSecord()
+    {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);

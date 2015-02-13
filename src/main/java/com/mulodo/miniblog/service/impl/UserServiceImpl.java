@@ -22,7 +22,8 @@ import com.mulodo.miniblog.service.UserService;
  * @author TriLe
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService
+{
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
@@ -35,7 +36,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional
-    public User add(User user) {
+    public User add(User user)
+    {
         // Tolower case username
         user.setUserName(user.getUserName().toLowerCase());
         // Hash password
@@ -57,7 +59,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional
-    public User update(User updateUser) {
+    public User update(User updateUser)
+    {
         // Update user
         // Load from Hibernate term userId
         // User user = load(updateUser.getId());
@@ -97,7 +100,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional
-    public void delete(User entity) {
+    public void delete(User entity)
+    {
         userDAO.delete(entity);
     }
 
@@ -106,7 +110,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional
-    public List<User> search(String query) {
+    public List<User> search(String query)
+    {
         return userDAO.search(query);
     }
 
@@ -115,7 +120,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional
-    public boolean checkUserNameExist(String username) {
+    public boolean checkUserNameExist(String username)
+    {
         // Check username existed
         return userDAO.checkUserNameExist(username);
 
@@ -126,7 +132,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional(readOnly = true)
-    public User get(int id) {
+    public User get(int id)
+    {
         return userDAO.get(id);
     }
 
@@ -134,7 +141,8 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public User load(int id) {
+    public User load(int id)
+    {
         return userDAO.load(id);
     }
 
@@ -143,7 +151,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional(readOnly = true)
-    public boolean checkPassword(int user_id, String password) {
+    public boolean checkPassword(int user_id, String password)
+    {
         // Check username and passhash
         return userDAO.checkPassword(user_id, Util.hashSHA256(password));
     }
@@ -153,7 +162,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional
-    public User changePassword(int userId, String newPassword) {
+    public User changePassword(int userId, String newPassword)
+    {
         // Change password
         User user = load(userId);
         // Hash password
@@ -183,13 +193,15 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional
-    public void deleteAll() {
+    public void deleteAll()
+    {
         userDAO.deleteAll();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public User checkPasswordGetUserInfo(String userName, String password) {
+    public User checkPasswordGetUserInfo(String userName, String password)
+    {
         return userDAO.checkPasswordGetUserInfo(userName, Util.hashSHA256(password));
     }
 }

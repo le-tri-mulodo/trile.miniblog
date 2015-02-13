@@ -20,12 +20,14 @@ import com.mulodo.miniblog.message.ResultMessage;
  */
 @Provider
 @Component
-public class ReaderExceptionHandler implements ExceptionMapper<ReaderException> {
+public class ReaderExceptionHandler implements ExceptionMapper<ReaderException>
+{
 
     @SuppressWarnings("rawtypes")
     @Override
     @Produces(MediaType.APPLICATION_JSON)
-    public Response toResponse(ReaderException exception) {
+    public Response toResponse(ReaderException exception)
+    {
         ResultMessage resultMsg = new ResultMessage(1, "Input validation failed",
                 exception.getMessage());
 

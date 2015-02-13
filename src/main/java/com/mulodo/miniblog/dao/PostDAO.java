@@ -10,5 +10,14 @@ import com.mulodo.miniblog.pojo.Post;
  */
 public interface PostDAO extends CommonDAO<Post>
 {
-
+    /**
+     * Check user is owner of post
+     * 
+     * @param postId
+     *            Id of post
+     * @param userId
+     *            Id of user
+     * @return <b>TRUE</b> if User with input userId is owner of Post
+     */
+    boolean checkOwner(int postId, int userId);
 }

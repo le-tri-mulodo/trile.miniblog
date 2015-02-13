@@ -182,4 +182,14 @@ public class PostServiceImpl implements PostService
         return post;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public boolean checkOwner(int postId, int userId)
+    {
+        return postDAO.checkOwner(postId, userId);
+    }
+
 }

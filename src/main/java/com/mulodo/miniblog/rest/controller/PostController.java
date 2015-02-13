@@ -160,6 +160,16 @@ public class PostController
             return Response.status(401).entity(unauthorizedMsg).build();
         }
 
+        // Check owner
+        if (!postSer.checkOwner(post_id, user_id)) {
+            logger.warn("Token in request invaild or expired");
+            // Response username or password invalid
+            ResultMessage forbiddenMsg = new ResultMessage(403,
+                    "Forbidden. User is not owner of resource", String.format(
+                            "User with id=%d is not owner of post with id=%d", user_id, post_id));
+            return Response.status(403).entity(forbiddenMsg).build();
+        }
+
         // Create new post to call service
         Post post = new Post();
         post.setTitle(title);

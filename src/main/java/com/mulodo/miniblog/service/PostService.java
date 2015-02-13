@@ -34,4 +34,14 @@ public interface PostService extends CommonService<Post>
      */
     Post activeDeactive(int post_id, boolean activeFlg);
 
+    /**
+     * Check user is owner of post
+     * 
+     * @param postId
+     *            Id of post
+     * @param userId
+     *            Id of user
+     * @return <b>TRUE</b> if User with input userId is owner of Post
+     */
+    boolean checkOwner(int postId, int userId);
 }

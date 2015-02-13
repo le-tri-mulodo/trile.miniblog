@@ -4,6 +4,8 @@
 package com.mulodo.miniblog.rest.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.sql.Timestamp;
 
@@ -17,7 +19,6 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,7 +100,7 @@ public class PostControllerTest
 
         dummyPost.setUser(dummyUser);
 
-        // dummyPost = postSer.add(dummyPost);
+        dummyPost = postSer.add(dummyPost);
     }
 
     // Normal case
@@ -338,19 +339,20 @@ public class PostControllerTest
         assertEquals(401, response.getStatus());
     }
 
-    // Normal case. Active
+    // Normal case. Active, change
     @Test
     // @Ignore
-    public void testActiveDeactivePost()
+    public void testActivePost()
     {
         createDummyPost(false);
 
         ResteasyWebTarget target = client.target(POST_URL + Contants.URL_PUBLICT);
 
         Form form = new Form();
-        form.param("user_id", Integer.toString(dummyToken.getUserid()));
-        form.param("token", dummyToken.getValue());
+        form.param("user_id", Integer.toString(dummyUser.getId()));
+        form.param("token", dummyUser.getToken());
         form.param("post_id", Integer.toString(dummyPost.getId()));
+        form.param("active", Boolean.toString(true));
 
         Response response = target.request().put(Entity.form(form));
 
@@ -360,7 +362,225 @@ public class PostControllerTest
 
         // Check status
         assertEquals(200, response.getStatus());
-        // Check token not null
-        assertEquals(dummyPost, result.getData());
+
+        Post post = result.getData();
+        assertNotNull(post.getPublicTime());
+        // Check public time
+        // Ignore public time
+        post.setPublicTime(null);
+        // Check
+        assertEquals(dummyPost, post);
+    }
+
+    // Normal case. Active, not change
+    @Test
+    // @Ignore
+    public void testActivePost1()
+    {
+        createDummyPost(true);
+
+        ResteasyWebTarget target = client.target(POST_URL + Contants.URL_PUBLICT);
+
+        Form form = new Form();
+        form.param("user_id", Integer.toString(dummyUser.getId()));
+        form.param("token", dummyUser.getToken());
+        form.param("post_id", Integer.toString(dummyPost.getId()));
+        form.param("active", Boolean.toString(true));
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage<Post> result = response.readEntity(new GenericType<ResultMessage<Post>>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(200, response.getStatus());
+
+        Post post = result.getData();
+        // Check
+        assertEquals(dummyPost, post);
+    }
+
+    // Normal case. Deactive, change
+    @Test
+    // @Ignore
+    public void testDeactivePost()
+    {
+        createDummyPost(true);
+
+        ResteasyWebTarget target = client.target(POST_URL + Contants.URL_PUBLICT);
+
+        Form form = new Form();
+        form.param("user_id", Integer.toString(dummyUser.getId()));
+        form.param("token", dummyUser.getToken());
+        form.param("post_id", Integer.toString(dummyPost.getId()));
+        form.param("active", Boolean.toString(false));
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage<Post> result = response.readEntity(new GenericType<ResultMessage<Post>>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(200, response.getStatus());
+
+        Post post = result.getData();
+        assertNull(post.getPublicTime());
+        // Check public time
+        // Ignore public time
+        dummyPost.setPublicTime(null);
+        // Check
+        assertEquals(dummyPost, post);
+    }
+
+    // Normal case. Deactive, not change
+    @Test
+    // @Ignore
+    public void testDeactivePost1()
+    {
+        createDummyPost(false);
+
+        ResteasyWebTarget target = client.target(POST_URL + Contants.URL_PUBLICT);
+
+        Form form = new Form();
+        form.param("user_id", Integer.toString(dummyUser.getId()));
+        form.param("token", dummyUser.getToken());
+        form.param("post_id", Integer.toString(dummyPost.getId()));
+        form.param("active", Boolean.toString(false));
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage<Post> result = response.readEntity(new GenericType<ResultMessage<Post>>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(200, response.getStatus());
+
+        Post post = result.getData();
+        // Check
+        assertEquals(dummyPost, post);
+    }
+
+    // Token invalid
+    @Test
+    // @Ignore
+    public void testActiveDeactivePost1()
+    {
+        createDummyPost(false);
+
+        ResteasyWebTarget target = client.target(POST_URL + Contants.URL_PUBLICT);
+
+        Form form = new Form();
+        form.param("user_id", Integer.toString(dummyUser.getId()));
+        form.param("token", StringUtils.reverse(dummyUser.getToken()));
+        form.param("post_id", Integer.toString(dummyPost.getId()));
+        form.param("active", Boolean.toString(false));
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(401, response.getStatus());
+    }
+
+    // Miss userId
+    @Test
+    // @Ignore
+    public void testActiveDeactivePost2()
+    {
+        createDummyPost(false);
+
+        ResteasyWebTarget target = client.target(POST_URL + Contants.URL_PUBLICT);
+
+        Form form = new Form();
+        form.param("token", StringUtils.reverse(dummyUser.getToken()));
+        form.param("post_id", Integer.toString(dummyPost.getId()));
+        form.param("active", Boolean.toString(false));
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(400, response.getStatus());
+    }
+
+    // Miss token
+    @Test
+    // @Ignore
+    public void testActiveDeactivePost3()
+    {
+        createDummyPost(false);
+
+        ResteasyWebTarget target = client.target(POST_URL + Contants.URL_PUBLICT);
+
+        Form form = new Form();
+        form.param("user_id", Integer.toString(dummyUser.getId()));
+        form.param("post_id", Integer.toString(dummyPost.getId()));
+        form.param("active", Boolean.toString(false));
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(400, response.getStatus());
+    }
+
+    // Miss postId
+    @Test
+    // @Ignore
+    public void testActiveDeactivePost4()
+    {
+        createDummyPost(false);
+
+        ResteasyWebTarget target = client.target(POST_URL + Contants.URL_PUBLICT);
+
+        Form form = new Form();
+        form.param("user_id", Integer.toString(dummyUser.getId()));
+        form.param("token", StringUtils.reverse(dummyUser.getToken()));
+        form.param("active", Boolean.toString(false));
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(400, response.getStatus());
+    }
+
+    // Miss active flag
+    @Test
+    // @Ignore
+    public void testActiveDeactivePost5()
+    {
+        createDummyPost(false);
+
+        ResteasyWebTarget target = client.target(POST_URL + Contants.URL_PUBLICT);
+
+        Form form = new Form();
+        form.param("user_id", Integer.toString(dummyUser.getId()));
+        form.param("token", StringUtils.reverse(dummyUser.getToken()));
+        form.param("post_id", Integer.toString(dummyPost.getId()));
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(400, response.getStatus());
     }
 }

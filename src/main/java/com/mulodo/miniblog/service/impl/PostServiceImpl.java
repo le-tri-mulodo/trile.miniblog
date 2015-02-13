@@ -40,6 +40,7 @@ public class PostServiceImpl implements PostService
     {
         // Get user of post
         User user = null;
+
         // If setted user then not get from Db
         // Else setted userId then get from Db
         if (null == post.getUser()) {

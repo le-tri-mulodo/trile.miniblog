@@ -52,15 +52,29 @@ public class PostController
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response add(
             @NotNull(message = "{user_id.NotNull}")
-            @FormParam(value = "user_id") @Min(value = 0) Integer user_id,
+            @FormParam(value = "user_id")
+            @Min(value = 0)
+            Integer user_id,
 
-            @NotNull(message = "{token.NotNull}") @Size(min = 64, max = 64, message = "{token.Size}") @FormParam(value = "token") String token,
+            @NotNull(message = "{token.NotNull}")
+            @Size(min = 64, max = 64, message = "{token.Size}")
+            @FormParam(value = "token")
+            String token,
 
-            @NotNull(message = "{title.NotNull}") @Size(min = 1, max = 128, message = "{title.Size}") @FormParam(value = "title") String title,
+            @NotNull(message = "{title.NotNull}")
+            @Size(min = 1, max = 128, message = "{title.Size}")
+            @FormParam(value = "title")
+            String title,
 
-            @NotNull(message = "{description.NotNull}") @Size(min = 1, max = 128, message = "{description.Size}") @FormParam(value = "description") String description,
+            @NotNull(message = "{description.NotNull}")
+            @Size(min = 1, max = 128, message = "{description.Size}")
+            @FormParam(value = "description")
+            String description,
 
-            @NotNull(message = "{content.NotNull}") @Size(min = 1, max = 8192, message = "{content.Size}") @FormParam(value = "content") String content)
+            @NotNull(message = "{content.NotNull}")
+            @Size(min = 1, max = 8192, message = "{content.Size}")
+            @FormParam(value = "content")
+            String content)
     {
 
         // Check token

@@ -58,10 +58,43 @@ public class PostServiceImpl implements PostService
      */
     @Override
     @Transactional
-    public Post update(Post entity)
+    public Post update(Post updatePost)
     {
-        // TODO Auto-generated method stub
-        return null;
+        // Load user info from db
+        Post post = get(updatePost.getId());
+
+        // Return null if post doesn't exist
+        if (null == post) {
+            return null;
+        }
+
+        // Check have change then set post info
+        boolean changeFlg = false;
+        // Title
+        if (null != updatePost.getTitle() && !updatePost.getTitle().equals(post.getTitle())) {
+            post.setTitle(updatePost.getTitle());
+            changeFlg = true;
+        }
+        // Description
+        if (null != updatePost.getDescription()
+                && !updatePost.getDescription().equals(post.getDescription())) {
+            post.setDescription(updatePost.getDescription());
+            changeFlg = true;
+        }
+        // Content
+        if (null != updatePost.getContent() && !updatePost.getContent().equals(post.getContent())) {
+            post.setContent(updatePost.getContent());
+            changeFlg = true;
+        }
+        // If have any change then update in Db
+        if (changeFlg) {
+            // Edit time
+            post.setEditTime(new Timestamp(System.currentTimeMillis()));
+            // Call hibernate to update
+            post = postDAO.update(post);
+        }
+
+        return post;
     }
 
     /**

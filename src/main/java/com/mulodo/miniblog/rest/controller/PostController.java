@@ -114,9 +114,83 @@ public class PostController
     @Path(Contants.URL_UPDATE)
     @PUT
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response update(@FormParam("token") String token)
+    public Response update(
+            @NotNull(message = "{user_id.NotNull}")
+            @FormParam(value = "user_id")
+            @Min(value = 0)
+            Integer user_id,
+
+            @NotNull(message = "{token.NotNull}")
+            @Size(min = 64, max = 64, message = "{token.Size}")
+            @FormParam(value = "token")
+            String token,
+
+            @NotNull(message = "{post_id.NotNull}")
+            @FormParam(value = "post_id") @Min(value = 0)
+            Integer post_id,
+
+            @Size(min = 1, max = 128, message = "{title.Size}")
+            @FormParam(value = "title")
+            String title,
+
+            @Size(min = 1, max = 128, message = "{description.Size}")
+            @FormParam(value = "description")
+            String description,
+
+            @Size(min = 1, max = 8192, message = "{content.Size}")
+            @FormParam(value = "content")
+            String content)
     {
-        return Response.status(200).build();
+
+        // Check have any field change?
+        if (null == title && null == description && null == content) {
+            // Miss all fields
+            ResultMessage unauthorizedMsg = new ResultMessage(1, "Miss all fields",
+                    "Must have least one field to update");
+            return Response.status(400).entity(unauthorizedMsg).build();
+        }
+
+        // Check token
+        if (!tokenSer.checkToken(user_id, token)) {
+            logger.warn("Token in request invaild or expired");
+            // Response username or password invalid
+            ResultMessage unauthorizedMsg = new ResultMessage(1001,
+                    "Token in request invaild or expired", String.format(
+                            "Token [%s] invaild or expired", token));
+            return Response.status(401).entity(unauthorizedMsg).build();
+        }
+
+        // Create new post to call service
+        Post post = new Post();
+        post.setTitle(title);
+        post.setDescription(description);
+        post.setContent(content);
+        // Set postId
+        post.setId(post_id);
+
+        // Call service to update into Db
+        try {
+            post = postSer.update(post);
+        } catch (HibernateException e) {
+            logger.warn("Database access error");
+            // Response db error
+            ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error",
+                    String.format("Database error: %s", e.getMessage()));
+            return Response.status(500).entity(dbErrMsg).build();
+        }
+        
+        // Check post exist
+        if(null == post){
+            logger.warn("Database access error");
+            // Response db error
+            ResultMessage postErrMsg = new ResultMessage(2501, "Post does not exist",
+                    String.format("Post with id=%d does not exist", post_id));
+            return Response.status(400).entity(postErrMsg).build();
+        }
+
+        // Response success
+        ResultMessage<Post> result = new ResultMessage<Post>(200, "Update post success!", post);
+        return Response.status(200).entity(result).build();
     }
 
     @Path(Contants.URL_DELETE)

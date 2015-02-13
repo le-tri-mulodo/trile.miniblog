@@ -583,4 +583,231 @@ public class PostControllerTest
         // Check status
         assertEquals(400, response.getStatus());
     }
+
+    // Normal case
+    @Test
+    public void testUpdatePost()
+    {
+        createDummyPost(false);
+
+        // Change dummy post which existed in Db
+        dummyPost.setTitle("title-changed");
+        dummyPost.setDescription("description-changed");
+        dummyPost.setContent("content-changed");
+
+        ResteasyWebTarget target = client.target(POST_URL);
+
+        Form form = new Form();
+        form.param("user_id", Integer.toString(dummyUser.getId()));
+        form.param("token", dummyUser.getToken());
+        form.param("post_id", Integer.toString(dummyPost.getId()));
+        form.param("title", dummyPost.getTitle());
+        form.param("description", dummyPost.getDescription());
+        form.param("content", dummyPost.getContent());
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage<Post> result = response.readEntity(new GenericType<ResultMessage<Post>>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(200, response.getStatus());
+
+        Post post = result.getData();
+        // Check edit time not null
+
+        assertNotNull(post.getEditTime());
+        // Ignore edit time
+        post.setEditTime(null);
+        // Check post
+        assertEquals(dummyPost, post);
+    }
+
+    // Miss userId
+    @Test
+    public void testUpdatePost2()
+    {
+        createDummyPost(false);
+
+        // Change dummy post which existed in Db
+        dummyPost.setTitle("title-changed");
+        dummyPost.setDescription("description-changed");
+        dummyPost.setContent("content-changed");
+
+        ResteasyWebTarget target = client.target(POST_URL);
+
+        Form form = new Form();
+        form.param("token", dummyUser.getToken());
+        form.param("post_id", Integer.toString(dummyPost.getId()));
+        form.param("title", dummyPost.getTitle());
+        form.param("description", dummyPost.getDescription());
+        form.param("content", dummyPost.getContent());
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage<Post> result = response.readEntity(new GenericType<ResultMessage<Post>>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(400, response.getStatus());
+    }
+
+    // Miss token
+    @Test
+    public void testUpdatePost3()
+    {
+        createDummyPost(false);
+
+        // Change dummy post which existed in Db
+        dummyPost.setTitle("title-changed");
+        dummyPost.setDescription("description-changed");
+        dummyPost.setContent("content-changed");
+
+        ResteasyWebTarget target = client.target(POST_URL);
+
+        Form form = new Form();
+        form.param("user_id", Integer.toString(dummyUser.getId()));
+        form.param("post_id", Integer.toString(dummyPost.getId()));
+        form.param("title", dummyPost.getTitle());
+        form.param("description", dummyPost.getDescription());
+        form.param("content", dummyPost.getContent());
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage<Post> result = response.readEntity(new GenericType<ResultMessage<Post>>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(400, response.getStatus());
+    }
+
+    // Miss post_id
+    @Test
+    public void testUpdatePost4()
+    {
+        createDummyPost(false);
+
+        // Change dummy post which existed in Db
+        dummyPost.setTitle("title-changed");
+        dummyPost.setDescription("description-changed");
+        dummyPost.setContent("content-changed");
+
+        ResteasyWebTarget target = client.target(POST_URL);
+
+        Form form = new Form();
+        form.param("user_id", Integer.toString(dummyUser.getId()));
+        form.param("token", dummyUser.getToken());
+        form.param("title", dummyPost.getTitle());
+        form.param("description", dummyPost.getDescription());
+        form.param("content", dummyPost.getContent());
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage<Post> result = response.readEntity(new GenericType<ResultMessage<Post>>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(400, response.getStatus());
+    }
+
+    // Miss title, description and content
+    @Test
+    public void testUpdatePost5()
+    {
+        createDummyPost(false);
+
+        ResteasyWebTarget target = client.target(POST_URL);
+
+        Form form = new Form();
+        form.param("user_id", Integer.toString(dummyUser.getId()));
+        form.param("token", dummyUser.getToken());
+        form.param("post_id", Integer.toString(dummyPost.getId()));
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage<Post> result = response.readEntity(new GenericType<ResultMessage<Post>>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(400, response.getStatus());
+    }
+
+    // Token invalid
+    @Test
+    public void testUpdatePost6()
+    {
+        createDummyPost(false);
+
+        // Change dummy post which existed in Db
+        dummyPost.setTitle("title-changed");
+        dummyPost.setDescription("description-changed");
+        dummyPost.setContent("content-changed");
+
+        ResteasyWebTarget target = client.target(POST_URL);
+
+        Form form = new Form();
+        form.param("user_id", Integer.toString(dummyUser.getId()));
+        // Revert to create invalid token
+        form.param("token", StringUtils.reverse(dummyUser.getToken()));
+        form.param("post_id", Integer.toString(dummyPost.getId()));
+        form.param("title", dummyPost.getTitle());
+        form.param("description", dummyPost.getDescription());
+        form.param("content", dummyPost.getContent());
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage<Post> result = response.readEntity(new GenericType<ResultMessage<Post>>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(401, response.getStatus());
+    }
+
+    // Not accessable
+    @Test
+    public void testUpdatePost7()
+    {
+        createDummyPost(false);
+        // Create other user
+        User otherUser = new User();
+        otherUser = new User();
+        otherUser.setUserName("thanhtri2");
+        otherUser.setFirstName("asxzdas");
+        otherUser.setLastName("ccrfzxc");
+        otherUser.setPassHash("password");
+
+        otherUser = userSer.add(otherUser);
+
+        // Change dummy post which existed in Db
+        dummyPost.setTitle("title-changed");
+        dummyPost.setDescription("description-changed");
+        dummyPost.setContent("content-changed");
+
+        ResteasyWebTarget target = client.target(POST_URL);
+
+        Form form = new Form();
+        // Other user and token
+        form.param("user_id", Integer.toString(otherUser.getId()));
+        form.param("token", otherUser.getToken());
+
+        form.param("post_id", Integer.toString(dummyPost.getId()));
+        form.param("title", dummyPost.getTitle());
+        form.param("description", dummyPost.getDescription());
+        form.param("content", dummyPost.getContent());
+
+        Response response = target.request().put(Entity.form(form));
+
+        ResultMessage<Post> result = response.readEntity(new GenericType<ResultMessage<Post>>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(403, response.getStatus());
+    }
 }

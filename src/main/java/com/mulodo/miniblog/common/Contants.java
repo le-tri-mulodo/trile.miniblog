@@ -43,28 +43,41 @@ public class Contants
     public static final String FOR_DB_ERR = "Database error: %s";
     public static final String MSG_TOKEN_ERR = "Token in request invaild or expired";
     public static final String FOR_TOKEN_ERR = "Token [%s] invaild or expired";
+    public static final String MSG_USER_PWD_INVALID = "Login with username or password invalid";
+    public static final String MSG_USER_PWD_INVALID_DTL = "User id or password invalid";
+    public static final String MSG_USER_NOT_EXIST = "User ID in request does not exist";
+    public static final String FOR_USER_NOT_EXIST = "User with id=%d does not exist";
+    public static final String MSG_PWD_INVALID = "User id or password invalid";
+    public static final String MSG_USER_EXIST = "Username existed";
+    public static final String MSG_MISS_ALL_FIELDS = "Miss all fields";
+    public static final String MSG_MISS_ALL_FIELDS_DTL = "Must have least one field to update";
+    public static final String MSG_FORBIDDEN = "Forbidden. User is not owner of resource";
+    public static final String FOR_FORBIDDEN = "User with id=%d is not owner of post with id=%d";
+    public static final String MSG_POST_NOT_EXIST = "Post does not exist";
+    public static final String FOR_POST_NOT_EXIST = "Post with id= %d does not exist";
 
     public static final String MSG_CREATE_USER_SCC = "Create user success!";
     public static final String MSG_UPDATE_USER_SCC = "Account updated success!";
     public static final String FOR_UPDATE_USER_SCC = "Search success! %d results";
     public static final String MSG_GET_USER_SCC = "Get user info success!";
-    public static final String MSG_CHANGE_PWD_SCC ="Change password success!";
-    public static final String MSG_USER_EXIST = "Username existed";
+    public static final String MSG_CHANGE_PWD_SCC = "Change password success!";
+    public static final String MSG_LOGIN_SCC = "Login success!";
+    public static final String MSG_LOGOUT_SCC = "Logout success!";
+    public static final String MSG_CREATE_POST_SCC ="Create post success!";
+    public static final String MSG_UPDATE_POST_SCC = "Update post success!";
+    public static final String MSG_ACT_DEACT_SCC = "Active/Deactive post success!";
 
-    public static final String MSG_USER_NOT_EXIST = "User ID in request does not exist";
-    public static final String FOR_USER_NOT_EXIST = "User with id=%d does not exist";
-    
-    public static final String MSG_PWD_INVALID ="User id or password invalid";
-
-    public static final int CODE_INTERNAL_ERR = 500;
-    public static final int CODE_CREATED = 201;
+    public static final int CODE_INPUT_ERR = 1;
     public static final int CODE_OK = 200;
+    public static final int CODE_CREATED = 201;
     public static final int CODE_BAD_REQUEST = 400;
     public static final int CODE_UNAUTHORIZED = 401;
-
-    public static final int CODE_USER_EXIST = 1001;
-    public static final int CODE_PWD_INVALID = 1002;
-    public static final int CODE_DB_ERR = 9001;
+    public static final int CODE_FORBIDDEN = 403;
+    public static final int CODE_INTERNAL_ERR = 500;
+    public static final int CODE_TOKEN_ERR = 1001;
     public static final int CODE_USER_NOT_EXIST = 2001;
+    public static final int CODE_PWD_INVALID = 1002;
+    public static final int CODE_POST_NOT_EXIST = 2501;
+    public static final int CODE_DB_ERR = 9001;
 
 }

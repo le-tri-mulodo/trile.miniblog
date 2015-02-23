@@ -86,7 +86,7 @@ public class UserController
             // Log
             logger.warn("Username [{}] existed", username);
 
-            ResultMessage errorMsg = new ResultMessage(Contants.CODE_USER_EXIST,
+            ResultMessage errorMsg = new ResultMessage(Contants.CODE_INPUT_ERR,
                     Contants.MSG_USER_EXIST, Contants.MSG_USER_EXIST);
 
             return Response.status(Contants.CODE_BAD_REQUEST).entity(errorMsg).build();
@@ -151,12 +151,22 @@ public class UserController
             String token)
     {
 
+        // Check have any field change?
+        if (null == firstname && null == lastname && null == avatarlink) {
+            // Log
+            logger.warn(Contants.MSG_MISS_ALL_FIELDS);
+            // Miss all fields
+            ResultMessage missAllFieldsMsg = new ResultMessage(Contants.CODE_INPUT_ERR,
+                    Contants.MSG_MISS_ALL_FIELDS, Contants.MSG_MISS_ALL_FIELDS_DTL);
+            return Response.status(Contants.CODE_BAD_REQUEST).entity(missAllFieldsMsg).build();
+        }
+
         // Check token
         if (!tokenSer.checkToken(user_id, token)) {
             // Log
             logger.warn("Token {} invaild or expired", token);
             // Unauthorized
-            ResultMessage unauthorizedMsg = new ResultMessage(Contants.CODE_USER_EXIST,
+            ResultMessage unauthorizedMsg = new ResultMessage(Contants.CODE_TOKEN_ERR,
                     Contants.MSG_TOKEN_ERR, String.format(Contants.FOR_TOKEN_ERR, token));
             return Response.status(Contants.CODE_UNAUTHORIZED).entity(unauthorizedMsg).build();
         }
@@ -290,8 +300,8 @@ public class UserController
         }
 
         // Response success
-        ResultMessage<User> result = new ResultMessage<User>(Contants.CODE_PWD_INVALID,
+        ResultMessage<User> result = new ResultMessage<User>(Contants.CODE_OK,
                 Contants.MSG_CHANGE_PWD_SCC, user);
-        return Response.status(Contants.CODE_PWD_INVALID).entity(result).build();
+        return Response.status(Contants.CODE_OK).entity(result).build();
     }
 }

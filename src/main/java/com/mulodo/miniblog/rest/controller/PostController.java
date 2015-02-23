@@ -47,6 +47,7 @@ public class PostController
     @Autowired
     private PostService postSer;
 
+    @SuppressWarnings("rawtypes")
     @Path(Contants.URL_ADD)
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -79,12 +80,12 @@ public class PostController
 
         // Check token
         if (!tokenSer.checkToken(user_id, token)) {
-            logger.warn("Token in request invaild or expired");
-            // Response username or password invalid
-            ResultMessage unauthorizedMsg = new ResultMessage(1001,
-                    "Token in request invaild or expired", String.format(
-                            "Token [%s] invaild or expired", token));
-            return Response.status(401).entity(unauthorizedMsg).build();
+            // Log
+            logger.warn("Token {} invaild or expired", token);
+            // Unauthorized
+            ResultMessage unauthorizedMsg = new ResultMessage(Contants.CODE_TOKEN_ERR,
+                    Contants.MSG_TOKEN_ERR, String.format(Contants.FOR_TOKEN_ERR, token));
+            return Response.status(Contants.CODE_UNAUTHORIZED).entity(unauthorizedMsg).build();
         }
 
         // Create new post to call service
@@ -99,18 +100,21 @@ public class PostController
         try {
             postSer.add(post);
         } catch (HibernateException e) {
-            logger.warn("Database access error");
-            // Response db error
-            ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error",
-                    String.format("Database error: %s", e.getMessage()));
-            return Response.status(500).entity(dbErrMsg).build();
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
+            // Response error
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
         }
 
         // Response success
-        ResultMessage<Post> result = new ResultMessage<Post>(201, "Create post success!", post);
-        return Response.status(201).entity(result).build();
+        ResultMessage<Post> result = new ResultMessage<Post>(Contants.CODE_CREATED,
+                Contants.MSG_CREATE_POST_SCC, post);
+        return Response.status(Contants.CODE_CREATED).entity(result).build();
     }
 
+    @SuppressWarnings("rawtypes")
     @Path(Contants.URL_UPDATE)
     @PUT
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -144,30 +148,31 @@ public class PostController
 
         // Check have any field change?
         if (null == title && null == description && null == content) {
+            // Log
+            logger.warn(Contants.MSG_MISS_ALL_FIELDS);
             // Miss all fields
-            ResultMessage unauthorizedMsg = new ResultMessage(1, "Miss all fields",
-                    "Must have least one field to update");
-            return Response.status(400).entity(unauthorizedMsg).build();
+            ResultMessage missAllFieldsMsg = new ResultMessage(Contants.CODE_INPUT_ERR,
+                    Contants.MSG_MISS_ALL_FIELDS, Contants.MSG_MISS_ALL_FIELDS_DTL);
+            return Response.status(Contants.CODE_BAD_REQUEST).entity(missAllFieldsMsg).build();
         }
 
         // Check token
         if (!tokenSer.checkToken(user_id, token)) {
-            logger.warn("Token in request invaild or expired");
-            // Response username or password invalid
-            ResultMessage unauthorizedMsg = new ResultMessage(1001,
-                    "Token in request invaild or expired", String.format(
-                            "Token [%s] invaild or expired", token));
-            return Response.status(401).entity(unauthorizedMsg).build();
+            // Log
+            logger.warn("Token {} invaild or expired", token);
+            // Unauthorized
+            ResultMessage unauthorizedMsg = new ResultMessage(Contants.CODE_TOKEN_ERR,
+                    Contants.MSG_TOKEN_ERR, String.format(Contants.FOR_TOKEN_ERR, token));
+            return Response.status(Contants.CODE_UNAUTHORIZED).entity(unauthorizedMsg).build();
         }
 
         // Check owner
         if (!postSer.checkOwner(post_id, user_id)) {
             logger.warn("Token in request invaild or expired");
             // Response username or password invalid
-            ResultMessage forbiddenMsg = new ResultMessage(403,
-                    "Forbidden. User is not owner of resource", String.format(
-                            "User with id=%d is not owner of post with id=%d", user_id, post_id));
-            return Response.status(403).entity(forbiddenMsg).build();
+            ResultMessage forbiddenMsg = new ResultMessage(Contants.CODE_FORBIDDEN,
+                    Contants.MSG_FORBIDDEN, String.format(Contants.FOR_FORBIDDEN, user_id, post_id));
+            return Response.status(Contants.CODE_FORBIDDEN).entity(forbiddenMsg).build();
         }
 
         // Create new post to call service
@@ -182,25 +187,27 @@ public class PostController
         try {
             post = postSer.update(post);
         } catch (HibernateException e) {
-            logger.warn("Database access error");
-            // Response db error
-            ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error",
-                    String.format("Database error: %s", e.getMessage()));
-            return Response.status(500).entity(dbErrMsg).build();
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
+            // Response error
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
         }
-        
+
         // Check post exist
-        if(null == post){
-            logger.warn("Database access error");
-            // Response db error
-            ResultMessage postErrMsg = new ResultMessage(2501, "Post does not exist",
-                    String.format("Post with id=%d does not exist", post_id));
-            return Response.status(400).entity(postErrMsg).build();
+        if (null == post) {
+            logger.warn("Post does not exist");
+            ResultMessage postErrMsg = new ResultMessage(Contants.CODE_POST_NOT_EXIST,
+                    Contants.MSG_POST_NOT_EXIST,
+                    String.format(Contants.FOR_POST_NOT_EXIST, post_id));
+            return Response.status(Contants.CODE_BAD_REQUEST).entity(postErrMsg).build();
         }
 
         // Response success
-        ResultMessage<Post> result = new ResultMessage<Post>(200, "Update post success!", post);
-        return Response.status(200).entity(result).build();
+        ResultMessage<Post> result = new ResultMessage<Post>(Contants.CODE_OK,
+                Contants.MSG_UPDATE_POST_SCC, post);
+        return Response.status(Contants.CODE_OK).entity(result).build();
     }
 
     @Path(Contants.URL_DELETE)
@@ -211,6 +218,7 @@ public class PostController
         return Response.status(200).build();
     }
 
+    @SuppressWarnings("rawtypes")
     @Path(Contants.URL_PUBLICT)
     @PUT
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -233,14 +241,21 @@ public class PostController
     {
 
         // Check token
-        if (!tokenSer.checkToken(user_id, token)) {
+        if (!tokenSer.checkToken(user_id, token)) { // Log
+            logger.warn("Token {} invaild or expired", token);
+            // Unauthorized
+            ResultMessage unauthorizedMsg = new ResultMessage(Contants.CODE_TOKEN_ERR,
+                    Contants.MSG_TOKEN_ERR, String.format(Contants.FOR_TOKEN_ERR, token));
+            return Response.status(Contants.CODE_UNAUTHORIZED).entity(unauthorizedMsg).build();
+        }
 
+        // Check owner
+        if (!postSer.checkOwner(post_id, user_id)) {
             logger.warn("Token in request invaild or expired");
             // Response username or password invalid
-            ResultMessage unauthorizedMsg = new ResultMessage(1001,
-                    "Token in request invaild or expired", String.format(
-                            "Token [%s] invaild or expired", token));
-            return Response.status(401).entity(unauthorizedMsg).build();
+            ResultMessage forbiddenMsg = new ResultMessage(Contants.CODE_FORBIDDEN,
+                    Contants.MSG_FORBIDDEN, String.format(Contants.FOR_FORBIDDEN, user_id, post_id));
+            return Response.status(Contants.CODE_FORBIDDEN).entity(forbiddenMsg).build();
         }
 
         Post post = null;
@@ -248,24 +263,27 @@ public class PostController
         try {
             post = postSer.activeDeactive(post_id, active);
         } catch (HibernateException e) {
-            logger.warn("Database access error");
-            // Response db error
-            ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error",
-                    String.format("Database error: %s", e.getMessage()));
-            return Response.status(500).entity(dbErrMsg).build();
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
+            // Response error
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
         }
 
         // Check post exist
         if (null == post) {
             logger.warn("Post does not exist");
-            ResultMessage postErrMsg = new ResultMessage(9001, "Post does not exist",
-                    String.format("Post with id= %d does not exist", post_id));
-            return Response.status(400).entity(postErrMsg).build();
+            ResultMessage postErrMsg = new ResultMessage(Contants.CODE_POST_NOT_EXIST,
+                    Contants.MSG_POST_NOT_EXIST,
+                    String.format(Contants.FOR_POST_NOT_EXIST, post_id));
+            return Response.status(Contants.CODE_BAD_REQUEST).entity(postErrMsg).build();
         }
 
         // Response success
-        ResultMessage<Post> result = new ResultMessage<Post>(200, "Create post success!", post);
-        return Response.status(200).entity(result).build();
+        ResultMessage<Post> result = new ResultMessage<Post>(Contants.CODE_OK,
+                Contants.MSG_ACT_DEACT_SCC, post);
+        return Response.status(Contants.CODE_OK).entity(result).build();
     }
 
     @Path(Contants.URL_GET)

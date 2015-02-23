@@ -72,25 +72,30 @@ public class TokenController
 
         User userInfo = userSer.checkPasswordGetUserInfo(username, password);
         if (null == userInfo) {
-            // Response username or password invalid
-            ResultMessage errorMsg = new ResultMessage(1002,
-                    "Login with username or password invalid", "User id or password invalid");
-            return Response.status(401).entity(errorMsg).build();
+            // log
+            logger.warn("User [{}] or password invalid", username);
+            // Response error
+            ResultMessage invalidMsg = new ResultMessage(Contants.CODE_PWD_INVALID,
+                    Contants.MSG_USER_PWD_INVALID, Contants.MSG_USER_PWD_INVALID_DTL);
+            return Response.status(Contants.CODE_UNAUTHORIZED).entity(invalidMsg).build();
         }
 
         Token token = null;
         try {
             token = tokenSer.login(userInfo);
         } catch (HibernateException e) {
-            // Response db error
-            ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error",
-                    String.format("Database error: %s", e.getMessage()));
-            return Response.status(500).entity(dbErrMsg).build();
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
+            // Response error
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
         }
 
         // Response success
-        ResultMessage<Token> successMsg = new ResultMessage<Token>(200, "Login success!", token);
-        return Response.status(200).entity(successMsg).build();
+        ResultMessage<Token> successMsg = new ResultMessage<Token>(Contants.CODE_OK,
+                Contants.MSG_LOGIN_SCC, token);
+        return Response.status(Contants.CODE_OK).entity(successMsg).build();
     }
 
     /**
@@ -99,6 +104,7 @@ public class TokenController
      * @param token
      * @return Response to client
      */
+    @SuppressWarnings("rawtypes")
     @Path(Contants.URL_LOGOUT)
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -113,23 +119,24 @@ public class TokenController
         try {
             deleteStatus = tokenSer.logout(token);
         } catch (HibernateException e) {
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
             // Response error
-            ResultMessage dbErrMsg = new ResultMessage(9001, "Database access error",
-                    String.format("Database error: %s", e.getMessage()));
-            return Response.status(500).entity(dbErrMsg).build();
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
         }
 
         if (deleteStatus) {
             // Response success
-            ResultMessage successMsg = new ResultMessage(200, "Logout success!");
-            return Response.status(200).entity(successMsg).build();
+            ResultMessage successMsg = new ResultMessage(Contants.CODE_OK, Contants.MSG_LOGOUT_SCC);
+            return Response.status(Contants.CODE_OK).entity(successMsg).build();
         }
 
         // Response token invalid or expired
-        ResultMessage unauthorizedMsg = new ResultMessage(1001,
-                "Token in request invaild or expired", String.format(
-                        "Token [%s] invaild or expired", token));
-        return Response.status(401).entity(unauthorizedMsg).build();
+        ResultMessage unauthorizedMsg = new ResultMessage(Contants.CODE_TOKEN_ERR,
+                Contants.MSG_TOKEN_ERR, String.format(Contants.FOR_TOKEN_ERR, token));
+        return Response.status(Contants.CODE_UNAUTHORIZED).entity(unauthorizedMsg).build();
     }
 
 }

@@ -32,7 +32,7 @@ public class CommonDAOImpl<T> implements CommonDAO<T>
     public CommonDAOImpl() {
         this.GENERIC_TYPE = (Class<T>) GenericTypeResolver.resolveTypeArgument(getClass(),
                 CommonDAOImpl.class);
-        this.T_TYPE = "FROM" + GENERIC_TYPE.getName();
+        this.T_TYPE = "FROM " + GENERIC_TYPE.getName();
     }
 
     /**

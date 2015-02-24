@@ -9,6 +9,7 @@ import static org.junit.Assert.assertNull;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -1026,6 +1027,32 @@ public class PostControllerTest
         assertEquals(Contants.CODE_OK, response.getStatus());
         // Check result
         assertEquals(dummyPosts, result.getData());
+    }
+
+    @Test
+    public void testGetByUser()
+    {
+        // Post index
+        int postIdx = 5;
+        // Create 10 user and 10 post
+        List<Post> dummyPosts = createDummyPosts(9);
+        // Get post #5
+        List<Post> expectedPosts = Arrays.asList(dummyPosts.get(postIdx));
+
+        ResteasyWebTarget target = client.target(POST_URL + "/users/"
+                + dummyPosts.get(postIdx).getUser().getId());
+
+        Response response = target.request().get();
+
+        ResultMessage<List<Post>> result = response
+                .readEntity(new GenericType<ResultMessage<List<Post>>>() {
+                });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_OK, response.getStatus());
+        // Check result
+        assertEquals(expectedPosts, result.getData());
     }
 
     private List<Post> createDummyPosts(int size)

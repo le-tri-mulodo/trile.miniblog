@@ -8,19 +8,19 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import javax.mail.Header;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
-import org.jboss.resteasy.specimpl.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +51,8 @@ public class PostControllerTest
     private TokenService tokenSer;
     @Autowired
     private PostService postSer;
+
+    private int userCounter = 0;
 
     ResteasyClient client = new ResteasyClientBuilder().build();
     String ROOT_URL = "http://localhost:8080/miniblog.api";
@@ -86,7 +88,7 @@ public class PostControllerTest
     {
         // Create user
         dummyUser = new User();
-        dummyUser.setUserName("thanhtri");
+        dummyUser.setUserName("thanhtri" + userCounter++);
         dummyUser.setFirstName("asxzdas");
         dummyUser.setLastName("ccrfzxc");
         dummyUser.setPassHash("password");
@@ -963,5 +965,83 @@ public class PostControllerTest
 
         // Check status
         assertEquals(Contants.CODE_FORBIDDEN, response.getStatus());
+    }
+
+    // 0 result
+    @Test
+    public void testGetAllPost()
+    {
+        ResteasyWebTarget target = client.target(POST_URL);
+
+        Response response = target.request().get();
+
+        ResultMessage<List<Post>> result = response
+                .readEntity(new GenericType<ResultMessage<List<Post>>>() {
+                });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_OK, response.getStatus());
+        // Check result size
+        assertEquals(0, result.getData().size());
+    }
+
+    // 1 result
+    @Test
+    public void testGetAllPost2()
+    {
+        List<Post> dummyPosts = createDummyPosts(1);
+
+        ResteasyWebTarget target = client.target(POST_URL);
+
+        Response response = target.request().get();
+
+        ResultMessage<List<Post>> result = response
+                .readEntity(new GenericType<ResultMessage<List<Post>>>() {
+                });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_OK, response.getStatus());
+        // Check result
+        assertEquals(dummyPosts, result.getData());
+    }
+
+    // n result
+    @Test
+    public void testGetAllPost3()
+    {
+        List<Post> dummyPosts = createDummyPosts(9);
+
+        ResteasyWebTarget target = client.target(POST_URL);
+
+        Response response = target.request().get();
+
+        ResultMessage<List<Post>> result = response
+                .readEntity(new GenericType<ResultMessage<List<Post>>>() {
+                });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_OK, response.getStatus());
+        // Check result
+        assertEquals(dummyPosts, result.getData());
+    }
+
+    private List<Post> createDummyPosts(int size)
+    {
+        List<Post> dummyPosts = new ArrayList<Post>();
+
+        for (int i = 0; i < size; i++) {
+            // create dummy post
+            createDummyPost(true);
+
+            // Add to list
+            dummyPosts.add(dummyPost);
+        }
+
+        // reverse list because list got order by create date
+        Collections.reverse(dummyPosts);
+        return dummyPosts;
     }
 }

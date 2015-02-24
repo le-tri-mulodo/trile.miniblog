@@ -100,9 +100,10 @@ public class UserServiceImpl implements UserService
      */
     @Override
     @Transactional
-    public void delete(User entity)
+    public boolean delete(User entity)
     {
         userDAO.delete(entity);
+        return true;
     }
 
     /**

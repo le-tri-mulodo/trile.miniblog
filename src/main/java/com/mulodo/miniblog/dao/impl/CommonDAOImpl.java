@@ -85,7 +85,7 @@ public class CommonDAOImpl<T> implements CommonDAO<T>
     public List<T> list()
     {
         Session session = sf.getCurrentSession();
-        Query listQuery = session.createQuery("from " + T_TYPE);
+        Query listQuery = session.createQuery("FROM " + T_TYPE);
         return listQuery.list();
     }
 
@@ -123,7 +123,7 @@ public class CommonDAOImpl<T> implements CommonDAO<T>
     public void deleteAll()
     {
         Session session = sf.getCurrentSession();
-        Query query = session.createQuery("delete " + T_TYPE);
+        Query query = session.createQuery("DELETE " + T_TYPE);
         query.executeUpdate();
     }
 }

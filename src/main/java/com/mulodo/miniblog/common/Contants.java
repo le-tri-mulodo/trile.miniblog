@@ -20,6 +20,7 @@ public class Contants
 
     public static final String URL_ADD = "/";
     public static final String URL_UPDATE = "/";
+    // public static final String URL_DELETE = "/{post_id}/{user_id}/{token}";
     public static final String URL_DELETE = "/";
     public static final String URL_GET = "/";
     public static final String URL_SEARCH = "/search/{query}";
@@ -52,7 +53,7 @@ public class Contants
     public static final String MSG_MISS_ALL_FIELDS = "Miss all fields";
     public static final String MSG_MISS_ALL_FIELDS_DTL = "Must have least one field to update";
     public static final String MSG_FORBIDDEN = "Forbidden. User is not owner of resource";
-    public static final String FOR_FORBIDDEN = "User with id=%d is not owner of post with id=%d";
+    public static final String FOR_FORBIDDEN_POST = "User with id=%d is not owner of post with id=%d";
     public static final String MSG_POST_NOT_EXIST = "Post does not exist";
     public static final String FOR_POST_NOT_EXIST = "Post with id= %d does not exist";
 
@@ -63,9 +64,11 @@ public class Contants
     public static final String MSG_CHANGE_PWD_SCC = "Change password success!";
     public static final String MSG_LOGIN_SCC = "Login success!";
     public static final String MSG_LOGOUT_SCC = "Logout success!";
-    public static final String MSG_CREATE_POST_SCC ="Create post success!";
+    public static final String MSG_CREATE_POST_SCC = "Create post success!";
     public static final String MSG_UPDATE_POST_SCC = "Update post success!";
     public static final String MSG_ACT_DEACT_SCC = "Active/Deactive post success!";
+    public static final String FOR_GET_ALL_POST_SCC = "Get all posts success! %d results";
+    public static final String MSG_DELETE_POST_SCC = "Delete post success!";
 
     public static final int CODE_INPUT_ERR = 1;
     public static final int CODE_OK = 200;

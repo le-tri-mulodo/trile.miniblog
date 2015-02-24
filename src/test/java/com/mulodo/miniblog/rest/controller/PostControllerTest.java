@@ -9,15 +9,18 @@ import static org.junit.Assert.assertNull;
 
 import java.sql.Timestamp;
 
+import javax.mail.Header;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import org.jboss.resteasy.specimpl.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -169,7 +172,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(400, response.getStatus());
+        assertEquals(Contants.CODE_BAD_REQUEST, response.getStatus());
     }
 
     // Miss token
@@ -202,7 +205,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(400, response.getStatus());
+        assertEquals(Contants.CODE_BAD_REQUEST, response.getStatus());
     }
 
     // Miss title
@@ -235,7 +238,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(400, response.getStatus());
+        assertEquals(Contants.CODE_BAD_REQUEST, response.getStatus());
     }
 
     // Miss description
@@ -268,7 +271,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(400, response.getStatus());
+        assertEquals(Contants.CODE_BAD_REQUEST, response.getStatus());
     }
 
     // Miss content
@@ -301,7 +304,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(400, response.getStatus());
+        assertEquals(Contants.CODE_BAD_REQUEST, response.getStatus());
     }
 
     // Token invalid
@@ -336,7 +339,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(401, response.getStatus());
+        assertEquals(Contants.CODE_UNAUTHORIZED, response.getStatus());
     }
 
     // Normal case. Active, change
@@ -361,7 +364,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(200, response.getStatus());
+        assertEquals(Contants.CODE_OK, response.getStatus());
 
         Post post = result.getData();
         assertNotNull(post.getPublicTime());
@@ -394,7 +397,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(200, response.getStatus());
+        assertEquals(Contants.CODE_OK, response.getStatus());
 
         Post post = result.getData();
         // Check
@@ -423,7 +426,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(200, response.getStatus());
+        assertEquals(Contants.CODE_OK, response.getStatus());
 
         Post post = result.getData();
         assertNull(post.getPublicTime());
@@ -456,7 +459,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(200, response.getStatus());
+        assertEquals(Contants.CODE_OK, response.getStatus());
 
         Post post = result.getData();
         // Check
@@ -485,7 +488,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(401, response.getStatus());
+        assertEquals(Contants.CODE_UNAUTHORIZED, response.getStatus());
     }
 
     // Miss userId
@@ -509,7 +512,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(400, response.getStatus());
+        assertEquals(Contants.CODE_BAD_REQUEST, response.getStatus());
     }
 
     // Miss token
@@ -533,7 +536,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(400, response.getStatus());
+        assertEquals(Contants.CODE_BAD_REQUEST, response.getStatus());
     }
 
     // Miss postId
@@ -557,7 +560,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(400, response.getStatus());
+        assertEquals(Contants.CODE_BAD_REQUEST, response.getStatus());
     }
 
     // Miss active flag
@@ -581,7 +584,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(400, response.getStatus());
+        assertEquals(Contants.CODE_BAD_REQUEST, response.getStatus());
     }
 
     // Normal case
@@ -612,7 +615,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(200, response.getStatus());
+        assertEquals(Contants.CODE_OK, response.getStatus());
 
         Post post = result.getData();
         // Check edit time not null
@@ -651,7 +654,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(400, response.getStatus());
+        assertEquals(Contants.CODE_BAD_REQUEST, response.getStatus());
     }
 
     // Miss token
@@ -681,7 +684,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(400, response.getStatus());
+        assertEquals(Contants.CODE_BAD_REQUEST, response.getStatus());
     }
 
     // Miss post_id
@@ -711,7 +714,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(400, response.getStatus());
+        assertEquals(Contants.CODE_BAD_REQUEST, response.getStatus());
     }
 
     // Miss title, description and content
@@ -734,7 +737,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(400, response.getStatus());
+        assertEquals(Contants.CODE_BAD_REQUEST, response.getStatus());
     }
 
     // Token invalid
@@ -766,7 +769,7 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(401, response.getStatus());
+        assertEquals(Contants.CODE_UNAUTHORIZED, response.getStatus());
     }
 
     // Not accessable
@@ -808,6 +811,157 @@ public class PostControllerTest
         response.close();
 
         // Check status
-        assertEquals(403, response.getStatus());
+        assertEquals(Contants.CODE_FORBIDDEN, response.getStatus());
+    }
+
+    // Normal case
+    @Test
+    public void testDeletePost()
+    {
+        createDummyPost(false);
+
+        ResteasyWebTarget target = client.target(POST_URL);
+
+        Response response = target.request()
+        // user_id
+                .header("user_id", dummyUser.getId())
+                // token
+                .header("token", dummyUser.getToken())
+                // post_id
+                .header("post_id", dummyPost.getId()).delete();
+        // delete()(Entity.form(form));
+
+        ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_OK, response.getStatus());
+    }
+
+    // Miss user
+    @Test
+    public void testDeletePost2()
+    {
+        createDummyPost(false);
+
+        ResteasyWebTarget target = client.target(POST_URL);
+
+        Response response = target.request()
+        // user_id
+        // .header("user_id", dummyUser.getId())
+        // token
+                .header("token", dummyUser.getToken())
+                // post_id
+                .header("post_id", dummyPost.getId()).delete();
+        // delete()(Entity.form(form));
+
+        ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_BAD_REQUEST, response.getStatus());
+    }
+
+    // Miss token
+    @Test
+    public void testDeletePost3()
+    {
+        createDummyPost(false);
+
+        ResteasyWebTarget target = client.target(POST_URL);
+
+        Response response = target.request()
+        // user_id
+                .header("user_id", dummyUser.getId())
+                // token
+                // .header("token", dummyUser.getToken())
+                // post_id
+                .header("post_id", dummyPost.getId()).delete();
+        // delete()(Entity.form(form));
+
+        ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_BAD_REQUEST, response.getStatus());
+    }
+
+    // Miss post id
+    @Test
+    public void testDeletePost4()
+    {
+        createDummyPost(false);
+
+        ResteasyWebTarget target = client.target(POST_URL);
+
+        Response response = target.request()
+        // user_id
+                .header("user_id", dummyUser.getId())
+                // token
+                .header("token", dummyUser.getToken())
+                // post_id
+                // .header("post_id", dummyPost.getId())
+                .delete();
+        // delete()(Entity.form(form));
+
+        ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_BAD_REQUEST, response.getStatus());
+    }
+
+    // Token invalid
+    @Test
+    public void testDeletePost5()
+    {
+        createDummyPost(false);
+
+        ResteasyWebTarget target = client.target(POST_URL);
+
+        Response response = target.request()
+        // user_id
+                .header("user_id", dummyUser.getId())
+                // revert token to create invalid token
+                .header("token", StringUtils.reverse(dummyUser.getToken()))
+                // post_id
+                .header("post_id", dummyPost.getId()).delete();
+        // delete()(Entity.form(form));
+
+        ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_UNAUTHORIZED, response.getStatus());
+    }
+
+    // Not owner
+    @Test
+    public void testDeletePost6()
+    {
+        createDummyPost(false);
+
+        ResteasyWebTarget target = client.target(POST_URL);
+
+        Response response = target.request()
+        // user_id
+                .header("user_id", dummyUser.getId())
+                // token
+                .header("token", dummyUser.getToken())
+                // decrease post_id
+                .header("post_id", dummyPost.getId() - 1).delete();
+        // delete()(Entity.form(form));
+
+        ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_FORBIDDEN, response.getStatus());
     }
 }

@@ -3,6 +3,8 @@
  */
 package com.mulodo.miniblog.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
@@ -35,4 +37,16 @@ public class PostDAOImpl extends CommonDAOImpl<Post> implements PostDAO
         return (0 < (long) query.uniqueResult());
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Post> list()
+    {
+        Session session = sf.getCurrentSession();
+        Query listQuery = session.createQuery("FROM Post p WHERE p.publicTime IS NOT NULL "
+                + "ORDER BY createTime DESC");
+        return listQuery.list();
+    }
 }

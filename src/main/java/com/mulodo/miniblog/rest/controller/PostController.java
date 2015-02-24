@@ -3,6 +3,8 @@
  */
 package com.mulodo.miniblog.rest.controller;
 
+import java.util.List;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -10,6 +12,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -171,7 +174,7 @@ public class PostController
             logger.warn("Token in request invaild or expired");
             // Response username or password invalid
             ResultMessage forbiddenMsg = new ResultMessage(Contants.CODE_FORBIDDEN,
-                    Contants.MSG_FORBIDDEN, String.format(Contants.FOR_FORBIDDEN, user_id, post_id));
+                    Contants.MSG_FORBIDDEN, String.format(Contants.FOR_FORBIDDEN_POST, user_id, post_id));
             return Response.status(Contants.CODE_FORBIDDEN).entity(forbiddenMsg).build();
         }
 
@@ -210,12 +213,75 @@ public class PostController
         return Response.status(Contants.CODE_OK).entity(result).build();
     }
 
+    @SuppressWarnings("rawtypes")
     @Path(Contants.URL_DELETE)
     @DELETE
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response delete(@FormParam("token") String token)
+    public Response delete(
+            @NotNull(message = "{user_id.NotNull}")
+            @HeaderParam(value = "user_id")
+            @Min(value = 0)
+            Integer user_id,
+
+            @NotNull(message = "{token.NotNull}")
+            @Size(min = 64, max = 64, message = "{token.Size}")
+            @HeaderParam(value = "token")
+            String token,
+
+            @NotNull(message = "{post_id.NotNull}")
+            @HeaderParam(value = "post_id") @Min(value = 0)
+            Integer post_id)
     {
-        return Response.status(200).build();
+
+        // Check token
+        if (!tokenSer.checkToken(user_id, token)) {
+            // Log
+            logger.warn("Token {} invaild or expired", token);
+            // Unauthorized
+            ResultMessage unauthorizedMsg = new ResultMessage(Contants.CODE_TOKEN_ERR,
+                    Contants.MSG_TOKEN_ERR, String.format(Contants.FOR_TOKEN_ERR, token));
+            return Response.status(Contants.CODE_UNAUTHORIZED).entity(unauthorizedMsg).build();
+        }
+
+        // Check owner
+        if (!postSer.checkOwner(post_id, user_id)) {
+            logger.warn("Token in request invaild or expired");
+            // Response username or password invalid
+            ResultMessage forbiddenMsg = new ResultMessage(Contants.CODE_FORBIDDEN,
+                    Contants.MSG_FORBIDDEN, String.format(Contants.FOR_FORBIDDEN_POST, user_id,
+                            post_id));
+            return Response.status(Contants.CODE_FORBIDDEN).entity(forbiddenMsg).build();
+        }
+
+        // Create new post to call service
+        Post post = new Post();
+        // Set postId
+        post.setId(post_id);
+
+        // Call service to delete from Db
+        boolean deleteStatus;
+        try {
+            deleteStatus = postSer.delete(post);
+        } catch (HibernateException e) {
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
+            // Response error
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
+        }
+
+        // Check post exist
+        if (!deleteStatus) {
+            logger.warn("Post does not exist");
+            ResultMessage postErrMsg = new ResultMessage(Contants.CODE_POST_NOT_EXIST,
+                    Contants.MSG_POST_NOT_EXIST,
+                    String.format(Contants.FOR_POST_NOT_EXIST, post_id));
+            return Response.status(Contants.CODE_BAD_REQUEST).entity(postErrMsg).build();
+        }
+        // Response success
+        ResultMessage result = new ResultMessage(Contants.CODE_OK, Contants.MSG_DELETE_POST_SCC);
+        return Response.status(Contants.CODE_OK).entity(result).build();
     }
 
     @SuppressWarnings("rawtypes")
@@ -254,7 +320,7 @@ public class PostController
             logger.warn("Token in request invaild or expired");
             // Response username or password invalid
             ResultMessage forbiddenMsg = new ResultMessage(Contants.CODE_FORBIDDEN,
-                    Contants.MSG_FORBIDDEN, String.format(Contants.FOR_FORBIDDEN, user_id, post_id));
+                    Contants.MSG_FORBIDDEN, String.format(Contants.FOR_FORBIDDEN_POST, user_id, post_id));
             return Response.status(Contants.CODE_FORBIDDEN).entity(forbiddenMsg).build();
         }
 
@@ -286,11 +352,27 @@ public class PostController
         return Response.status(Contants.CODE_OK).entity(result).build();
     }
 
+    @SuppressWarnings("rawtypes")
     @Path(Contants.URL_GET)
     @GET
     public Response allPost()
     {
-        return Response.status(200).build();
+        List<Post> posts = null;
+        // Call service to get all public post from Db
+        try {
+            posts = postSer.allPost();
+        } catch (HibernateException e) {
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
+            // Response error
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
+        }
+        // Response success
+        ResultMessage<List<Post>> result = new ResultMessage<List<Post>>(Contants.CODE_OK,
+                String.format(Contants.FOR_GET_ALL_POST_SCC, posts.size()), posts);
+        return Response.status(Contants.CODE_OK).entity(result).build();
     }
 
     @Path(Contants.URL_TOP)

@@ -199,9 +199,16 @@ public class PostServiceImpl implements PostService
 
     @Transactional(readOnly = true)
     @Override
-    public List<Post> allPost()
+    public List<Post> list()
     {
         return postDAO.list();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Post> getByUserId(int userId)
+    {
+        return postDAO.getByUserId(userId);
     }
 
 }

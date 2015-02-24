@@ -3,6 +3,8 @@
  */
 package com.mulodo.miniblog.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -136,7 +138,7 @@ public class TokenServiceImpl implements TokenService
         // Call token service to create and insert token into db
         Token token = createNewToken(user);
         // Set username and userId
-        token.setUserid(user.getId());
+//        token.setUserid(user.getId());
         token.setUserName(user.getUserName());
 
         return token;
@@ -150,5 +152,12 @@ public class TokenServiceImpl implements TokenService
     public boolean logout(String token)
     {
         return tokenDAO.deleteToken(token);
+    }
+
+    @Override
+    public List<Token> list()
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

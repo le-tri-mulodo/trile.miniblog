@@ -133,7 +133,8 @@ public class PostController
             String token,
 
             @NotNull(message = "{post_id.NotNull}")
-            @FormParam(value = "post_id") @Min(value = 0)
+            @FormParam(value = "post_id")
+            @Min(value = 0)
             Integer post_id,
 
             @Size(min = 1, max = 128, message = "{title.Size}")
@@ -174,7 +175,8 @@ public class PostController
             logger.warn("Token in request invaild or expired");
             // Response username or password invalid
             ResultMessage forbiddenMsg = new ResultMessage(Contants.CODE_FORBIDDEN,
-                    Contants.MSG_FORBIDDEN, String.format(Contants.FOR_FORBIDDEN_POST, user_id, post_id));
+                    Contants.MSG_FORBIDDEN, String.format(Contants.FOR_FORBIDDEN_POST, user_id,
+                            post_id));
             return Response.status(Contants.CODE_FORBIDDEN).entity(forbiddenMsg).build();
         }
 
@@ -290,15 +292,18 @@ public class PostController
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response activeDeactive(
             @NotNull(message = "{user_id.NotNull}")
-            @FormParam(value = "user_id") @Min(value = 0)
+            @FormParam(value = "user_id")
+            @Min(value = 0)
             Integer user_id,
 
             @NotNull(message = "{token.NotNull}")
             @Size(min = 64, max = 64, message = "{token.Size}")
-            @FormParam(value = "token") String token,
+            @FormParam(value = "token")
+            String token,
 
             @NotNull(message = "{post_id.NotNull}")
-            @FormParam(value = "post_id") @Min(value = 0)
+            @FormParam(value = "post_id")
+            @Min(value = 0)
             Integer post_id,
 
             @NotNull(message = "{active.NotNull}")
@@ -320,7 +325,8 @@ public class PostController
             logger.warn("Token in request invaild or expired");
             // Response username or password invalid
             ResultMessage forbiddenMsg = new ResultMessage(Contants.CODE_FORBIDDEN,
-                    Contants.MSG_FORBIDDEN, String.format(Contants.FOR_FORBIDDEN_POST, user_id, post_id));
+                    Contants.MSG_FORBIDDEN, String.format(Contants.FOR_FORBIDDEN_POST, user_id,
+                            post_id));
             return Response.status(Contants.CODE_FORBIDDEN).entity(forbiddenMsg).build();
         }
 
@@ -360,7 +366,7 @@ public class PostController
         List<Post> posts = null;
         // Call service to get all public post from Db
         try {
-            posts = postSer.allPost();
+            posts = postSer.list();
         } catch (HibernateException e) {
             // Log
             logger.warn(Contants.MSG_DB_ERR, e);
@@ -391,9 +397,24 @@ public class PostController
 
     @Path(Contants.URL_GET_BY_USER)
     @GET
-    public Response getByUser(@PathParam("user_id") int UserID)
+    public Response getByUserId(@PathParam("user_id") int userId)
     {
-        return Response.status(200).build();
+        List<Post> posts = null;
+        // Call service to get all public post of user from Db
+        try {
+            posts = postSer.getByUserId(userId);
+        } catch (HibernateException e) {
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
+            // Response error
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
+        }
+        // Response success
+        ResultMessage<List<Post>> result = new ResultMessage<List<Post>>(Contants.CODE_OK,
+                String.format(Contants.FOR_GET_ALL_POST_SCC, posts.size()), posts);
+        return Response.status(Contants.CODE_OK).entity(result).build();
     }
 
     @Path(Contants.URL_SEARCH)

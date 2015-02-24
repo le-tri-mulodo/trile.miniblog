@@ -3,6 +3,8 @@
  */
 package com.mulodo.miniblog.dao;
 
+import java.util.List;
+
 import com.mulodo.miniblog.pojo.Post;
 
 /**
@@ -20,4 +22,11 @@ public interface PostDAO extends CommonDAO<Post>
      * @return <b>TRUE</b> if User with input userId is owner of Post
      */
     boolean checkOwner(int postId, int userId);
+
+    /**
+     * @param userId
+     *            Id of User
+     * @return All public post of user
+     */
+    List<Post> getByUserId(int userId);
 }

@@ -27,7 +27,7 @@ public interface CommonDAO<T>
     void delete(T entity);
 
     /**
-     * @return
+     * @return All entity in Db
      */
     List<T> list();
 

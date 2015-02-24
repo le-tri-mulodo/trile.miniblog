@@ -205,4 +205,11 @@ public class UserServiceImpl implements UserService
     {
         return userDAO.checkPasswordGetUserInfo(userName, Util.hashSHA256(password));
     }
+
+    @Override
+    public List<User> list()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

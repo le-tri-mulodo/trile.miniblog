@@ -49,4 +49,19 @@ public class PostDAOImpl extends CommonDAOImpl<Post> implements PostDAO
                 + "ORDER BY createTime DESC");
         return listQuery.list();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Post> getByUserId(int userId)
+    {
+        Session session = sf.getCurrentSession();
+        Query listQuery = session.createQuery("FROM Post p WHERE p.publicTime IS NOT NULL "
+                + "AND p.user.id = :userId ORDER BY createTime DESC");
+        // Set userId
+        listQuery.setInteger("userId", userId);
+        return listQuery.list();
+    }
 }

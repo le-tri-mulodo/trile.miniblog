@@ -62,7 +62,8 @@ public class Token
     private String userName;
 
     @JsonProperty("user_id")
-    @Transient
+    // @Transient
+    @Column(name = "user_id", updatable = false, insertable = false)
     private int userid;
 
     /**

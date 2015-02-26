@@ -29,9 +29,8 @@ public interface CommonService<T>
      * Delete entity from DB
      * 
      * @param entity
-     * @return <b>FALSE</b> If entity <b>NOT</b> exist
      */
-    boolean delete(T entity);
+    void delete(T entity);
 
     /**
      * Load object from Hibernate term with id

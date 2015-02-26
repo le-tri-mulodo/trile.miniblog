@@ -24,7 +24,7 @@ import com.mulodo.miniblog.service.UserService;
 @Service
 public class PostServiceImpl implements PostService
 {
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
 
     @Autowired
     private PostDAO postDAO;
@@ -38,13 +38,11 @@ public class PostServiceImpl implements PostService
     @Transactional
     public Post add(Post post)
     {
-        // Get user of post
-        User user = null;
-
         // If setted user then not get from Db
         // Else setted userId then get from Db
         if (null == post.getUser()) {
-            user = userSer.get(post.getUserId());
+            // Get user of post
+            User user = userSer.get(post.getUserId());
             // Set referent to create Fk
             post.setUser(user);
         }
@@ -102,15 +100,13 @@ public class PostServiceImpl implements PostService
      */
     @Override
     @Transactional
-    public boolean delete(Post deletePost)
+    public void delete(Post deletePost)
     {
         // Get post from Db to delete
         Post post = get(deletePost.getId());
         if (null != post) {
             postDAO.delete(post);
-            return true;
         }
-        return false;
     }
 
     /**

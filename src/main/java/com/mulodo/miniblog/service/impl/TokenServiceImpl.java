@@ -53,10 +53,9 @@ public class TokenServiceImpl implements TokenService
      */
     @Transactional
     @Override
-    public boolean delete(Token entity)
+    public void delete(Token entity)
     {
         tokenDAO.delete(entity);
-        return true;
     }
 
     /**

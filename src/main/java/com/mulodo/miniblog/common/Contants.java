@@ -56,6 +56,8 @@ public class Contants
     public static final String FOR_FORBIDDEN_POST = "User with id=%d is not owner of post with id=%d";
     public static final String MSG_POST_NOT_EXIST = "Post does not exist";
     public static final String FOR_POST_NOT_EXIST = "Post with id= %d does not exist";
+    public static final String MSG_COMMENT_NOT_EXIST = "Comment does not exist";
+    public static final String FOR_COMMENT_NOT_EXIST = "Comment with id= %d does not exist";
 
     public static final String MSG_CREATE_USER_SCC = "Create user success!";
     public static final String MSG_UPDATE_USER_SCC = "Account updated success!";
@@ -69,6 +71,7 @@ public class Contants
     public static final String MSG_ACT_DEACT_SCC = "Active/Deactive post success!";
     public static final String FOR_GET_ALL_POST_SCC = "Get all posts success! %d results";
     public static final String MSG_DELETE_POST_SCC = "Delete post success!";
+    public static final String MSG_CREATE_COMMET_SCC = "Create commet success!";
 
     public static final int CODE_INPUT_ERR = 1;
     public static final int CODE_OK = 200;
@@ -78,9 +81,10 @@ public class Contants
     public static final int CODE_FORBIDDEN = 403;
     public static final int CODE_INTERNAL_ERR = 500;
     public static final int CODE_TOKEN_ERR = 1001;
-    public static final int CODE_USER_NOT_EXIST = 2001;
     public static final int CODE_PWD_INVALID = 1002;
+    public static final int CODE_USER_NOT_EXIST = 2001;
     public static final int CODE_POST_NOT_EXIST = 2501;
+    public static final int CODE_COMMET_NOT_EXIST = 3001;
     public static final int CODE_DB_ERR = 9001;
 
 }

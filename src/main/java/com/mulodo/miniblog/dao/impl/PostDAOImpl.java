@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import com.mulodo.miniblog.dao.PostDAO;
@@ -45,8 +46,14 @@ public class PostDAOImpl extends CommonDAOImpl<Post> implements PostDAO
     public List<Post> list()
     {
         Session session = sf.getCurrentSession();
-        Query listQuery = session.createQuery("FROM Post p WHERE p.publicTime IS NOT NULL "
-                + "ORDER BY createTime DESC");
+        // Select all public posts ignore content and editTime
+        Query listQuery = session.createQuery(
+                "SELECT p.id AS id, p.userId AS userId, p.title AS title, "
+                        + "p.description AS description, p.createTime AS createTime, "
+                        + "p.publicTime AS publicTime"
+                        + " FROM Post p WHERE p.publicTime IS NOT NULL ORDER BY p.createTime DESC")
+        // Set Transformer to convert Object to Post class
+                .setResultTransformer(Transformers.aliasToBean(Post.class));
         return listQuery.list();
     }
 
@@ -58,8 +65,15 @@ public class PostDAOImpl extends CommonDAOImpl<Post> implements PostDAO
     public List<Post> getByUserId(int userId)
     {
         Session session = sf.getCurrentSession();
-        Query listQuery = session.createQuery("FROM Post p WHERE p.publicTime IS NOT NULL "
-                + "AND p.user.id = :userId ORDER BY createTime DESC");
+        // Select all public posts of user, ignore content and editTime
+        Query listQuery = session.createQuery(
+                "SELECT p.id AS id, p.userId AS userId, p.title AS title, "
+                        + "p.description AS description, p.createTime AS createTime, "
+                        + "p.publicTime AS publicTime"
+                        + " FROM Post p WHERE p.publicTime IS NOT NULL "
+                        + "AND p.userId = :userId ORDER BY createTime DESC")
+        // Set Transformer to convert Object to Post class
+                .setResultTransformer(Transformers.aliasToBean(Post.class));
         // Set userId
         listQuery.setInteger("userId", userId);
         return listQuery.list();

@@ -5,8 +5,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -47,6 +48,7 @@ public class Post
     private String description;
 
     @Column(name = "content", length = 8192, columnDefinition = "TINYTEXT", nullable = false)
+    @Basic(fetch = FetchType.LAZY)
     @JsonProperty("content")
     private String content;
 
@@ -77,8 +79,8 @@ public class Post
     @JsonIgnore
     private Set<Comment> comments;
 
-//    @Transient
-    @Column(name="user_id", updatable=false, insertable=false)
+    // @Transient
+    @Column(name = "user_id", updatable = false, insertable = false)
     @JsonProperty("user_id")
     private int userId;
 

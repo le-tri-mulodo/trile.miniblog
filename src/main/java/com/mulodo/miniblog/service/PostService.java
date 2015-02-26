@@ -46,11 +46,6 @@ public interface PostService extends CommonService<Post>
     boolean checkOwner(int postId, int userId);
 
     /**
-     * @return List of all public posts in Db and order by create time
-     */
-    List<Post> list();
-
-    /**
      * @return List of all public posts in Db by user id and order by create
      *         time
      */

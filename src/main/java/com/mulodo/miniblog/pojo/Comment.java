@@ -284,4 +284,47 @@ public class Comment
     {
         this.commentId = commentId;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (null == obj)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Comment other = (Comment) obj;
+        if (null == commentId) {
+            if (null != other.commentId) {
+                //System.out.println("commentId");
+                return false;
+            }
+        } else if (!commentId.equals(other.commentId)) {
+            //System.out.println("commentId");
+            return false;
+        }
+        if (null == content) {
+            if (null != other.content) {
+                //System.out.println("content");
+                return false;
+            }
+        } else if (!content.equals(other.content)) {
+            //System.out.println("content");
+            return false;
+        }
+        if (postId != other.postId) {
+            //System.out.println("postId " + postId + " " + other.postId);
+            return false;
+        }
+        if (userId != other.userId) {
+            //System.out.println("userId");
+            return false;
+        }
+        return true;
+    }
+
 }

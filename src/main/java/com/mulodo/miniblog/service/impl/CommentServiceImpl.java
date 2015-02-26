@@ -53,37 +53,41 @@ public class CommentServiceImpl implements CommentService
         // Set owner
         // If setted user then not get from Db
         // Else setted userId then get from Db
-        if (null == comment.getUser() && 0 < comment.getUserId()) {
-            // Get owner of comment
-            User user = userSer.get(comment.getUserId());
+        if (null == comment.getUser()) {
+            if (0 < comment.getUserId()) {
+                // Get owner of comment
+                User user = userSer.get(comment.getUserId());
 
-            // Check user NOT exist
-            if (null == user) {
-                // Throw exception user NOT exist
-                throw new ResourceNotExistException(Resource.USER);
+                // Check user NOT exist
+                if (null == user) {
+                    // Throw exception user NOT exist
+                    throw new ResourceNotExistException(Resource.USER);
+                }
+                // Set referent to create Fk
+                comment.setUser(user);
+            } else {
+                throw new IllegalArgumentException("User ID must greater than 0");
             }
-            // Set referent to create Fk
-            comment.setUser(user);
-        } else {
-            throw new IllegalArgumentException("User ID must greater than 0");
         }
 
         // Set post
         // If setted post then not get from Db
         // Else setted postId then get from Db
-        if (null == comment.getPost() && 0 < comment.getPostId()) {
-            // Get owner of comment
-            Post post = postSer.get(comment.getPostId());
+        if (null == comment.getPost()) {
+            if (0 < comment.getPostId()) {
+                // Get owner of comment
+                Post post = postSer.get(comment.getPostId());
 
-            // Check post NOT exist
-            if (null == post) {
-                // Throw exception post NOT exist
-                throw new ResourceNotExistException(Resource.POST);
+                // Check post NOT exist
+                if (null == post) {
+                    // Throw exception post NOT exist
+                    throw new ResourceNotExistException(Resource.POST);
+                }
+                // Set referent to create Fk
+                comment.setPost(post);
+            } else {
+                throw new IllegalArgumentException("Post ID must greater than 0");
             }
-            // Set referent to create Fk
-            comment.setPost(post);
-        } else {
-            throw new IllegalArgumentException("Post ID must greater than 0");
         }
 
         // Set parent comment if exist (CommentId >0)

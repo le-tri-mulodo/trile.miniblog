@@ -69,7 +69,7 @@ public class CommentController
     public Response add(
             @NotNull(message = "{user_id.NotNull}")
             @FormParam(value = "user_id")
-            @Min(value = 1)
+            @Min(value = 1, message = "{user_id.Min}")
             Integer user_id,
 
             @NotNull(message = "{token.NotNull}")
@@ -79,13 +79,12 @@ public class CommentController
 
             @NotNull(message = "{post_id.NotNull}")
             @FormParam(value = "post_id")
-            @Min(value = 1)
+            @Min(value = 1, message = "{post_id.Min}")
             Integer post_id,
 
             @FormParam(value = "pcomment_id")
-            @Min(value = 1)
+            @Min(value = 1, message = "{pcomment_id.Min}")
             Integer pcomment_id,
-
 
             @NotNull(message = "{content.NotNull}")
             @Size(min = 1, max = 8192, message = "{content.Size}")
@@ -134,7 +133,7 @@ public class CommentController
             case COMMENT:
                 rsneResult = new ResultMessage(Contants.CODE_COMMET_NOT_EXIST,
                         Contants.MSG_COMMENT_NOT_EXIST, String.format(
-                                Contants.FOR_COMMENT_NOT_EXIST, post_id));
+                                Contants.FOR_COMMENT_NOT_EXIST, pcomment_id));
                 break;
             case POST:
                 rsneResult = new ResultMessage(Contants.CODE_POST_NOT_EXIST,

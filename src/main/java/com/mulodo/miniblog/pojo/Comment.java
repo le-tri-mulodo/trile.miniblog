@@ -74,7 +74,7 @@ public class Comment
     private Comment parent;
 
     @OneToMany(mappedBy = "parent", targetEntity = Comment.class)
-    @Cascade(CascadeType.SAVE_UPDATE)
+    @Cascade(CascadeType.ALL)
     @JsonIgnore
     private Set<Comment> comments;
 
@@ -300,28 +300,28 @@ public class Comment
         Comment other = (Comment) obj;
         if (null == commentId) {
             if (null != other.commentId) {
-                //System.out.println("commentId");
+                // System.out.println("commentId");
                 return false;
             }
         } else if (!commentId.equals(other.commentId)) {
-            //System.out.println("commentId");
+            // System.out.println("commentId");
             return false;
         }
         if (null == content) {
             if (null != other.content) {
-                //System.out.println("content");
+                // System.out.println("content");
                 return false;
             }
         } else if (!content.equals(other.content)) {
-            //System.out.println("content");
+            // System.out.println("content");
             return false;
         }
         if (postId != other.postId) {
-            //System.out.println("postId " + postId + " " + other.postId);
+            // System.out.println("postId " + postId + " " + other.postId);
             return false;
         }
         if (userId != other.userId) {
-            //System.out.println("userId");
+            // System.out.println("userId");
             return false;
         }
         return true;

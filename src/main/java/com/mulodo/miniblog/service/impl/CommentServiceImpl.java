@@ -128,7 +128,7 @@ public class CommentServiceImpl implements CommentService
     {
         // Get comment from Db
         Comment updateComment = get(comment.getId());
-        
+
         // Check comment exist?
         if (null == updateComment) {
             // Throw exception comment NOT exist
@@ -154,9 +154,22 @@ public class CommentServiceImpl implements CommentService
     }
 
     @Override
-    public void delete(Comment entity)
+    public void delete(Comment comment)
     {
-        // TODO Auto-generated method stub
+        // Get comment form Db
+        Comment deleteComment = get(comment.getId());
+
+        // Check exist
+        if (null == deleteComment) {
+            // Throw exception comment NOT exist
+            throw new ResourceNotExistException(Resource.COMMENT);
+        }
+
+        if (deleteComment.getUserId() != comment.getUserId()) {
+            // Throw exception NOT allow
+            throw new NotAllowException();
+        }
+        commentDAO.delete(comment);
     }
 
     @Override
@@ -174,14 +187,12 @@ public class CommentServiceImpl implements CommentService
     @Override
     public void deleteAll()
     {
-        // TODO Auto-generated method stub
-
+        commentDAO.deleteAll();
     }
 
     @Override
     public List<Comment> list()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return commentDAO.list();
     }
 }

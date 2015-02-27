@@ -75,7 +75,7 @@ public class Post
     private User user;
 
     @OneToMany(mappedBy = "post", targetEntity = Comment.class)
-    @Cascade(CascadeType.SAVE_UPDATE)
+    @Cascade(CascadeType.ALL)
     @JsonIgnore
     private Set<Comment> comments;
 

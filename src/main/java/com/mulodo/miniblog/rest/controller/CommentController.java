@@ -7,7 +7,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -25,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import com.mulodo.miniblog.common.Contants;
 import com.mulodo.miniblog.message.ResultMessage;
 import com.mulodo.miniblog.pojo.Comment;
+import com.mulodo.miniblog.pojo.Post;
 import com.mulodo.miniblog.service.CommentService;
 import com.mulodo.miniblog.service.TokenService;
 
@@ -170,7 +173,7 @@ public class CommentController
 
         // Response success
         ResultMessage<Comment> result = new ResultMessage<Comment>(Contants.CODE_CREATED,
-                Contants.MSG_CREATE_COMMET_SCC, comment);
+                Contants.MSG_CREATE_COMMENT_SCC, comment);
         return Response.status(Contants.CODE_CREATED).entity(result).build();
     }
 
@@ -271,7 +274,88 @@ public class CommentController
 
         // Response success
         ResultMessage<Comment> result = new ResultMessage<Comment>(Contants.CODE_OK,
-                Contants.MSG_UPDATE_COMMET_SCC, comment);
+                Contants.MSG_UPDATE_COMMENT_SCC, comment);
+        return Response.status(Contants.CODE_OK).entity(result).build();
+    }
+
+    @SuppressWarnings({ "rawtypes", "incomplete-switch" })
+    @Path(Contants.URL_DELETE)
+    @DELETE
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response delete(
+            @NotNull(message = "{user_id.NotNull}")
+            @HeaderParam(value = "user_id")
+            @Min(value = 1)
+            Integer user_id,
+
+            @NotNull(message = "{token.NotNull}")
+            @Size(min = 64, max = 64, message = "{token.Size}")
+            @HeaderParam(value = "token")
+            String token,
+
+            @NotNull(message = "{comment_id.NotNull}")
+            @HeaderParam(value = "comment_id") @Min(value = 1)
+            Integer comment_id)
+    {
+
+        // Check token
+        if (!tokenSer.checkToken(user_id, token)) {
+            // Log
+            logger.warn("Token {} invaild or expired", token);
+            // Unauthorized
+            ResultMessage unauthorizedMsg = new ResultMessage(Contants.CODE_TOKEN_ERR,
+                    Contants.MSG_TOKEN_ERR, String.format(Contants.FOR_TOKEN_ERR, token));
+            return Response.status(Contants.CODE_UNAUTHORIZED).entity(unauthorizedMsg).build();
+        }
+
+        // Create new post to call service
+        Comment comment = new Comment();
+        // Set postId
+        comment.setId(comment_id);
+        // Set userId
+        comment.setUserId(user_id);
+
+        // Call service to delete from Db
+        try {
+            commentSer.delete(comment);
+        } catch (HibernateException e) {
+            // Db error
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
+            // Response error
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
+        } catch (ResourceNotExistException e) {
+            // Response resource not exist
+            ResultMessage rsneResult = null;
+            // Get type
+            switch (e.getResourceType()) {
+            case COMMENT:
+                // Log
+                logger.warn("{} with id={} not exit", e.getResourceType(), comment_id);
+
+                // Response comment not exist
+                rsneResult = new ResultMessage(Contants.CODE_COMMET_NOT_EXIST,
+                        Contants.MSG_COMMENT_NOT_EXIST, String.format(
+                                Contants.FOR_COMMENT_NOT_EXIST, comment_id));
+                break;
+            }
+            // return Response error
+            return Response.status(Contants.CODE_BAD_REQUEST).entity(rsneResult).build();
+        } catch (NotAllowException e) {
+            // log
+            logger.warn("User with id={} is not owner of comment with id={}", user_id, comment_id);
+
+            // Response user can not allow to access this comment
+            ResultMessage forbiddenMsg = new ResultMessage(Contants.CODE_FORBIDDEN,
+                    Contants.MSG_FORBIDDEN, String.format(Contants.FOR_FORBIDDEN_COMMENT, user_id,
+                            comment_id));
+            return Response.status(Contants.CODE_FORBIDDEN).entity(forbiddenMsg).build();
+        }
+
+        // Response success
+        ResultMessage result = new ResultMessage(Contants.CODE_OK, Contants.MSG_DELETE_COMMENT_SCC);
         return Response.status(Contants.CODE_OK).entity(result).build();
     }
 }

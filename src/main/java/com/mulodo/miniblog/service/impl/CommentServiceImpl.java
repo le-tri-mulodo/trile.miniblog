@@ -3,6 +3,7 @@
  */
 package com.mulodo.miniblog.service.impl;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ import com.mulodo.miniblog.service.PostService;
 import com.mulodo.miniblog.service.TokenService;
 import com.mulodo.miniblog.service.UserService;
 
+import exception.NotAllowException;
 import exception.ResourceNotExistException;
 import exception.ResourceNotExistException.Resource;
 
@@ -45,6 +47,11 @@ public class CommentServiceImpl implements CommentService
 
     /**
      * {@inheritDoc}
+     * 
+     * @throws IllegalArgumentException
+     *             Input User Id or Post Id less or equals than 0
+     * @throws ResourceNotExistException
+     *             User, Post or Parent comment not exist in Db
      */
     @Transactional
     @Override
@@ -110,11 +117,40 @@ public class CommentServiceImpl implements CommentService
         return commentDAO.add(comment);
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @throws
+     */
+    @Transactional
     @Override
-    public Comment update(Comment entity)
+    public Comment update(Comment comment)
     {
-        // TODO Auto-generated method stub
-        return null;
+        // Get comment from Db
+        Comment updateComment = get(comment.getId());
+        
+        // Check comment exist?
+        if (null == updateComment) {
+            // Throw exception comment NOT exist
+            throw new ResourceNotExistException(Resource.COMMENT);
+        }
+
+        // Check owner
+        if (updateComment.getUserId() != comment.getUserId()) {
+            // Throw exception NOT allow
+            throw new NotAllowException();
+        }
+
+        // Check content changed or not to update to Db
+        if (!comment.getContent().equals(updateComment.getContent())) {
+            // Set edit time
+            updateComment.setEditTime(new Timestamp(System.currentTimeMillis()));
+            // Set content
+            updateComment.setContent(comment.getContent());
+            // call DAO to update
+            commentDAO.update(updateComment);
+        }
+        return updateComment;
     }
 
     @Override
@@ -126,15 +162,13 @@ public class CommentServiceImpl implements CommentService
     @Override
     public Comment load(int id)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return commentDAO.load(id);
     }
 
     @Override
     public Comment get(int id)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return commentDAO.get(id);
     }
 
     @Override

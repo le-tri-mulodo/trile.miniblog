@@ -87,6 +87,12 @@ public class ResourceNotExistException extends RuntimeException
         this.resourceType = resourceType;
     }
 
+//    @Override
+//    public String getMessage()
+//    {
+//        return resourceType.toString() + "not exist";
+//    }
+
     public enum Resource {
         NONE, USER, TOKEN, POST, COMMENT;
     }

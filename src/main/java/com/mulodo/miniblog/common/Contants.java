@@ -58,6 +58,7 @@ public class Contants
     public static final String FOR_POST_NOT_EXIST = "Post with id= %d does not exist";
     public static final String MSG_COMMENT_NOT_EXIST = "Comment does not exist";
     public static final String FOR_COMMENT_NOT_EXIST = "Comment with id= %d does not exist";
+    public static final String FOR_FORBIDDEN_COMMENT = "User with id=%d is not owner of comment with id=%d";
 
     public static final String MSG_CREATE_USER_SCC = "Create user success!";
     public static final String MSG_UPDATE_USER_SCC = "Account updated success!";
@@ -71,7 +72,8 @@ public class Contants
     public static final String MSG_ACT_DEACT_SCC = "Active/Deactive post success!";
     public static final String FOR_GET_ALL_POST_SCC = "Get all posts success! %d results";
     public static final String MSG_DELETE_POST_SCC = "Delete post success!";
-    public static final String MSG_CREATE_COMMET_SCC = "Create commet success!";
+    public static final String MSG_CREATE_COMMET_SCC = "Create comment success!";
+    public static final String MSG_UPDATE_COMMET_SCC = "Update comment success!";
 
     public static final int CODE_INPUT_ERR = 1;
     public static final int CODE_OK = 200;

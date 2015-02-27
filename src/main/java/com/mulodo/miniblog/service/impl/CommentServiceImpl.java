@@ -153,6 +153,12 @@ public class CommentServiceImpl implements CommentService
         return updateComment;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @throws
+     */
+    @Transactional
     @Override
     public void delete(Comment comment)
     {
@@ -169,7 +175,7 @@ public class CommentServiceImpl implements CommentService
             // Throw exception NOT allow
             throw new NotAllowException();
         }
-        commentDAO.delete(comment);
+        commentDAO.delete(deleteComment);
     }
 
     @Override

@@ -37,6 +37,8 @@ public class Contants
     public static final String URL_PUBLICT = "/pub";
     public static final String URL_TOP = "/top";
     public static final String URL_GET_BY_USER = "/users/{user_id:[0-9]+}";
+    public static final String URL_GET_BY_POST = "/posts/{post_id:[0-9]+}";
+
 
     public static final String URL_COMMENT = "/comments";
 

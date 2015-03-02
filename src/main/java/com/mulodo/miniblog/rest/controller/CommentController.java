@@ -3,16 +3,20 @@
  */
 package com.mulodo.miniblog.rest.controller;
 
+import java.util.List;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -27,7 +31,6 @@ import org.springframework.stereotype.Controller;
 import com.mulodo.miniblog.common.Contants;
 import com.mulodo.miniblog.message.ResultMessage;
 import com.mulodo.miniblog.pojo.Comment;
-import com.mulodo.miniblog.pojo.Post;
 import com.mulodo.miniblog.service.CommentService;
 import com.mulodo.miniblog.service.TokenService;
 
@@ -356,6 +359,34 @@ public class CommentController
 
         // Response success
         ResultMessage result = new ResultMessage(Contants.CODE_OK, Contants.MSG_DELETE_COMMENT_SCC);
+        return Response.status(Contants.CODE_OK).entity(result).build();
+    }
+    
+    /**
+     * List of all commets of post in Db and order by create time ascending
+     * @param postId Id of post
+     * @return Response status and content
+     */
+    @SuppressWarnings("rawtypes")
+    @Path(Contants.URL_GET_BY_POST)
+    @GET
+    public Response getByPostId(@PathParam("post_id") int postId)
+    {
+        List<Comment> comments = null;
+        // Call service to get all comment of post from Db
+        try {
+            comments = commentSer.getByPostId(postId);
+        } catch (HibernateException e) {
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
+            // Response error
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
+        }
+        // Response success
+        ResultMessage<List<Comment>> result = new ResultMessage<List<Comment>>(Contants.CODE_OK,
+                String.format(Contants.FOR_GET_ALL_POST_SCC, comments.size()), comments);
         return Response.status(Contants.CODE_OK).entity(result).build();
     }
 }

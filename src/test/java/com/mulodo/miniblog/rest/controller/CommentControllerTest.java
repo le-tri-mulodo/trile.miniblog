@@ -7,6 +7,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
@@ -57,6 +59,7 @@ public class CommentControllerTest
     private Post dummyPost = null;
     private User dummyUser = null;
     private Comment dummyComment = null;
+    private List<Comment> dummyComments = null;
 
     // Prepair data to test
     // Create user, post, and comment
@@ -99,6 +102,42 @@ public class CommentControllerTest
         dummyComment.setContent("hello");
         // add new comment
         commentSer.add(dummyComment);
+    }
+
+    // Prepair data to test
+    // Create dummy comments list with size from input
+    private void createDummyComments(int size)
+    {
+        // if dummy comments lists not exist then create
+        if (null == dummyComments) {
+            dummyComments = new ArrayList<Comment>(size);
+            // if exist then clean
+        } else {
+            dummyComments.clear();
+        }
+        // add preview comment into comment lists
+        dummyComments.add(dummyComment);
+
+        // loop to create list comments
+        for (int i = 0; i < size; i++) {
+            // parent comment
+            dummyComment = new Comment();
+
+            dummyComment.setUser(dummyUser);
+            // set user id
+            dummyComment.setUserId(dummyUser.getId());
+
+            dummyComment.setPost(dummyPost);
+            // set post id
+            dummyComment.setPostId(dummyPost.getId());
+            // set content
+            dummyComment.setContent("create from: " + System.currentTimeMillis());
+            // add new comment
+            commentSer.add(dummyComment);
+
+            // Add to dummy comments lists
+            dummyComments.add(dummyComment);
+        }
     }
 
     // Normal case (not sub-comment)
@@ -673,5 +712,75 @@ public class CommentControllerTest
 
         // Check status
         assertEquals(Contants.CODE_FORBIDDEN, response.getStatus());
+    }
+
+    // normal case: 11 result
+    @Test
+    public void testGetByPost()
+    {
+        createDummyData(true);
+        createDummyComments(10);
+
+        ResteasyWebTarget target = client.target(COMMENT_URL + "/posts/" + dummyPost.getId());
+
+        Response response = target.request().get();
+
+        ResultMessage<List<Comment>> result = response
+                .readEntity(new GenericType<ResultMessage<List<Comment>>>() {
+                });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_OK, response.getStatus());
+        // Check result
+        assertEquals(dummyComments, result.getData());
+    }
+
+    // normal case: 1 result
+    @Test
+    public void testGetByPost2()
+    {
+        createDummyData(true);
+        createDummyComments(0);
+
+        ResteasyWebTarget target = client.target(COMMENT_URL + "/posts/" + dummyPost.getId());
+
+        Response response = target.request().get();
+
+        ResultMessage<List<Comment>> result = response
+                .readEntity(new GenericType<ResultMessage<List<Comment>>>() {
+                });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_OK, response.getStatus());
+        // Check result
+        assertEquals(dummyComments, result.getData());
+    }
+
+    // normal case: 0 result
+    @Test
+    public void testGetByPost3()
+    {
+        createDummyData(true);
+
+        // user post not exist
+        ResteasyWebTarget target = client
+                .target(COMMENT_URL + "/posts/" + (dummyPost.getId() + 10));
+
+        Response response = target.request().get();
+
+        ResultMessage<List<Comment>> result = response
+                .readEntity(new GenericType<ResultMessage<List<Comment>>>() {
+                });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_OK, response.getStatus());
+
+        // create empty list to assert
+        dummyComments = new ArrayList<Comment>();
+        // Check result
+        assertEquals(dummyComments, result.getData());
     }
 }

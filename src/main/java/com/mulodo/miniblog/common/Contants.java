@@ -73,6 +73,7 @@ public class Contants
     public static final String MSG_UPDATE_POST_SCC = "Update post success!";
     public static final String MSG_ACT_DEACT_SCC = "Active/Deactive post success!";
     public static final String FOR_GET_ALL_POST_SCC = "Get all posts success! %d results";
+    public static final String FOR_GET_ALL_COMMENT_SCC = "Get all comments success! %d results";
     public static final String MSG_DELETE_POST_SCC = "Delete post success!";
     public static final String MSG_CREATE_COMMENT_SCC = "Create comment success!";
     public static final String MSG_UPDATE_COMMENT_SCC = "Update comment success!";

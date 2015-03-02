@@ -39,7 +39,7 @@ public class PostDAOImpl extends CommonDAOImpl<Post> implements PostDAO
     }
 
     /**
-     * {@inheritDoc}
+     * @return All public post in Db order by create time desc
      */
     @SuppressWarnings("unchecked")
     @Override

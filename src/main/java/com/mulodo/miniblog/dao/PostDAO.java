@@ -26,7 +26,7 @@ public interface PostDAO extends CommonDAO<Post>
     /**
      * @param userId
      *            Id of User
-     * @return All public post of user
+     * @return All public post of user order by create time desc
      */
     List<Post> getByUserId(int userId);
 }

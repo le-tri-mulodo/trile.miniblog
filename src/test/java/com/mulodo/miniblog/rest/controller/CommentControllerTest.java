@@ -52,7 +52,7 @@ public class CommentControllerTest
 
     ResteasyClient client = new ResteasyClientBuilder().build();
     String ROOT_URL = "http://localhost:8080/miniblog.api";
-    String POST_URL = ROOT_URL + Contants.URL_COMMENT;
+    String COMMENT_URL = ROOT_URL + Contants.URL_COMMENT;
 
     private Post dummyPost = null;
     private User dummyUser = null;
@@ -116,7 +116,7 @@ public class CommentControllerTest
         // set post id (use in assert)
         comment.setPostId(dummyPost.getId());
 
-        ResteasyWebTarget target = client.target(POST_URL);
+        ResteasyWebTarget target = client.target(COMMENT_URL);
 
         Form form = new Form();
         // set user id and token
@@ -157,7 +157,7 @@ public class CommentControllerTest
         // set parent-comment
         comment.setCommentId(dummyComment.getId());
 
-        ResteasyWebTarget target = client.target(POST_URL);
+        ResteasyWebTarget target = client.target(COMMENT_URL);
 
         Form form = new Form();
         // set user id and token
@@ -200,7 +200,7 @@ public class CommentControllerTest
         // set parent-comment
         comment.setCommentId(dummyComment.getId());
 
-        ResteasyWebTarget target = client.target(POST_URL);
+        ResteasyWebTarget target = client.target(COMMENT_URL);
 
         Form form = new Form();
         // set user id and token
@@ -238,7 +238,7 @@ public class CommentControllerTest
         // set parent-comment
         comment.setCommentId(dummyComment.getId());
 
-        ResteasyWebTarget target = client.target(POST_URL);
+        ResteasyWebTarget target = client.target(COMMENT_URL);
 
         Form form = new Form();
         // set user id and token
@@ -277,7 +277,7 @@ public class CommentControllerTest
         // set parent-comment
         comment.setCommentId(dummyComment.getId());
 
-        ResteasyWebTarget target = client.target(POST_URL);
+        ResteasyWebTarget target = client.target(COMMENT_URL);
 
         Form form = new Form();
         // set user id and token
@@ -316,7 +316,7 @@ public class CommentControllerTest
         // set parent-comment
         comment.setCommentId(dummyComment.getId());
 
-        ResteasyWebTarget target = client.target(POST_URL);
+        ResteasyWebTarget target = client.target(COMMENT_URL);
 
         Form form = new Form();
         // set user id and token
@@ -344,7 +344,7 @@ public class CommentControllerTest
     {
         createDummyData(true);
 
-        ResteasyWebTarget target = client.target(POST_URL);
+        ResteasyWebTarget target = client.target(COMMENT_URL);
 
         Form form = new Form();
         // set user id and token
@@ -377,7 +377,7 @@ public class CommentControllerTest
     {
         createDummyData(true);
 
-        ResteasyWebTarget target = client.target(POST_URL);
+        ResteasyWebTarget target = client.target(COMMENT_URL);
 
         Form form = new Form();
         // set user id and token
@@ -404,7 +404,7 @@ public class CommentControllerTest
     {
         createDummyData(true);
 
-        ResteasyWebTarget target = client.target(POST_URL);
+        ResteasyWebTarget target = client.target(COMMENT_URL);
 
         Form form = new Form();
         // set user id and token
@@ -429,7 +429,7 @@ public class CommentControllerTest
     {
         createDummyData(true);
 
-        ResteasyWebTarget target = client.target(POST_URL);
+        ResteasyWebTarget target = client.target(COMMENT_URL);
 
         Form form = new Form();
         // set user id and token
@@ -455,7 +455,7 @@ public class CommentControllerTest
     {
         createDummyData(true);
 
-        ResteasyWebTarget target = client.target(POST_URL);
+        ResteasyWebTarget target = client.target(COMMENT_URL);
 
         Form form = new Form();
         // set user id and token
@@ -481,7 +481,7 @@ public class CommentControllerTest
     {
         createDummyData(true);
 
-        ResteasyWebTarget target = client.target(POST_URL);
+        ResteasyWebTarget target = client.target(COMMENT_URL);
 
         Form form = new Form();
         // set user id and token
@@ -510,7 +510,7 @@ public class CommentControllerTest
         User bkUser = dummyUser;
         createDummyData(true);
 
-        ResteasyWebTarget target = client.target(POST_URL);
+        ResteasyWebTarget target = client.target(COMMENT_URL);
 
         Form form = new Form();
         // set user id and token
@@ -523,6 +523,152 @@ public class CommentControllerTest
 
         Response response = target.request().put(Entity.form(form));
 
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_FORBIDDEN, response.getStatus());
+    }
+
+    // Normal case
+    @Test
+    public void testDeleteComment()
+    {
+        createDummyData(false);
+
+        ResteasyWebTarget target = client.target(COMMENT_URL);
+
+        Response response = target.request()
+        // user_id
+                .header("user_id", dummyUser.getId())
+                // token
+                .header("token", dummyUser.getToken())
+                // comment id
+                .header("comment_id", dummyComment.getId()).delete();
+
+        ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_OK, response.getStatus());
+    }
+
+    // Miss user id
+    @Test
+    public void testDeleteComment2()
+    {
+        createDummyData(false);
+
+        ResteasyWebTarget target = client.target(COMMENT_URL);
+
+        Response response = target.request()
+        // user_id
+        // .header("user_id", dummyUser.getId())
+        // token
+                .header("token", dummyUser.getToken())
+                // comment id
+                .header("comment_id", dummyComment.getId()).delete();
+
+        ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_BAD_REQUEST, response.getStatus());
+    }
+
+    // Miss token
+    @Test
+    public void testDeleteComment3()
+    {
+        createDummyData(false);
+
+        ResteasyWebTarget target = client.target(COMMENT_URL);
+
+        Response response = target.request()
+        // user_id
+                .header("user_id", dummyUser.getId())
+                // token
+                // .header("token", dummyUser.getToken())
+                // comment id
+                .header("comment_id", dummyComment.getId()).delete();
+
+        ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_BAD_REQUEST, response.getStatus());
+    }
+
+    // Miss comment id
+    @Test
+    public void testDeleteComment4()
+    {
+        createDummyData(false);
+
+        ResteasyWebTarget target = client.target(COMMENT_URL);
+
+        Response response = target.request()
+        // user_id
+                .header("user_id", dummyUser.getId())
+                // token
+                .header("token", dummyUser.getToken())
+                // comment id
+                // .header("comment_id", dummyComment.getId())
+                .delete();
+
+        ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_BAD_REQUEST, response.getStatus());
+    }
+
+    // token invalid
+    @Test
+    public void testDeleteComment5()
+    {
+        createDummyData(false);
+
+        ResteasyWebTarget target = client.target(COMMENT_URL);
+
+        Response response = target.request()
+        // user_id
+                .header("user_id", dummyUser.getId())
+                // reverse current token to create invalid token
+                .header("token", StringUtils.reverse(dummyUser.getToken()))
+                // comment id
+                .header("comment_id", dummyComment.getId()).delete();
+
+        ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+        });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_UNAUTHORIZED, response.getStatus());
+    }
+
+    // not allow
+    @Test
+    public void testDeleteComment6()
+    {
+        createDummyData(false);
+        // backup dummyUser and create new user to test check owner
+        User bkUser = dummyUser;
+        createDummyData(true);
+
+        ResteasyWebTarget target = client.target(COMMENT_URL);
+
+        Response response = target.request()
+        // user valid user_id and token but user not owner of comment
+                .header("user_id", bkUser.getId()).header("token", bkUser.getToken())
+                // comment id
+                .header("comment_id", dummyComment.getId()).delete();
+
+        ResultMessage result = response.readEntity(new GenericType<ResultMessage>() {
+        });
         response.close();
 
         // Check status

@@ -155,7 +155,7 @@ public class CommentControllerTest
         // set post id (use in assert)
         comment.setPostId(dummyPost.getId());
         // set parent-comment
-        comment.setCommentId(dummyComment.getId());
+        comment.setpCommentId(dummyComment.getId());
 
         ResteasyWebTarget target = client.target(COMMENT_URL);
 
@@ -168,7 +168,7 @@ public class CommentControllerTest
         // set post id
         form.param("post_id", Integer.toString(comment.getPostId()));
         // set parent-comment
-        form.param("pcomment_id", comment.getCommentId().toString());
+        form.param("pcomment_id", comment.getpCommentId().toString());
 
         Response response = target.request().post(Entity.form(form));
 
@@ -198,7 +198,7 @@ public class CommentControllerTest
         // set post id (use in assert)
         comment.setPostId(dummyPost.getId());
         // set parent-comment
-        comment.setCommentId(dummyComment.getId());
+        comment.setpCommentId(dummyComment.getId());
 
         ResteasyWebTarget target = client.target(COMMENT_URL);
 
@@ -211,7 +211,7 @@ public class CommentControllerTest
         // set post id
         form.param("post_id", Integer.toString(comment.getPostId()));
         // set parent-comment
-        form.param("pcomment_id", comment.getCommentId().toString());
+        form.param("pcomment_id", comment.getpCommentId().toString());
 
         Response response = target.request().post(Entity.form(form));
 
@@ -236,7 +236,7 @@ public class CommentControllerTest
         // set post id (use in assert)
         comment.setPostId(dummyPost.getId());
         // set parent-comment
-        comment.setCommentId(dummyComment.getId());
+        comment.setpCommentId(dummyComment.getId());
 
         ResteasyWebTarget target = client.target(COMMENT_URL);
 
@@ -250,7 +250,7 @@ public class CommentControllerTest
         // set post id
         form.param("post_id", Integer.toString(comment.getPostId()));
         // set parent-comment
-        form.param("pcomment_id", comment.getCommentId().toString());
+        form.param("pcomment_id", comment.getpCommentId().toString());
 
         Response response = target.request().post(Entity.form(form));
 
@@ -275,7 +275,7 @@ public class CommentControllerTest
         // set post id (use in assert)
         comment.setPostId(dummyPost.getId());
         // set parent-comment
-        comment.setCommentId(dummyComment.getId());
+        comment.setpCommentId(dummyComment.getId());
 
         ResteasyWebTarget target = client.target(COMMENT_URL);
 
@@ -289,7 +289,7 @@ public class CommentControllerTest
         // set post id
         form.param("post_id", Integer.toString(comment.getPostId()));
         // set parent-comment
-        form.param("pcomment_id", comment.getCommentId().toString());
+        form.param("pcomment_id", comment.getpCommentId().toString());
 
         Response response = target.request().post(Entity.form(form));
 
@@ -314,7 +314,7 @@ public class CommentControllerTest
         // set post id (use in assert)
         comment.setPostId(dummyPost.getId());
         // set parent-comment
-        comment.setCommentId(dummyComment.getId());
+        comment.setpCommentId(dummyComment.getId());
 
         ResteasyWebTarget target = client.target(COMMENT_URL);
 
@@ -328,7 +328,7 @@ public class CommentControllerTest
         // set post id
         form.param("post_id", Integer.toString(comment.getPostId()));
         // set parent-comment
-        form.param("pcomment_id", comment.getCommentId().toString());
+        form.param("pcomment_id", comment.getpCommentId().toString());
 
         Response response = target.request().post(Entity.form(form));
 

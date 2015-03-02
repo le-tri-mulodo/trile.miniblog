@@ -116,7 +116,7 @@ public class CommentController
         comment.setPostId(post_id);
         // Set parent comment id
         if (null != pcomment_id) {
-            comment.setCommentId(pcomment_id);
+            comment.setpCommentId(pcomment_id);
         }
 
         // Call service to insert into Db

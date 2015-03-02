@@ -100,10 +100,10 @@ public class CommentServiceImpl implements CommentService
         // Set parent comment if exist (CommentId >0)
         // If setted post then not get from Db
         // Else setted postId then get from Db
-        if (null == comment.getComments() && null != comment.getCommentId()
-                && 0 < comment.getCommentId()) {
+        if (null == comment.getComments() && null != comment.getpCommentId()
+                && 0 < comment.getpCommentId()) {
             // Get owner of comment
-            Comment pComment = commentDAO.get(comment.getCommentId());
+            Comment pComment = commentDAO.get(comment.getpCommentId());
 
             // Check post NOT exist
             if (null == pComment) {

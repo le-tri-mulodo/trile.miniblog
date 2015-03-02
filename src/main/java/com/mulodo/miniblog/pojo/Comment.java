@@ -31,8 +31,8 @@ import com.mulodo.miniblog.config.CustomerTimestampDeserialize;
  */
 @Entity
 @Table(name = "comments")
-@JsonPropertyOrder({ "user_id", "post_id", "comment_id", "title", "description", "create_time",
-        "edit_time" })
+@JsonPropertyOrder({ "user_id", "post_id", "pcomment_id", "comment_id", "title", "description",
+        "create_time", "edit_time" })
 public class Comment
 {
 
@@ -68,7 +68,7 @@ public class Comment
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "comment_id", referencedColumnName = "id", nullable = true)
+    @JoinColumn(name = "pcomment_id", referencedColumnName = "id", nullable = true)
     @ForeignKey(name = "fk_comments_comments")
     @JsonIgnore
     private Comment parent;
@@ -86,9 +86,9 @@ public class Comment
     @JsonProperty("post_id")
     private int postId;
 
-    @Column(name = "comment_id", updatable = false, insertable = false)
+    @Column(name = "pcomment_id", updatable = false, insertable = false)
     @JsonProperty("pcomment_id")
-    private Integer commentId;
+    private Integer pCommentId;
 
     /**
      * 
@@ -269,20 +269,20 @@ public class Comment
     }
 
     /**
-     * @return the commentId
+     * @return the pCommentId
      */
-    public Integer getCommentId()
+    public Integer getpCommentId()
     {
-        return commentId;
+        return pCommentId;
     }
 
     /**
-     * @param commentId
-     *            the commentId to set
+     * @param pCommentId
+     *            the pCommentId to set
      */
-    public void setCommentId(Integer commentId)
+    public void setpCommentId(Integer pCommentId)
     {
-        this.commentId = commentId;
+        this.pCommentId = pCommentId;
     }
 
     /**
@@ -298,12 +298,12 @@ public class Comment
         if (getClass() != obj.getClass())
             return false;
         Comment other = (Comment) obj;
-        if (null == commentId) {
-            if (null != other.commentId) {
+        if (null == pCommentId) {
+            if (null != other.pCommentId) {
                 // System.out.println("commentId");
                 return false;
             }
-        } else if (!commentId.equals(other.commentId)) {
+        } else if (!pCommentId.equals(other.pCommentId)) {
             // System.out.println("commentId");
             return false;
         }

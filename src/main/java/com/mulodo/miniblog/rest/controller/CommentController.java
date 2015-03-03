@@ -363,7 +363,7 @@ public class CommentController
     }
 
     /**
-     * List of all commets of post in Db and order by create time ascending
+     * List of all comments of post in Db and order by create time ascending
      * @param postId Id of post
      * @return Response status and content
      */
@@ -376,6 +376,34 @@ public class CommentController
         // Call service to get all comment of post from Db
         try {
             comments = commentSer.getByPostId(postId);
+        } catch (HibernateException e) {
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
+            // Response error
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
+        }
+        // Response success
+        ResultMessage<List<Comment>> result = new ResultMessage<List<Comment>>(Contants.CODE_OK,
+                String.format(Contants.FOR_GET_ALL_COMMENT_SCC, comments.size()), comments);
+        return Response.status(Contants.CODE_OK).entity(result).build();
+    }
+
+    /**
+     * List of all comments of user in Db and order by create time ascending
+     * @param postId Id of post
+     * @return Response status and content
+     */
+    @SuppressWarnings("rawtypes")
+    @Path(Contants.URL_GET_BY_USER)
+    @GET
+    public Response getByUserId(@PathParam("user_id") int userId)
+    {
+        List<Comment> comments = null;
+        // Call service to get all comment of post from Db
+        try {
+            comments = commentSer.getByUserId(userId);
         } catch (HibernateException e) {
             // Log
             logger.warn(Contants.MSG_DB_ERR, e);

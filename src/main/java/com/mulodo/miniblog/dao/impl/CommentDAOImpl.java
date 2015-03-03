@@ -36,4 +36,19 @@ public class CommentDAOImpl extends CommonDAOImpl<Comment> implements CommentDAO
         listQuery.setInteger("postId", postId);
         return listQuery.list();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Comment> getByUserId(int userId)
+    {
+        Session session = sf.getCurrentSession();
+        // Select all comments of post and sort by create time ascending
+        Query listQuery = session
+                .createQuery("FROM Comment c WHERE c.userId = :userId ORDER BY createTime ASC");
+        // Set postId
+        listQuery.setInteger("userId", userId);
+        return listQuery.list();
+    }
 }

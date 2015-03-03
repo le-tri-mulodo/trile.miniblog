@@ -764,9 +764,79 @@ public class CommentControllerTest
     {
         createDummyData(true);
 
-        // user post not exist
+        // post not exist
         ResteasyWebTarget target = client
                 .target(COMMENT_URL + "/posts/" + (dummyPost.getId() + 10));
+
+        Response response = target.request().get();
+
+        ResultMessage<List<Comment>> result = response
+                .readEntity(new GenericType<ResultMessage<List<Comment>>>() {
+                });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_OK, response.getStatus());
+
+        // create empty list to assert
+        dummyComments = new ArrayList<Comment>();
+        // Check result
+        assertEquals(dummyComments, result.getData());
+    }
+
+    // normal case: 11 result
+    @Test
+    public void testGetByUser()
+    {
+        createDummyData(true);
+        createDummyComments(10);
+
+        ResteasyWebTarget target = client.target(COMMENT_URL + "/users/" + dummyUser.getId());
+
+        Response response = target.request().get();
+
+        ResultMessage<List<Comment>> result = response
+                .readEntity(new GenericType<ResultMessage<List<Comment>>>() {
+                });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_OK, response.getStatus());
+        // Check result
+        assertEquals(dummyComments, result.getData());
+    }
+
+    // normal case: 1 result
+    @Test
+    public void testGetByUser2()
+    {
+        createDummyData(true);
+        createDummyComments(0);
+
+        ResteasyWebTarget target = client.target(COMMENT_URL + "/users/" + dummyUser.getId());
+
+        Response response = target.request().get();
+
+        ResultMessage<List<Comment>> result = response
+                .readEntity(new GenericType<ResultMessage<List<Comment>>>() {
+                });
+        response.close();
+
+        // Check status
+        assertEquals(Contants.CODE_OK, response.getStatus());
+        // Check result
+        assertEquals(dummyComments, result.getData());
+    }
+
+    // normal case: 0 result
+    @Test
+    public void testGetByUser3()
+    {
+        createDummyData(true);
+
+        // user not exist
+        ResteasyWebTarget target = client
+                .target(COMMENT_URL + "/users/" + (dummyUser.getId() + 10));
 
         Response response = target.request().get();
 

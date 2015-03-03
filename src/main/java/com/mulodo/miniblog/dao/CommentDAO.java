@@ -20,4 +20,11 @@ public interface CommentDAO extends CommonDAO<Comment>
      * @return All comments of post order by create time ascending
      */
     List<Comment> getByPostId(int postId);
+
+    /**
+     * @param userId
+     *            Id of User
+     * @return All comments of user order by create time ascending
+     */
+    List<Comment> getByUserId(int userId);
 }

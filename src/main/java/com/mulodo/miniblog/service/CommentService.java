@@ -12,8 +12,14 @@ import com.mulodo.miniblog.pojo.Comment;
 public interface CommentService extends CommonService<Comment>
 {
     /**
-     * @return List of all commets of post in Db and order by create time
+     * @return List of all comments of post in Db and order by create time
      *         ascending
      */
     List<Comment> getByPostId(int postId);
+
+    /**
+     * @return List of all comments of user in Db and order by create time
+     *         ascending
+     */
+    List<Comment> getByUserId(int userId);
 }

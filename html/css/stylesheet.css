@@ -61,3 +61,24 @@
 .full-width{
 	width: 100%;
 }
+
+.notlogged{
+	display: block !important;
+}
+
+.logged{
+	display: none !important;
+}
+
+.dropdown-menu{
+	background-color: #438ED6;
+}
+
+.dropdown-menu>li>a{
+	color: #d7e5e7;
+}
+
+.dropdown-menu>li>a:hover{
+	color: #869492;
+	background-color: #438ED6;
+}

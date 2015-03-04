@@ -63,11 +63,11 @@
 }
 
 .notlogged{
-	display: none !important;
+	display: block !important;
 }
 
 .logged{
-	display: block !important;
+	display: none !important;
 }
 
 .dropdown-menu{
@@ -85,4 +85,8 @@
 
 .body{
   margin-top: 86px;
+}
+
+body{
+    background-color: #E9EAED;
 }

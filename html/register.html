@@ -43,12 +43,6 @@
           <ul class="nav navbar-nav navbar-right">
             <li class="notlogged"><a href="#">Login</a></li>
             <li class="notlogged"><a href="#">Register</a></li>
-            <li class="dropdown nav navbar-nav navbar-right logged">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Hi Tri!<span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Logout</a></li>
-              </ul>
-            </li>
           </ul>
         </div>
       </div>
@@ -59,19 +53,8 @@
   <div class="body container">
     <!-- Example row of columns -->
     <div class="row">
-      <div class="col-md-3 logged">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <ul class="nav nav-pills nav-stacked">
-              <li role="presentation" class="active"><a href="#"><span class="glyphicon glyphicon-th nav-icon"></span>All Post</a></li>
-              <li role="presentation"><a href="#"><span class="glyphicon glyphicon-th-list nav-icon"></span>My Post</a></li>
-              <li role="presentation"><a href="#"><span class="glyphicon glyphicon-list-alt nav-icon"></span>Top Post</a></li>
-              <li role="presentation"><a href="#"><span class="glyphicon glyphicon-plus nav-icon"></span>New Post</a></li>                
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div id="main-content" class="col-md-9">
+
+      <div class="col-md-12">
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="media">
@@ -348,35 +331,6 @@
     <!-- /container -->
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery.js"></script>
-
-    <!-- myScript -->
-    <script type="text/javascript">
-      logged_flag=false;
-      $().ready(function() {
-        if(true === logged_flag){
-          // Logged 
-          $(".logged").removeClass("hide");
-          $(".logged").addClass("show");
-
-          $(".notlogged").removeClass("show");
-          $(".notlogged").addClass("hide");
-
-          $("#main-content").removeClass("col-md-12");
-          $("#main-content").addClass("col-md-9");
-        } else {
-          // Notlogged
-          $(".logged").removeClass("show");
-          $(".logged").addClass("hide");
-
-          $(".notlogged").removeClass("hide");
-          $(".notlogged").addClass("show");
-
-          $("#main-content").removeClass("col-md-9");
-          $("#main-content").addClass("col-md-12");
-        }
-      });
-    </script>
-    
     <!-- Bootstrap JavaScript -->
     <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   </body>

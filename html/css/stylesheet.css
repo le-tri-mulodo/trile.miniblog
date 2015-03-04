@@ -63,11 +63,11 @@
 }
 
 .notlogged{
-	display: block !important;
+	display: none !important;
 }
 
 .logged{
-	display: none !important;
+	display: block !important;
 }
 
 .dropdown-menu{
@@ -81,4 +81,8 @@
 .dropdown-menu>li>a:hover{
 	color: #869492;
 	background-color: #438ED6;
+}
+
+.body{
+  margin-top: 86px;
 }

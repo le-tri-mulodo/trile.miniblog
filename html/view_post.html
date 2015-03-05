@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MiniBlog</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/stylesheet.css" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document" >
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="logged.html">MiniBlog</a>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <div class="col-md-8">
+           <form class="navbar-form navbar-nav full-width">
+            <div class="input-group full-width">
+              <input type="text" class="form-control" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+              </span>
+              <!-- /input-group-->
+            </form>
+          </div>  
+        </div>
+        <div class="col-md-3" >
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown nav navbar-nav navbar-right logged">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                Hi Tri!<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="edit_profile.html"><span class="glyphicon glyphicon-user nav-icon"></span>Profile</a></li>
+                  <li><a href="welcome.html"><span class="glyphicon glyphicon-log-out nav-icon"></span>Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!--/.navbar-collapse -->
+      </div>
+    </nav>
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="body container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-3 col-md-push-9 logged">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <ul class="nav nav-pills nav-stacked">
+                <li role="presentation" class="active"><a href="logged.html"><span class="glyphicon glyphicon-th nav-icon"></span>All Post</a></li>
+                <li role="presentation"><a href="logged.html"><span class="glyphicon glyphicon-th-list nav-icon"></span>My Post</a></li>
+                <li role="presentation"><a href="logged.html"><span class="glyphicon glyphicon-list-alt nav-icon"></span>Top Post</a></li>
+                <li role="presentation"><a href="new_post.html"><span class="glyphicon glyphicon-plus nav-icon"></span>New Post</a></li>              
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9 col-md-pull-3">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="media">
+                <div class="media-left">
+                  <a href="#">
+                    <img data-holder-rendered="true" src="img/tri.png" class="media-object avatar" data-src="holder.js/64x64" alt="64x64">
+                  </a>
+                </div>
+                <div class="media-body">
+                  <div class="row">
+                    <div class="col-xs-9">
+                      <h2 class="media-heading"><a href="#">Post 1</a></h2>
+                    </div>
+                    <div class="col-xs-3">
+                      <div class="owner-control">
+                        <a href="logged.html"><span class="glyphicon glyphicon-trash pull-right nav-icon"></span></a>
+                        <a href="new_post.html"><span class="glyphicon glyphicon-pencil pull-right nav-icon"></span></a>
+                      </div>
+                    </div>
+                  </div>
+                  <p><span class="glyphicon glyphicon-time"></span>
+                    Created on 11:11 PM 2015/01/05 by <a href="#">TriLe</a>
+                  </p>
+                </div>
+                <hr>
+                <p id="description">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, vero, obcaecati, aut, error quam sapiente nemo saepe quibusdam sit excepturi nam quia corporis eligendi eos magni recusandae laborum minus inventore?
+                </p>
+                <hr>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam scelerisque mi a magna feugiat, non consequat purus venenatis. Proin vehicula orci eget dui maximus pellentesque. Curabitur viverra ex leo, et tristique tellus facilisis id. Nunc eleifend nunc velit, id ornare libero rutrum rutrum. Curabitur posuere, erat at lacinia congue, est tellus feugiat turpis, sit amet semper mi nisi sit amet massa. Etiam pretium diam velit, ut dignissim augue rutrum ac. Proin a nisl nisi. Vestibulum fringilla pellentesque leo, quis lacinia sem mattis eget. Donec enim ex, mattis ut tellus laoreet, lacinia eleifend eros. Praesent sit amet tortor sed leo pellentesque tempor. Donec tincidunt lobortis libero. Donec ullamcorper pharetra velit eu feugiat. In mattis mauris quis consectetur consequat. Donec rutrum hendrerit rhoncus. Donec non facilisis libero, sit amet rutrum ligula. In auctor rutrum velit, facilisis lobortis tortor egestas eu. Suspendisse aliquet, felis vitae pharetra tristique, urna ex viverra metus, vitae imperdiet turpis magna vel odio. Fusce hendrerit eros eu pellentesque iaculis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In blandit lorem id tortor sollicitudin, eu commodo tortor porttitor. Duis molestie pulvinar enim, in dictum nisi tincidunt dapibus. Aliquam scelerisque purus a ex fringilla, quis vestibulum est semper. Sed fermentum sed ipsum nec vestibulum. Phasellus id rhoncus orci. Fusce sit amet lorem ultricies magna ultricies dictum vel lobortis justo. Quisque mattis, augue ut pharetra facilisis, libero eros varius neque, vel finibus libero purus eget risus. Ut at ante non neque elementum fermentum sit amet sit amet tortor. Sed dapibus urna in lacus congue, sed aliquet velit pulvinar. Morbi eleifend tristique sem, ac volutpat lacus vestibulum nec. Morbi a porta eros, a facilisis augue. Maecenas hendrerit sagittis mattis. Nunc dapibus mauris justo, id lobortis lorem viverra vitae. Vestibulum gravida massa sit amet luctus fringilla. Suspendisse non aliquam neque, in elementum ligula. Aenean sit amet sagittis enim. Integer viverra magna vel rutrum tempor. Vestibulum lectus urna, viverra at hendrerit ut, placerat a tellus. Vivamus sit amet elementum mi. Sed posuere magna est, at suscipit mauris cursus eget. Aenean sapien sem, ultrices nec bibendum vel, bibendum eu tellus. Suspendisse quis turpis posuere, consectetur metus vel, ornare lectus. Nulla id lectus ut magna suscipit gravida. Pellentesque mollis nunc a congue luctus. Quisque luctus, orci vitae suscipit ornare, dolor massa volutpat mi, eu vehicula magna nunc at elit. Praesent at hendrerit metus. Sed convallis a nulla eget elementum. Maecenas porta, tortor eget feugiat convallis, sem turpis dignissim libero, non fringilla mauris est in risus. Donec condimentum nisl nec dui accumsan, nec lobortis libero pretium. Aenean venenatis sapien sed volutpat sagittis. Curabitur ac pretium nibh. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec aliquet magna libero, eu lobortis lorem bibendum in. Phasellus vel ornare lectus, mattis vestibulum nibh. Phasellus interdum congue dui, eget suscipit odio lobortis a. Mauris ullamcorper lectus at ex euismod accumsan. Nullam ac dapibus odio. Nulla massa ipsum, sagittis eget suscipit id, maximus vel nisl. Aenean non maximus erat, in dapibus enim. Nunc a laoreet erat. Cras at accumsan nulla, sed rhoncus augue. Etiam interdum interdum turpis ut sagittis. Phasellus sed molestie elit. Aliquam a justo diam. Integer ullamcorper sapien aliquet feugiat fringilla. Mauris porttitor nibh accumsan, fringilla lectus a, sagittis lectus. Integer vel convallis enim. Aliquam est tortor, ultricies laoreet turpis vel, bibendum malesuada neque. Vivamus fringilla auctor nisi at dignissim. Morbi iaculis tempus turpis, eget pellentesque erat congue eu. Phasellus lacinia egestas magna vel rutrum. Vivamus vel ligula lacinia, pulvinar augue non, pretium ipsum. Donec at pulvinar mauris. Suspendisse id tristique sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc dapibus, orci non pellentesque feugiat, sem nibh gravida diam, nec blandit arcu ante convallis purus. Vestibulum dignissim nisl et maximus ultricies. Duis fermentum arcu et sapien placerat mattis. Nulla a dolor vel risus laoreet porttitor. Sed erat est, mattis sed odio sit amet, efficitur placerat est. Sed pharetra laoreet lorem lobortis dapibus. Donec dolor lorem, blandit id purus eget, porta convallis sem. Curabitur id orci augue. Ut id semper felis, eget cursus nunc. Etiam eu ligula augue. Etiam fringilla metus neque, ut faucibus purus efficitur in.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-body">
+
+              <div class="media">
+                <a class="pull-left" href="#">
+                  <img class="media-object avatar" src="img/peter.jpg">
+                </a>
+                <div class="media-body">
+                  <h4 class="media-heading">Peter Packer</h4>
+                  <p><span class="glyphicon glyphicon-time nav-icon"></span>Created on 14:14 PM 2015/01/05</p>
+                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="media">
+                <a class="pull-left" href="#">
+                  <img class="media-object avatar" src="img/gwen.jpg">
+                </a>
+                <div class="media-body">
+                  <h4 class="media-heading">Gwen Stacy</h4>
+                  <p><span class="glyphicon glyphicon-time nav-icon"></span>Created on 14:15 PM 2015/01/05</p>
+                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                </div>
+              </div>
+              <hr>
+
+              <div class="media sub-comment">
+                <a class="pull-left" href="#">
+                  <img class="media-object avatar" src="img/harry.png" alt="">
+                </a>
+                <div class="media-body">
+                  <h4 class="media-heading">Harry Osborn</h4>
+                  <p><span class="glyphicon glyphicon-time nav-icon"></span>Created on 14:16 PM 2015/01/05</p>
+                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                </div>
+              </div>
+              <hr>
+              <div class="media sub-comment">
+                <a class="pull-left" href="#">
+                  <img class="media-object avatar" src="img/tri.png" alt="">
+                </a>
+                <div class="media-body">
+                  <div class="row">
+                    <div class="col-xs-9">
+                      <h4 class="media-heading">Tri Le</h4>
+                    </div>
+                    <div class="col-xs-3">
+                      <div class="owner-control">
+                        <a href="view_post.html"><span class="glyphicon glyphicon-trash pull-right nav-icon"></span></a>
+                        <a href="edit_comment.html"><span class="glyphicon glyphicon-pencil pull-right nav-icon"></span></a>
+                      </div>
+                    </div>
+                  </div>
+                    <p><span class="glyphicon glyphicon-time nav-icon"></span>Created on 14:19 PM 2015/01/05</p>
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                  </div>
+                </div>
+                <hr>
+
+              <div class="media">
+                <a class="pull-left" href="#">
+                  <img class="media-object avatar" src="img/ironman.jpg">
+                </a>
+                <div class="media-body">
+                  <h4 class="media-heading">Tony Stark</h4>
+                  <p><span class="glyphicon glyphicon-time nav-icon"></span>Created on 14:55 PM 2015/01/05</p>
+                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                </div>
+              </div>
+              <hr>
+
+              <div class="media">
+                <a class="pull-left" href="#">
+                  <img class="media-object avatar" src="img/thor.jpg">
+                </a>
+                <div class="media-body">
+                  <h4 class="media-heading">Thor</h4>
+                  <p><span class="glyphicon glyphicon-time nav-icon"></span>Created on 15:15 PM 2015/01/05</p>
+                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                </div>
+              </div>
+              <hr>
+
+                <div class="well">
+                  <h4>Leave a Comment:</h4>
+                  <form role="form">
+                    <div class="form-group">
+
+                      <textarea class="form-control" rows="3"></textarea>                        
+
+<!--                     <button type="button" class="btn btn-xs btn-success icon"><span class="glyphicon glyphicon-ok"></span></button>
+                    <button type="button" class="btn btn-xs btn-danger icon"><span class="glyphicon glyphicon-remove"></span></button> -->
+
+                  </div>
+                </div>  
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+<!--         <footer>
+          <p align="center">&copy; TriLe@Mulodo 2015</p>
+        </footer> -->
+      </div>
+      <!-- /container -->
+      <!-- jQuery -->
+      <script src="js/jquery.min.js"></script>
+      <!-- Bootstrap JavaScript -->
+      <script src="js/bootstrap.min.js"></script>
+    </body>
+    </html>

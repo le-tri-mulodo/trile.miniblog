@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -63,10 +63,10 @@
           <div class="panel panel-default">
             <div class="panel-body">
               <ul class="nav nav-pills nav-stacked">
-                <li role="presentation" class="active"><a href="#"><span class="glyphicon glyphicon-th nav-icon"></span>All Post</a></li>
-                <li role="presentation"><a href="#"><span class="glyphicon glyphicon-th-list nav-icon"></span>My Post</a></li>
-                <li role="presentation"><a href="#"><span class="glyphicon glyphicon-list-alt nav-icon"></span>Top Post</a></li>
-                <li role="presentation"><a href="#"><span class="glyphicon glyphicon-plus nav-icon"></span>New Post</a></li>              
+                <li role="presentation" class="active"><a href="logged.html"><span class="glyphicon glyphicon-th nav-icon"></span>All Post</a></li>
+                <li role="presentation"><a href="logged.html"><span class="glyphicon glyphicon-th-list nav-icon"></span>My Post</a></li>
+                <li role="presentation"><a href="logged.html"><span class="glyphicon glyphicon-list-alt nav-icon"></span>Top Post</a></li>
+                <li role="presentation"><a href="new_post.html"><span class="glyphicon glyphicon-plus nav-icon"></span>New Post</a></li>              
               </ul>
             </div>
           </div>
@@ -81,7 +81,17 @@
                   </a>
                 </div>
                 <div class="media-body">
-                  <h2 class="media-heading"><a href="#">Post 1</a></h2>
+                  <div class="row">
+                    <div class="col-xs-9">
+                      <h2 class="media-heading"><a href="#">Post 1</a></h2>
+                    </div>
+                    <div class="col-xs-3">
+                      <div class="owner-control">
+                        <a href="logged.html"><span class="glyphicon glyphicon-trash pull-right nav-icon"></span></a>
+                        <a href="new_post.html"><span class="glyphicon glyphicon-pencil pull-right nav-icon"></span></a>
+                      </div>
+                    </div>
+                  </div>
                   <p><span class="glyphicon glyphicon-time"></span>
                     Created on 11:11 PM 2015/01/05 by <a href="#">TriLe</a>
                   </p>
@@ -338,17 +348,16 @@
             </div>
           </div>
 
-
         </div>
         <hr>
-        <footer>
+<!--         <footer>
           <p align="center">&copy; TriLe@Mulodo 2015</p>
-        </footer>
+        </footer> -->
       </div>
       <!-- /container -->
       <!-- jQuery -->
-      <script src="https://code.jquery.com/jquery.js"></script>
+      <script src="js/jquery.min.js"></script>
       <!-- Bootstrap JavaScript -->
-      <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
     </body>
     </html>

@@ -108,6 +108,10 @@ body{
   max-width: 550px;
 }
 
+.form-register {
+  max-width: 720px;
+}
+
 .form .form-heading,
 .form .checkbox {
   margin-bottom: 10px;
@@ -150,4 +154,9 @@ body{
 
 .form-register a{
   margin: 15px 0px;
+}
+
+#editor {
+  overflow:scroll;
+  max-height:300px;
 }

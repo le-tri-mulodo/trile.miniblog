@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MiniBlog</title>
   <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/summernote.css" rel="stylesheet">
+  <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
   <link href="css/stylesheet.css" rel="stylesheet">
   <!-- Bootstrap CSS -->
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -41,50 +43,97 @@
         </div>
         <div class="col-md-3" >
           <ul class="nav navbar-nav navbar-right">
-            <li class="active notlogged"><a href="loggin.html">Login</a></li>
-            <li class="notlogged"><a href="register.html">Register</a></li>
-          </ul>
+            <li class="dropdown nav navbar-nav navbar-right logged">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                Hi Tri!<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="edit_profile.html"><span class="glyphicon glyphicon-user nav-icon"></span>Profile</a></li>
+                  <li><a href="welcome.html"><span class="glyphicon glyphicon-log-out nav-icon"></span>Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
         </div>
+        <!--/.navbar-collapse -->
       </div>
-      <!--/.navbar-collapse -->
-    </div>
-  </nav>
-  <!-- Main jumbotron for a primary marketing message or call to action -->
-  <div class="body container">
-    <!-- Example row of columns -->
-    <div class="row">
+    </nav>
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="body container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-3 col-md-push-9 logged">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <ul class="nav nav-pills nav-stacked">
+                <li role="presentation"><a href="logged.html"><span class="glyphicon glyphicon-th nav-icon"></span>All Post</a></li>
+                <li role="presentation"><a href="logged.html"><span class="glyphicon glyphicon-th-list nav-icon"></span>My Post</a></li>
+                <li role="presentation"><a href="logged.html"><span class="glyphicon glyphicon-list-alt nav-icon"></span>Top Post</a></li>
+                <li role="presentation" class="active"><a href="new_post.html"><span class="glyphicon glyphicon-plus nav-icon"></span>New Post</a></li>              
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9 col-md-pull-3">
 
-      <div class="col-md-6 col-md-offset-3">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <!-- loggin form -->
-            <form class="form form-loggin">
-              <h2 class="form-heading">Please login</h2>
-              <label for="inputEmail" class="sr-only">Username</label>
-              <input type="text" id="inputEmail" class="form-control form-input-top" placeholder="Username" required="true" autofocus="true">
-              
-              <label for="inputPassword" class="sr-only">Password</label>
-              <input type="password" id="inputPassword" class="form-control form-input-button" placeholder="Password" required="true">
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" value="remember-me"> Remember me
-                </label>
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <!-- loggin form -->
+              <form class="form form-register">
+                <h2 align="center" class="form-heading">New post</h2>
+                <label for="inputTitle" class="sr-only">Title</label>
+                <input id="inputTitle" class="form-control" placeholder="Title" required="true" autofocus="true">
+
+                <label for="inputDescription" class="sr-only">Description</label>
+                <input id="inputDescription" class="form-control" placeholder="Description" required="true" autofocus="true">
+
+                <div id="summernote"></div>
+
+                <div class="row">   
+                 <div class="col-md-6"> 
+                  <a class="btn btn-lg btn-primary btn-block" href="view_post.html">Preview</a>
+                </div>
+                <div class="col-md-6"> 
+                  <button class="btn btn-lg btn-primary btn-block" type="submit">Post</button>
+                </div>
               </div>
-              <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
             </form><!-- .loggin form -->
           </div>
         </div>
+
       </div>
+      <hr>
+<!--       <footer>
+        <p align="center">&copy; TriLe@Mulodo 2015</p>
+      </footer> -->
     </div>
-    <hr>
-    <footer>
-      <p align="center">&copy; TriLe@Mulodo 2015</p>
-    </footer>
-  </div>
-  <!-- /container -->
-  <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery.js"></script>
-  <!-- Bootstrap JavaScript -->
-  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-</body>
-</html>
+    <!-- /container -->
+    <!-- jQuery -->
+    <script src="js/jquery.min.js"></script>
+    <!-- text editor -->
+    <script src="js/summernote.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready( function() {
+      $("#summernote").summernote({
+        height: 200,                 // set editor height
+        minHeight: null,             // set minimum height of editor
+        maxHeight: null,             // set maximum height of editor
+        focus: true,                 // set focus to editable area after initializing summernote
+        toolbar: [
+          //[groupname, [button list]]
+          ['style', ['bold', 'italic', 'underline', 'clear']],
+          ['font', ['strikethrough']],
+          ['fontsize', ['fontsize']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['insert', ['link', 'picture']],
+          ['view', ['fullscreen','codeview']],
+          ['help', ['help']]
+          ]
+
+  });});
+    </script>
+  </body>
+  </html>

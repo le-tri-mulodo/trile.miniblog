@@ -127,12 +127,14 @@ body{
 .form .form-control:focus {
   z-index: 2;
 }
-.form-loggin input[type="text"] {
+
+.form-input-top {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
-.form-loggin input[type="password"] {
+
+.form-input-button {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -142,3 +144,10 @@ body{
   margin: 20px 0px;
 }
 
+.form-register button{
+  margin: 15px 0px;
+}
+
+.form-register a{
+  margin: 15px 0px;
+}

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package exception;
+package com.mulodo.miniblog.exception;
 
 /**
  * Thrown when resource not exist in Db

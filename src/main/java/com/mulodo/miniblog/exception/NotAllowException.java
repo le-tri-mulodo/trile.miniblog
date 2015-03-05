@@ -1,7 +1,7 @@
 /**
  * 
  */
-package exception;
+package com.mulodo.miniblog.exception;
 
 /**
  * Thrown when User is <b>not</b> owner of resource

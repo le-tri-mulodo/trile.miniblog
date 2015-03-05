@@ -29,13 +29,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.mulodo.miniblog.common.Contants;
+import com.mulodo.miniblog.exception.NotAllowException;
+import com.mulodo.miniblog.exception.ResourceNotExistException;
 import com.mulodo.miniblog.message.ResultMessage;
 import com.mulodo.miniblog.pojo.Comment;
 import com.mulodo.miniblog.service.CommentService;
 import com.mulodo.miniblog.service.TokenService;
-
-import exception.NotAllowException;
-import exception.ResourceNotExistException;
 
 /**
  * RESTFUL controller to controll all about COMMENT

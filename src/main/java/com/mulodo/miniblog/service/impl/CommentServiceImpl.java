@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mulodo.miniblog.dao.CommentDAO;
+import com.mulodo.miniblog.exception.NotAllowException;
+import com.mulodo.miniblog.exception.ResourceNotExistException;
+import com.mulodo.miniblog.exception.ResourceNotExistException.Resource;
 import com.mulodo.miniblog.pojo.Comment;
 import com.mulodo.miniblog.pojo.Post;
 import com.mulodo.miniblog.pojo.User;
@@ -20,10 +23,6 @@ import com.mulodo.miniblog.service.CommentService;
 import com.mulodo.miniblog.service.PostService;
 import com.mulodo.miniblog.service.TokenService;
 import com.mulodo.miniblog.service.UserService;
-
-import exception.NotAllowException;
-import exception.ResourceNotExistException;
-import exception.ResourceNotExistException.Resource;
 
 /**
  * All services of comment

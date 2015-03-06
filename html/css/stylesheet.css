@@ -164,6 +164,9 @@ body{
 img.avatar{
   width: 64px;
   height: 64px;
+  border: 1px solid;
+  border-color: #000;
+  border-radius: f5px;
 }
 
 #description{
@@ -174,6 +177,13 @@ img.avatar{
   margin-left: 75px !important;
 }
 
+.panel-post div.panel{
+  background-color: #dafaca;
+}
+
+.panel-user div.panel{
+  background-color: #f08686;
+}
  
 /*.input-comment {
   width: 100%;

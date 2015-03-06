@@ -1,114 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MiniBlog</title>
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/stylesheet.css" rel="stylesheet">
-  <!-- Bootstrap CSS -->
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MiniBlog</title>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/stylesheet.css" rel="stylesheet">
+<!-- Bootstrap CSS -->
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-  </head>
-  <body role="document" >
-    <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="logged.html">MiniBlog</a>
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <div class="col-md-8">
-           <form class="navbar-form navbar-nav full-width">
-            <div class="input-group full-width">
-              <input type="text" class="form-control" placeholder="Search for...">
-              <span class="input-group-btn">
-                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-              </span>
-              <!-- /input-group-->
-            </form>
-          </div>  
-        </div>
-        <div class="col-md-3" >
-          <ul class="nav navbar-nav navbar-right">
-            <li class="notlogged"><a href="loggin.html">Login</a></li>
-            <li class="active notlogged"><a href="register.html">Register</a></li>
-          </ul>
-        </div>
-      </div>
-      <!--/.navbar-collapse -->
-    </div>
-  </nav>
-  <!-- Main jumbotron for a primary marketing message or call to action -->
-  <div class="body container">
-    <!-- Example row of columns -->
-    <div class="row">
+</head>
+<body role="document">
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="logged.html">MiniBlog</a>
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<div class="col-md-8">
+					<form class="navbar-form navbar-nav full-width">
+						<div class="input-group full-width">
+							<input type="text" class="form-control"
+								placeholder="Search for user info or post info"> <span
+								class="input-group-btn">
+								<button class="btn btn-default" type="button">
+									<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+								</button>
+							</span>
+							<!-- /input-group-->
+					</form>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<ul class="nav navbar-nav navbar-right">
+					<li class="notlogged"><a href="loggin.html">Login</a></li>
+					<li class="active notlogged"><a href="register.html">Register</a></li>
+				</ul>
+			</div>
+		</div>
+		<!--/.navbar-collapse -->
+		</div>
+	</nav>
+	<!-- Main jumbotron for a primary marketing message or call to action -->
+	<div class="body container">
+		<!-- Example row of columns -->
+		<div class="row">
 
-      <div class="col-md-8 col-md-offset-2">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <!-- loggin form -->
-            <form class="form form-register">
-              <h2 align="center" class="form-heading">Register</h2>
-              <label for="inputUsername" class="sr-only">Username</label>
-              <input id="inputUsername" class="form-control" placeholder="Username" required="true" autofocus="true" disabled>
+			<div class="col-md-8 col-md-offset-2">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<!-- loggin form -->
+						<form class="form form-register">
+							<h2 align="center" class="form-heading">Register</h2>
+							<label for="inputUsername" class="sr-only">Username</label> <input
+								id="inputUsername" class="form-control" placeholder="Username"
+								required="true" autofocus="true">
 
-              <div class="row" style="margin: -15px -15px;">
-                <div class="col-md-6">
-                  <label for="inputFirstname" class="sr-only">Firstname</label>
-                  <input id="inputFirstname" class="form-control" placeholder="Firstname" required="true" autofocus="false">
-                </div>
-                <div class="col-md-6">              
-                  <label for="inputLastname" class="sr-only">Lastname</label>
-                  <input id="inputLastname" class="form-control" placeholder="Lastname" required="true" autofocus="false">
-                </div>
-              </div>
-              
-              <div class="media">
-                <div class="media-left" style="padding-top:10px;">
-                  <a href="#">
-                    <img data-holder-rendered="true" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnMvPjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjEyLjQ1ODMzMzk2OTExNjIxMSIgeT0iMzIiIHN0eWxlPSJmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MTBwdDtkb21pbmFudC1iYXNlbGluZTpjZW50cmFsIj42NHg2NDwvdGV4dD48L2c+PC9zdmc+" style="width: 64px; height: 64px;" class="media-object" data-src="holder.js/64x64" alt="64x64">
-                  </a>
-                </div>
-                <div class="media-body">
-                  <label for="inputAvatarLink" class="sr-only">Avatar link</label>
-                  <input id="inputAvatarLink" class="form-control" placeholder="Avatar link" required="false" autofocus="false">
-                </div></div>
-                <div class="row">   
-                 <div class="col-md-6"> 
-                  <label for="inputPassword" class="sr-only">Password</label>
-                  <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="true">
-                </div>
-                <div class="col-md-6"> 
-                  <label for="inputConfirm" class="sr-only">Confirm</label>
-                  <input type="password" id="inputConfirm" class="form-control" placeholder="Confirm" required="true">
-                </div>
-              </div>
-              <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
-            </form><!-- .loggin form -->
-          </div>
-        </div>
-      </div>
-    </div>
-    <hr>
-<!--     <footer>
+							<div class="row" style="margin: -15px -15px;">
+								<div class="col-md-6">
+									<label for="inputFirstname" class="sr-only">Firstname</label> <input
+										id="inputFirstname" class="form-control"
+										placeholder="Firstname" required="true" autofocus="false">
+								</div>
+								<div class="col-md-6">
+									<label for="inputLastname" class="sr-only">Lastname</label> <input
+										id="inputLastname" class="form-control" placeholder="Lastname"
+										required="true" autofocus="false">
+								</div>
+							</div>
+
+							<div class="media">
+								<div class="media-left" style="padding-top: 10px;">
+									<a href="#"> <img data-holder-rendered="true"
+										src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnMvPjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjEyLjQ1ODMzMzk2OTExNjIxMSIgeT0iMzIiIHN0eWxlPSJmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MTBwdDtkb21pbmFudC1iYXNlbGluZTpjZW50cmFsIj42NHg2NDwvdGV4dD48L2c+PC9zdmc+"
+										style="width: 64px; height: 64px;" class="media-object"
+										data-src="holder.js/64x64" alt="64x64">
+									</a>
+								</div>
+								<div class="media-body">
+									<!--                   <label for="inputAvatarLink" class="sr-only">Avatar link</label>
+                  <input id="inputAvatarLink" class="form-control" placeholder="Avatar link" required="false" autofocus="false"> -->
+									<div class="input-group">
+										<input type="text" class="form-control"
+											placeholder="Search for user info or post info"> <span
+											class="input-group-btn">
+											<button class="btn btn-default upload" type="button">
+												<span class="glyphicon glyphicon-folder-open nav-icon" aria-hidden="true"></span>
+												Upload
+											</button>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<label for="inputPassword" class="sr-only">Password</label> <input
+										type="password" id="inputPassword" class="form-control"
+										placeholder="Password" required="true">
+								</div>
+								<div class="col-md-6">
+									<label for="inputConfirm" class="sr-only">Confirm</label> <input
+										type="password" id="inputConfirm" class="form-control"
+										placeholder="Confirm" required="true">
+								</div>
+							</div>
+							<button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+						</form>
+						<!-- .loggin form -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<!--     <footer>
       <p align="center">&copy; TriLe@Mulodo 2015</p>
     </footer> -->
-  </div>
-  <!-- /container -->
-  <!-- jQuery -->
-  <script src="js/jquery.min.js"></script>
-  <!-- Bootstrap JavaScript -->
-  <script src="js/bootstrap.min.js"></script>
+	</div>
+	<!-- /container -->
+	<!-- jQuery -->
+	<script src="js/jquery.min.js"></script>
+	<!-- Bootstrap JavaScript -->
+	<script src="js/bootstrap.min.js"></script>
 </body>
 </html>

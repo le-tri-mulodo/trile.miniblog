@@ -150,7 +150,7 @@ body{
 
 .form-register button{
   margin: 15px 0px;
-}
+}   
 
 .form-register a{
   margin: 15px 0px;
@@ -183,6 +183,11 @@ img.avatar{
 
 .panel-user div.panel{
   background-color: #f08686;
+}
+
+button.upload {
+  margin-top: 20px;
+  padding: 11px;
 }
  
 /*.input-comment {

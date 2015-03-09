@@ -3,12 +3,16 @@
  */
 package com.mulodo.miniblog.rest.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,9 +21,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.io.IOUtils;
 import org.hibernate.HibernateException;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.jboss.resteasy.plugins.validation.hibernate.ValidateRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.mulodo.miniblog.common.Contants;
+import com.mulodo.miniblog.common.Util;
 import com.mulodo.miniblog.message.ResultMessage;
 import com.mulodo.miniblog.pojo.User;
 import com.mulodo.miniblog.service.TokenService;
@@ -302,6 +311,53 @@ public class UserController
         // Response success
         ResultMessage<User> result = new ResultMessage<User>(Contants.CODE_OK,
                 Contants.MSG_CHANGE_PWD_SCC, user);
+        return Response.status(Contants.CODE_OK).entity(result).build();
+    }
+    
+    @POST
+    @Path("/upload")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadFile(MultipartFormDataInput input)
+    {
+
+        String fileName = null;
+
+        Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
+        List<InputPart> inputParts = uploadForm.get("uploadedFile");
+
+        for (InputPart inputPart : inputParts) {
+
+            try {
+
+                MultivaluedMap<String, String> header = inputPart.getHeaders();
+                fileName = Util.getFileName(header);
+
+                // convert the uploaded file to inputstream
+                InputStream inputStream = inputPart.getBody(InputStream.class, null);
+
+                byte[] bytes = IOUtils.toByteArray(inputStream);
+
+                // constructs upload file path (append current ms to create
+                // unique path)
+                fileName = Contants.UPLOADED_FILE_PATH + System.currentTimeMillis() + fileName;
+
+                Util.writeFile(bytes, fileName);
+
+                System.out.println("Done "+ fileName);
+
+            } catch (IOException e) {
+                // Log
+                logger.warn(Contants.MSG_FILE_UPLOAD_ERR, e);
+                // Response error
+                ResultMessage fileUploadErrMsg = new ResultMessage(Contants.CODE_FILE_UPLOAD_ERR,
+                        Contants.MSG_FILE_UPLOAD_ERR, String.format(Contants.FOR_FILE_UPLOAD_ERR,
+                                e.getMessage()));
+                return Response.status(Contants.CODE_INTERNAL_ERR).entity(fileUploadErrMsg).build();
+            }
+
+        }
+
+        ResultMessage result = new ResultMessage(Contants.CODE_OK, Contants.MSG_UPLOAD_SCC);
         return Response.status(Contants.CODE_OK).entity(result).build();
     }
 }

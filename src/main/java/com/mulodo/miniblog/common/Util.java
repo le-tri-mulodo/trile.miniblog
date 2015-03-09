@@ -3,11 +3,16 @@
  */
 package com.mulodo.miniblog.common;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
+
+import javax.ws.rs.core.MultivaluedMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -122,5 +127,45 @@ public class Util
         cal.set(Calendar.MILLISECOND, 0);
 
         return new Timestamp(cal.getTimeInMillis());
+    }
+
+    /**
+     * header sample { Content-Type=[image/png], Content-Disposition=[form-data;
+     * name="file"; filename="filename.extension"] }
+     **/
+    // get uploaded filename, is there a easy way in RESTEasy?
+    public static String getFileName(MultivaluedMap<String, String> header)
+    {
+
+        String[] contentDisposition = header.getFirst("Content-Disposition").split(";");
+
+        for (String filename : contentDisposition) {
+            if ((filename.trim().startsWith("filename"))) {
+
+                String[] name = filename.split("=");
+
+                String finalFileName = name[1].trim().replaceAll("\"", "");
+                return finalFileName;
+            }
+        }
+        return Contants.UNKNOWN_FILE_NAME;
+    }
+
+    // save to somewhere
+    public static void writeFile(byte[] content, String filename) throws IOException
+    {
+
+        File file = new File(filename);
+
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        // auto close resource
+        try (FileOutputStream fop = new FileOutputStream(file)) {
+
+            fop.write(content);
+            fop.flush();
+        }
+        // fop.close();
     }
 }

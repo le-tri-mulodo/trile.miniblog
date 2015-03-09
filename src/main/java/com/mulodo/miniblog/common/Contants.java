@@ -9,6 +9,9 @@ package com.mulodo.miniblog.common;
 public class Contants
 {
 
+    public static final String UPLOADED_FILE_PATH = "/Users/TriLe/miniblog-le.tri/img/";
+    public static final String UNKNOWN_FILE_NAME = "unknown";
+
     public static final String HASH_ALGORITHM = "SHA-256";
     public static final String DATE_TIME_FULL_FORMAT = "HH:mm a yyyy/MM/dd";
     public static final String DATE_FULL_FORMAT = "yyyy/MM/dd";
@@ -39,7 +42,6 @@ public class Contants
     public static final String URL_GET_BY_USER = "/users/{user_id:[0-9]+}";
     public static final String URL_GET_BY_POST = "/posts/{post_id:[0-9]+}";
 
-
     public static final String URL_COMMENT = "/comments";
 
     public static final String MSG_DB_ERR = "Database access error";
@@ -61,7 +63,8 @@ public class Contants
     public static final String MSG_COMMENT_NOT_EXIST = "Comment does not exist";
     public static final String FOR_COMMENT_NOT_EXIST = "Comment with id= %d does not exist";
     public static final String FOR_FORBIDDEN_COMMENT = "User with id=%d is not owner of comment with id=%d";
-
+    public static final String MSG_FILE_UPLOAD_ERR = "Upload file error";
+    public static final String FOR_FILE_UPLOAD_ERR = "Upload file error: %s";
     public static final String MSG_CREATE_USER_SCC = "Create user success!";
     public static final String MSG_UPDATE_USER_SCC = "Account updated success!";
     public static final String FOR_UPDATE_USER_SCC = "Search success! %d results";
@@ -78,7 +81,7 @@ public class Contants
     public static final String MSG_CREATE_COMMENT_SCC = "Create comment success!";
     public static final String MSG_UPDATE_COMMENT_SCC = "Update comment success!";
     public static final String MSG_DELETE_COMMENT_SCC = "Delete comment success!";
-
+    public static final String MSG_UPLOAD_SCC = "Upload file success!";
 
     public static final int CODE_INPUT_ERR = 1;
     public static final int CODE_OK = 200;
@@ -93,5 +96,6 @@ public class Contants
     public static final int CODE_POST_NOT_EXIST = 2501;
     public static final int CODE_COMMET_NOT_EXIST = 3001;
     public static final int CODE_DB_ERR = 9001;
+    public static final int CODE_FILE_UPLOAD_ERR = 9002;
 
 }

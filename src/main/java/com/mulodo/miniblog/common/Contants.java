@@ -65,6 +65,7 @@ public class Contants
     public static final String FOR_FORBIDDEN_COMMENT = "User with id=%d is not owner of comment with id=%d";
     public static final String MSG_FILE_UPLOAD_ERR = "Upload file error";
     public static final String FOR_FILE_UPLOAD_ERR = "Upload file error: %s";
+    public static final String MSG_INVALID_UPLOAD_DATA_ERR = "Invalid upload data";
     public static final String MSG_CREATE_USER_SCC = "Create user success!";
     public static final String MSG_UPDATE_USER_SCC = "Account updated success!";
     public static final String FOR_UPDATE_USER_SCC = "Search success! %d results";
@@ -97,5 +98,6 @@ public class Contants
     public static final int CODE_COMMET_NOT_EXIST = 3001;
     public static final int CODE_DB_ERR = 9001;
     public static final int CODE_FILE_UPLOAD_ERR = 9002;
+    public static final int CODE_INVALID_UPLOAD_DATA_ERR = 9003;
 
 }

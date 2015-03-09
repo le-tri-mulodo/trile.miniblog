@@ -1,45 +1,52 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-<web-app>
-	<display-name>Archetype Created Web Application</display-name>
+		<display-name>Archetype Created Web Application</display-name>
 
-	<context-param>
-		<param-name>resteasy.scan</param-name>
-		<param-value>false</param-value>
-	</context-param>
-<!-- 	<context-param>
-		<param-name>resteasy.providers</param-name>
-		<param-value>com.mulodo.miniblog.exception.ValidationExceptionHandler</param-value>
-	</context-param> -->
+		<context-param>
+			<param-name>resteasy.scan</param-name>
+			<param-value>false</param-value>
+		</context-param>
+		<!-- <context-param> <param-name>resteasy.providers</param-name> <param-value>com.mulodo.miniblog.exception.ValidationExceptionHandler</param-value> 
+			</context-param> -->
 
-	<!-- this need same with resteasy servlet url-pattern -->
-	<context-param>
-		<param-name>resteasy.servlet.mapping.prefix</param-name>
-		<param-value>/</param-value>
-	</context-param>
-	<listener>
-		<listener-class>
-			org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
-		</listener-class>
-	</listener>
-	<listener>
-		<listener-class>
-			org.jboss.resteasy.plugins.spring.SpringContextLoaderListener
-		</listener-class>
-	</listener>
-	<!-- <listener> <listener-class> org.springframework.web.context.ContextLoaderListener 
-		</listener-class> </listener> -->
-	<servlet>
-		<servlet-name>resteasy-servlet</servlet-name>
-		<servlet-class>
-			org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
-		</servlet-class>
-	</servlet>
+		<!-- this need same with resteasy servlet url-pattern -->
+		<context-param>
+			<param-name>resteasy.servlet.mapping.prefix</param-name>
+			<param-value>/</param-value>
+		</context-param>
+		<listener>
+			<listener-class>
+				org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
+			</listener-class>
+		</listener>
+		<listener>
+			<listener-class>
+				org.jboss.resteasy.plugins.spring.SpringContextLoaderListener
+			</listener-class>
+		</listener>
+		<!-- <listener> <listener-class> org.springframework.web.context.ContextLoaderListener 
+			</listener-class> </listener> -->
+		<servlet>
+			<servlet-name>resteasy-servlet</servlet-name>
+			<servlet-class>
+				org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
+			</servlet-class>
+		</servlet>
 
-	<servlet-mapping>
-		<servlet-name>resteasy-servlet</servlet-name>
-		<url-pattern>/*</url-pattern>
-	</servlet-mapping>
-</web-app>
+		<servlet-mapping>
+			<servlet-name>resteasy-servlet</servlet-name>
+			<url-pattern>/*</url-pattern>
+		</servlet-mapping>
+
+		<filter>
+			<filter-name>CorsFilter</filter-name>
+			<filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+		</filter>
+		<filter-mapping>
+			<filter-name>CorsFilter</filter-name>
+			<url-pattern>*</url-pattern>
+		</filter-mapping>
+	</web-app>

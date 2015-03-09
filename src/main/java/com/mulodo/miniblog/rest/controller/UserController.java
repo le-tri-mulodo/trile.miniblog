@@ -314,6 +314,7 @@ public class UserController
         return Response.status(Contants.CODE_OK).entity(result).build();
     }
     
+    @SuppressWarnings("rawtypes")
     @POST
     @Path("/upload")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -324,6 +325,15 @@ public class UserController
 
         Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
         List<InputPart> inputParts = uploadForm.get("uploadedFile");
+
+        if (null == inputParts) {
+            // Log
+            logger.warn(Contants.MSG_INVALID_UPLOAD_DATA_ERR);
+            // Response error
+            ResultMessage fileUploadErrMsg = new ResultMessage(Contants.CODE_FILE_UPLOAD_ERR,
+                    Contants.MSG_INVALID_UPLOAD_DATA_ERR, Contants.MSG_INVALID_UPLOAD_DATA_ERR);
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(fileUploadErrMsg).build();
+        }
 
         for (InputPart inputPart : inputParts) {
 
@@ -343,15 +353,15 @@ public class UserController
 
                 Util.writeFile(bytes, fileName);
 
-                System.out.println("Done "+ fileName);
+                System.out.println("Done " + fileName);
 
             } catch (IOException e) {
                 // Log
                 logger.warn(Contants.MSG_FILE_UPLOAD_ERR, e);
                 // Response error
-                ResultMessage fileUploadErrMsg = new ResultMessage(Contants.CODE_FILE_UPLOAD_ERR,
-                        Contants.MSG_FILE_UPLOAD_ERR, String.format(Contants.FOR_FILE_UPLOAD_ERR,
-                                e.getMessage()));
+                ResultMessage fileUploadErrMsg = new ResultMessage(
+                        Contants.CODE_INVALID_UPLOAD_DATA_ERR, Contants.MSG_FILE_UPLOAD_ERR,
+                        String.format(Contants.FOR_FILE_UPLOAD_ERR, e.getMessage()));
                 return Response.status(Contants.CODE_INTERNAL_ERR).entity(fileUploadErrMsg).build();
             }
 

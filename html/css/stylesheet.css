@@ -148,13 +148,13 @@ body{
   margin: 20px 0px;
 }
 
-.form-register button{
+.form-register button.btn-register{
   margin: 15px 0px;
 }   
 
-.form-register a{
-  margin: 15px 0px;
-}
+/*.form-register a{
+  margin: 150px 0px;
+}*/
 
 #editor {
   overflow:scroll;
@@ -166,7 +166,7 @@ img.avatar{
   height: 64px;
   border: 1px solid;
   border-color: #000;
-  border-radius: f5px;
+  border-radius: 5px;
 }
 
 #description{

@@ -6,7 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MiniBlog</title>
 <link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 <link href="css/stylesheet.css" rel="stylesheet">
+
 <!-- Bootstrap CSS -->
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -81,29 +83,8 @@
 								</div>
 							</div>
 
-							<div class="media">
-								<div class="media-left" style="padding-top: 10px;">
-									<a href="#"> <img data-holder-rendered="true"
-										src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnMvPjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjEyLjQ1ODMzMzk2OTExNjIxMSIgeT0iMzIiIHN0eWxlPSJmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MTBwdDtkb21pbmFudC1iYXNlbGluZTpjZW50cmFsIj42NHg2NDwvdGV4dD48L2c+PC9zdmc+"
-										style="width: 64px; height: 64px;" class="media-object"
-										data-src="holder.js/64x64" alt="64x64">
-									</a>
-								</div>
-								<div class="media-body">
-									<!--                   <label for="inputAvatarLink" class="sr-only">Avatar link</label>
-                  <input id="inputAvatarLink" class="form-control" placeholder="Avatar link" required="false" autofocus="false"> -->
-									<div class="input-group">
-										<input type="text" class="form-control"
-											placeholder="Search for user info or post info"> <span
-											class="input-group-btn">
-											<button class="btn btn-default upload" type="button">
-												<span class="glyphicon glyphicon-folder-open nav-icon" aria-hidden="true"></span>
-												Upload
-											</button>
-										</span>
-									</div>
-								</div>
-							</div>
+									<input id="fileUploader" name="uploadedFile" type="file" accept="image/*" >
+
 							<div class="row">
 								<div class="col-md-6">
 									<label for="inputPassword" class="sr-only">Password</label> <input
@@ -133,5 +114,24 @@
 	<script src="js/jquery.min.js"></script>
 	<!-- Bootstrap JavaScript -->
 	<script src="js/bootstrap.min.js"></script>
+	<!-- uploadjs -->
+	<script src="js/fileinput.min.js"></script>
+	<script>
+		$("#fileUploader").fileinput({
+			uploadUrl: "http://localhost:8080/miniblog.api/users/upload",
+			uploadAsync: true,
+			// dropZoneEnabled:false,
+			previewFileType: "image",
+			browseClass: "btn btn-success",
+			browseLabel: "Pick Image",
+			browseIcon: '<i class="glyphicon glyphicon-picture"></i>',
+			removeClass: "btn btn-danger",
+			removeLabel: "Delete",
+			removeIcon: '<i class="glyphicon glyphicon-trash"></i>',
+			uploadClass: "btn btn-info",
+			uploadLabel: "Upload",
+			uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',
+		});
+	</script>
 </body>
 </html>

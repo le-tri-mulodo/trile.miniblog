@@ -229,7 +229,7 @@ public class UserController
 
         // Response success
         ResultMessage<List<User>> result = new ResultMessage<List<User>>(Contants.CODE_OK,
-                String.format(Contants.FOR_UPDATE_USER_SCC, users.size()), users);
+                String.format(Contants.FOR_SEARCH_SCC, users.size()), users);
         return Response.status(Contants.CODE_OK).entity(result).build();
     }
 
@@ -313,7 +313,7 @@ public class UserController
                 Contants.MSG_CHANGE_PWD_SCC, user);
         return Response.status(Contants.CODE_OK).entity(result).build();
     }
-    
+
     @SuppressWarnings("rawtypes")
     @POST
     @Path("/upload")

@@ -146,8 +146,7 @@ public class PostServiceImpl implements PostService
     @Transactional(readOnly = true)
     public List<Post> search(String query)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return postDAO.search(query);
     }
 
     /**
@@ -193,6 +192,9 @@ public class PostServiceImpl implements PostService
         return postDAO.checkOwner(postId, userId);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Transactional(readOnly = true)
     @Override
     public List<Post> list()
@@ -200,11 +202,24 @@ public class PostServiceImpl implements PostService
         return postDAO.list();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Transactional(readOnly = true)
     @Override
     public List<Post> getByUserId(int userId)
     {
         return postDAO.getByUserId(userId);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public List<Post> top()
+    {
+        return postDAO.top();
     }
 
 }

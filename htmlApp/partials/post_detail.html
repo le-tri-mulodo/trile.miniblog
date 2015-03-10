@@ -1,0 +1,91 @@
+
+<div class="col-md-3 col-md-push-9 logged">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<ul class="nav nav-pills nav-stacked">
+				<li role="presentation" class="active"><a href="logged.html"><span
+						class="glyphicon glyphicon-th nav-icon"></span>All Post</a></li>
+				<li role="presentation"><a href="logged.html"><span
+						class="glyphicon glyphicon-th-list nav-icon"></span>My Post</a></li>
+				<li role="presentation"><a href="logged.html"><span
+						class="glyphicon glyphicon-list-alt nav-icon"></span>Top Post</a></li>
+				<li role="presentation"><a href="new_post.html"><span
+						class="glyphicon glyphicon-plus nav-icon"></span>New Post</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="col-md-9 col-md-pull-3">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="media">
+				<div class="media-left">
+					<a href="#/users/{{post.user_id}}"> <img
+						ng-src="{{users[post.user_id].avatarlink}}"
+						class="media-object avatar">
+					</a>
+				</div>
+				<div class="media-body">
+					<div class="row">
+						<div class="col-xs-9">
+							<h2 class="media-heading">
+								<a href="#/posts/{{post.post_id}}">{{post.title}}</a>
+							</h2>
+						</div>
+						<div class="col-xs-3">
+							<div class="owner-control">
+								<a href="logged.html"><span
+									class="glyphicon glyphicon-trash pull-right nav-icon"></span></a> <a
+									href="new_post.html"><span
+									class="glyphicon glyphicon-pencil pull-right nav-icon"></span></a>
+							</div>
+						</div>
+					</div>
+					<p>
+						<span class="glyphicon glyphicon-time"></span> Created on
+						{{post.create_time}} by <a href="#/users/{{post.user_id}}">{{users[post.user_id].username}}</a>
+					</p>
+				</div>
+				<hr>
+				<p id="description">{{post.description}}</p>
+				<hr>
+				<p>{{post.content}}</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-body">
+
+			<div ng-repeat="comment in comments">
+				<div class="media">
+					<a class="pull-left" href="#/users/{{comment.user_id}}"> <img
+						class="media-object avatar"
+						ng-src="{{users[comment.user_id].avatarlink}}">
+					</a>
+					<div class="media-body">
+						<h4 class="media-heading">{{users[comment.user_id].username}}</h4>
+						<p>
+							<span class="glyphicon glyphicon-time nav-icon"></span>Created on
+							{{comment.create_time}}
+						</p>
+						{{comment.content}}
+					</div>
+				</div>
+				<hr>
+			</div>
+
+			<div class="well">
+				<h4>Leave a Comment:</h4>
+				<form role="form">
+					<div class="form-group">
+
+						<textarea class="form-control" rows="1"></textarea>
+					</div>
+				</form>
+			</div>
+
+		</div>
+
+	</div>
+</div>

@@ -50,4 +50,11 @@ public interface PostService extends CommonService<Post>
      *         time
      */
     List<Post> getByUserId(int userId);
+
+    /**
+     * List 10 newest posts
+     * 
+     * @return list of 10 newest posts in Db
+     */
+    List<Post> top();
 }

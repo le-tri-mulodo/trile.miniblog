@@ -29,8 +29,8 @@ import com.mulodo.miniblog.config.CustomerTimestampDeserialize;
 
 @Entity
 @Table(name = "posts")
-@JsonPropertyOrder({ "user_id", "post_id", "title", "description", "create_time", "edit_time",
-        "public_time" })
+@JsonPropertyOrder({ "user_id", "post_id", "title", "description", "content", "create_time",
+        "edit_time", "public_time" })
 public class Post
 {
 
@@ -43,11 +43,11 @@ public class Post
     @JsonProperty("title")
     private String title;
 
-    @Column(name = "description", length = 128, nullable = false)
+    @Column(name = "description", length = 512, nullable = false)
     @JsonProperty("description")
     private String description;
 
-    @Column(name = "content", length = 8192, columnDefinition = "TINYTEXT", nullable = false)
+    @Column(name = "content", length = 8192, columnDefinition = "TEXT", nullable = false)
     @Basic(fetch = FetchType.LAZY)
     @JsonProperty("content")
     private String content;

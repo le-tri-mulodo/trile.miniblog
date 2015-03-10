@@ -42,6 +42,8 @@ public class Contants
     public static final String URL_GET_BY_USER = "/users/{user_id:[0-9]+}";
     public static final String URL_GET_BY_POST = "/posts/{post_id:[0-9]+}";
 
+    public static final int NUMBER_POST_OF_TOP_POST = 10;
+
     public static final String URL_COMMENT = "/comments";
 
     public static final String MSG_DB_ERR = "Database access error";
@@ -68,8 +70,9 @@ public class Contants
     public static final String MSG_INVALID_UPLOAD_DATA_ERR = "Invalid upload data";
     public static final String MSG_CREATE_USER_SCC = "Create user success!";
     public static final String MSG_UPDATE_USER_SCC = "Account updated success!";
-    public static final String FOR_UPDATE_USER_SCC = "Search success! %d results";
+    public static final String FOR_SEARCH_SCC = "Search success! %d results";
     public static final String MSG_GET_USER_SCC = "Get user info success!";
+    public static final String MSG_GET_POST_SCC = "Get user info success!";
     public static final String MSG_CHANGE_PWD_SCC = "Change password success!";
     public static final String MSG_LOGIN_SCC = "Login success!";
     public static final String MSG_LOGOUT_SCC = "Logout success!";
@@ -77,6 +80,7 @@ public class Contants
     public static final String MSG_UPDATE_POST_SCC = "Update post success!";
     public static final String MSG_ACT_DEACT_SCC = "Active/Deactive post success!";
     public static final String FOR_GET_ALL_POST_SCC = "Get all posts success! %d results";
+    public static final String FOR_GET_TOP_POST_SCC = "Get top posts success! %d results";
     public static final String FOR_GET_ALL_COMMENT_SCC = "Get all comments success! %d results";
     public static final String MSG_DELETE_POST_SCC = "Delete post success!";
     public static final String MSG_CREATE_COMMENT_SCC = "Create comment success!";

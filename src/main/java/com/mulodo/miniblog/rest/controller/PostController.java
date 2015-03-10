@@ -31,6 +31,7 @@ import org.springframework.stereotype.Controller;
 import com.mulodo.miniblog.common.Contants;
 import com.mulodo.miniblog.message.ResultMessage;
 import com.mulodo.miniblog.pojo.Post;
+import com.mulodo.miniblog.pojo.User;
 import com.mulodo.miniblog.service.PostService;
 import com.mulodo.miniblog.service.TokenService;
 
@@ -71,7 +72,7 @@ public class PostController
             String title,
 
             @NotNull(message = "{description.NotNull}")
-            @Size(min = 1, max = 128, message = "{description.Size}")
+            @Size(min = 1, max = 512, message = "{description.Size}")
             @FormParam(value = "description")
             String description,
 
@@ -141,7 +142,7 @@ public class PostController
             @FormParam(value = "title")
             String title,
 
-            @Size(min = 1, max = 128, message = "{description.Size}")
+            @Size(min = 1, max = 512, message = "{description.Size}")
             @FormParam(value = "description")
             String description,
 
@@ -354,11 +355,27 @@ public class PostController
         return Response.status(Contants.CODE_OK).entity(result).build();
     }
 
+    @SuppressWarnings("rawtypes")
     @Path(Contants.URL_TOP)
     @GET
     public Response topPost()
     {
-        return Response.status(200).build();
+        List<Post> posts = null;
+        // Call service to get top public post from Db
+        try {
+            posts = postSer.top();
+        } catch (HibernateException e) {
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
+            // Response error
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
+        }
+        // Response success
+        ResultMessage<List<Post>> result = new ResultMessage<List<Post>>(Contants.CODE_OK,
+                String.format(Contants.FOR_GET_TOP_POST_SCC, posts.size()), posts);
+        return Response.status(Contants.CODE_OK).entity(result).build();
     }
 
     @Path(Contants.URL_TOP)
@@ -391,10 +408,66 @@ public class PostController
         return Response.status(Contants.CODE_OK).entity(result).build();
     }
 
+    @SuppressWarnings("rawtypes")
     @Path(Contants.URL_SEARCH)
     @GET
-    public Response search(@PathParam("query") String query)
+    public Response search(
+            @NotNull(message = "{query.NotNull}")
+            @Size(min = 1, max = 64, message = "{query.Size}")
+            @PathParam(value = "query")
+            String query)
     {
-        return Response.status(200).build();
+
+        List<Post> posts = null;
+        try {
+            posts = postSer.search(query);
+        } catch (HibernateException e) {
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
+            // Response error
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
+        }
+
+        // Response success
+        ResultMessage<List<Post>> result = new ResultMessage<List<Post>>(Contants.CODE_OK,
+                String.format(Contants.FOR_SEARCH_SCC, posts.size()), posts);
+        return Response.status(Contants.CODE_OK).entity(result).build();
     }
+
+    @SuppressWarnings("rawtypes")
+    @Path(Contants.URL_GET_BY_ID)
+    @GET
+    public Response getById(@PathParam(value = "id") int postId)
+    {
+
+        Post post = null;
+        try {
+            post = postSer.get(postId);
+        } catch (HibernateException e) {
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
+            // Response error
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
+        }
+
+        if (null == post) {
+            // log
+            logger.warn("User with id={} does not exist", postId);
+            // Response error
+            ResultMessage userNotExistMsg = new ResultMessage(Contants.CODE_USER_NOT_EXIST,
+                    Contants.MSG_USER_NOT_EXIST, String.format(Contants.FOR_USER_NOT_EXIST, postId));
+            return Response.status(Contants.CODE_BAD_REQUEST).entity(userNotExistMsg).build();
+        }
+
+        // Response success
+        ResultMessage<Post> result = new ResultMessage<Post>(Contants.CODE_OK,
+                Contants.MSG_GET_POST_SCC, post);
+        return Response.status(Contants.CODE_OK).entity(result).build();
+    }
+    
+
 }

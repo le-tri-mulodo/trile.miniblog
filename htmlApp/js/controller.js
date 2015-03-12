@@ -97,10 +97,9 @@ userControllers.controller('registerCtrl', [ '$scope', '$rootScope', '$http', '$
 			// Upload complement event
 			uploadCompleteEvent($scope, function(response) {
 				var meta = response.meta;
-				if (200 === response.code) {
+				if (200 === meta.code) {
 					// add path of image
-					$scope.user.avatarlink = 'img/' + response.messages[0];
-					console.log(response.messages[0]);
+					$scope.user.avatarlink = 'img/' + meta.messages[0];
 				}
 			});
 		} ]);
@@ -134,6 +133,7 @@ userControllers.controller('profileCtrl', [
 						// set avatar image
 						$scope.currentAvatarlink = user.avatarlink;
 					});
+
 			// process the form
 			$scope.processForm = function() {
 				$http({
@@ -160,10 +160,9 @@ userControllers.controller('profileCtrl', [
 			// Upload complement event
 			uploadCompleteEvent($scope, function(response) {
 				var meta = response.meta;
-				if (200 === response.code) {
+				if (200 === meta.code) {
 					// add path of image
-					$scope.user.avatarlink = 'img/' + response.messages[0];
-					console.log($scope.user.avatarlink);
+					$scope.user.avatarlink = 'img/' + meta.messages[0];
 				}
 			});
 		} ]);
@@ -272,6 +271,7 @@ function getPosts(url, scope, rootScope, http) {
 
 function uploadCompleteEvent(scope, complementDelegate) {
 	// event to create upload element
+
 	scope.$on('$routeChangeSuccess', function() {
 		$("#fileUploader").fileinput({
 			uploadUrl : REST_API_URL + "users/upload",

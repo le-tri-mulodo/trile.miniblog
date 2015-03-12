@@ -2,64 +2,78 @@
 
 var REST_API_URL = "/miniblog.api/"
 
-var miniBlog = angular.module('MiniBlog', [ 'ngRoute', 'postControllers', 'userControllers' ]).run(
-		function($rootScope) {
-			// Create user hashmap
-			var users = {};
-			$rootScope.users = users;
-		});
+var miniBlog = angular.module('MiniBlog', [ 'ngRoute', 'ngCookies', 'postControllers', 'userControllers' ]);
+
+miniBlog.run(function($rootScope, $cookies) {
+	// Create user hashmap
+	var users = {};
+	$rootScope.users = users;
+
+	// logged flag
+	var token = $cookies.token;
+	var username = $cookies.username;
+	var user_id = $cookies.user_id;
+	if (null != token) {
+		// get cookie info and set to root scope
+		$rootScope.loggedFlg = true;
+		$rootScope.currentUser = {};
+		$rootScope.currentUser.username = username;
+		$rootScope.currentUser.user_id = user_id;
+		$rootScope.token = token;
+	}
+});
 
 miniBlog.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/', {
+		// Top 10 posts newest
 		templateUrl : 'partials/posts.html',
 		controller : 'topPostCtrl'
+	}).when('/all_posts', {
+		// All posts
+		templateUrl : 'partials/posts.html',
+		controller : 'allPostCtrl'
+	}).when('/users/:userId', {
+		// List all posts of user
+		templateUrl : 'partials/posts.html',
+		controller : 'postOfUserCtrl'
 	}).when('/posts/:postId', {
+		// Detail of post
 		templateUrl : 'partials/post_detail.html',
 		controller : 'postDetailCtrl'
-	}).when('/loggin', {
-		templateUrl : 'partials/loggin.html',
-		controller : 'logginCtrl'
+	}).when('/login', {
+		// Login
+		templateUrl : 'partials/login.html',
+		controller : 'loginCtrl'
+	}).when('/logout', {
+		// Logout
+		controller : 'logoutCtrl',
+		template : " ",
+		redirectTo : '/'
 	}).when('/register', {
+		// Register new user
 		templateUrl : 'partials/register.html',
 		controller : 'registerCtrl'
+	}).when('/profile', {
+		// Register new user
+		templateUrl : 'partials/profile.html',
+		controller : 'profileCtrl'
 	}).otherwise({
 		redirectTo : '/'
 	});
 } ]);
 
-$("document").ready(function() {
-	// Check cookie to display nav
-	displayNav();
-});
-
-// Display nav
-function displayNav() {
-	$(".dy-view").addClass("hide");
-
-	var tokenCookie = getCookie("token");
-	if (null != tokenCookie) {
-		$(".logged").addClass("show");
-		$(".logged").removeClass("hide");
-	} else {
-		$(".notlogged").addClass("show");
-		$(".notlogged").removeClass("hide");
-	}
-}
-
-function getCookie(name) {
-	var dc = document.cookie;
-	var prefix = name + "=";
-	var begin = dc.indexOf("; " + prefix);
-	if (begin == -1) {
-		begin = dc.indexOf(prefix);
-		if (begin != 0)
-			return null;
-	} else {
-		begin += 2;
-		var end = document.cookie.indexOf(";", begin);
-		if (end == -1) {
-			end = dc.length;
+miniBlog.directive('isActiveNav', [ '$location', function($location) {
+	return {
+		restrict : 'A',
+		link : function(scope, element) {
+			scope.location = $location;
+			scope.$watch('location.path()', function(currentPath) {
+				if ('#' + currentPath === element[0].attributes['href'].nodeValue) {
+					element.parent().addClass('active');
+				} else {
+					element.parent().removeClass('active');
+				}
+			});
 		}
-	}
-	return unescape(dc.substring(begin + prefix.length, end));
-}
+	};
+} ]);

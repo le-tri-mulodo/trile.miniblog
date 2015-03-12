@@ -1,12 +1,12 @@
 <div class="col-md-8 col-md-offset-2">
 	<div class="panel panel-default">
 		<div class="panel-body">
-			<!-- login form -->
+			<!-- form -->
 			<form class="form form-register" ng-submit="processForm()">
-				<h2 align="center" class="form-heading">Register</h2>
+				<h2 align="center" class="form-heading">Edit profile</h2>
 				<label for="inputUsername" class="sr-only">Username</label> <input
 					id="inputUsername" class="form-control" placeholder="Username"
-					required="true" autofocus="true" ng-model="user.username">
+					required="true" autofocus="true" ng-model="user.username" disabled>
 
 				<div class="row" style="margin: -15px -15px;">
 					<div class="col-md-6">
@@ -21,27 +21,32 @@
 					</div>
 				</div>
 
+				<!-- current avatar -->
+				<div align="center" ng-if="currentAvatarlink">
+					<p>Current avatar</p>
+					<img data-holder-rendered="true" ng-src="{{currentAvatarlink}}"
+						class="media-object avatar">
+				</div>
+				<!-- .current avatar -->
+
 				<!-- upload element -->
 				<input id="fileUploader" name="uploadedFile" type="file"
 					accept="image/*">
 				<!-- .upload element -->
+
+				<a class="btn btn-lg btn-primary btn-block" href="#/change_password">Change
+					password</a>
+
 				<div class="row">
 					<div class="col-md-6">
-						<label for="inputPassword" class="sr-only">Password</label> <input
-							type="password" id="inputPassword" class="form-control"
-							placeholder="Password" required="true" ng-model="user.password">
+						<a class="btn btn-lg btn-primary btn-block" href="#/">Cancel</a>
 					</div>
 					<div class="col-md-6">
-						<label for="inputConfirm" class="sr-only">Confirm</label> <input
-							type="password" id="inputConfirm" class="form-control"
-							placeholder="Confirm" required="true">
+						<button class="btn btn-lg btn-primary btn-block" type="submit">Edit</button>
 					</div>
 				</div>
-				<button class="btn btn-lg btn-primary btn-block btn-register"
-					type="submit">Register {{avatarLink}}</button>
 			</form>
-			<p align="center" class="form-heading" ng-show="errMsg">{{errMsg}}</p>
-			<!-- .login form -->
+			<!-- .form -->
 		</div>
 	</div>
 </div>

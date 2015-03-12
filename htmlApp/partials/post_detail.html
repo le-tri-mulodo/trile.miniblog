@@ -1,26 +1,15 @@
+<!-- navigation -->
+<div ng-include="'partials/right-nav.html'"
+	class="col-md-3 col-md-push-9 logged"></div>
 
-<div class="col-md-3 col-md-push-9 logged">
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<ul class="nav nav-pills nav-stacked">
-				<li role="presentation" class="active"><a href="logged.html"><span
-						class="glyphicon glyphicon-th nav-icon"></span>All Post</a></li>
-				<li role="presentation"><a href="logged.html"><span
-						class="glyphicon glyphicon-th-list nav-icon"></span>My Post</a></li>
-				<li role="presentation"><a href="logged.html"><span
-						class="glyphicon glyphicon-list-alt nav-icon"></span>Top Post</a></li>
-				<li role="presentation"><a href="new_post.html"><span
-						class="glyphicon glyphicon-plus nav-icon"></span>New Post</a></li>
-			</ul>
-		</div>
-	</div>
-</div>
+<!-- main contain -->
 <div class="col-md-9 col-md-pull-3">
+	<!-- post contain -->
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<div class="media">
 				<div class="media-left">
-					<a href="#/users/{{post.user_id}}"> <img
+					<a ng-href="#/users/{{post.user_id}}"> <img
 						ng-src="{{users[post.user_id].avatarlink}}"
 						class="media-object avatar">
 					</a>
@@ -29,9 +18,11 @@
 					<div class="row">
 						<div class="col-xs-9">
 							<h2 class="media-heading">
-								<a href="#/posts/{{post.post_id}}">{{post.title}}</a>
+								<a ng-href="#/posts/{{post.post_id}}">{{post.title}}</a>
 							</h2>
 						</div>
+
+						<!-- edit and delete post -->
 						<div class="col-xs-3">
 							<div class="owner-control">
 								<a href="logged.html"><span
@@ -40,10 +31,11 @@
 									class="glyphicon glyphicon-pencil pull-right nav-icon"></span></a>
 							</div>
 						</div>
+						<!-- .edit and delete post -->
 					</div>
 					<p>
 						<span class="glyphicon glyphicon-time"></span> Created on
-						{{post.create_time}} by <a href="#/users/{{post.user_id}}">{{users[post.user_id].username}}</a>
+						{{post.create_time}} by <a ng-href="#/users/{{post.user_id}}">{{users[post.user_id].username}}</a>
 					</p>
 				</div>
 				<hr>
@@ -54,12 +46,14 @@
 		</div>
 	</div>
 
+	<!-- .post contain -->
 	<div class="panel panel-default">
 		<div class="panel-body">
 
+			<!-- list comments -->
 			<div ng-repeat="comment in comments">
 				<div class="media">
-					<a class="pull-left" href="#/users/{{comment.user_id}}"> <img
+					<a class="pull-left" ng-href="#/users/{{comment.user_id}}"> <img
 						class="media-object avatar"
 						ng-src="{{users[comment.user_id].avatarlink}}">
 					</a>
@@ -74,7 +68,9 @@
 				</div>
 				<hr>
 			</div>
+			<!-- .list comments -->
 
+			<!-- add new comment -->
 			<div class="well">
 				<h4>Leave a Comment:</h4>
 				<form role="form">
@@ -84,8 +80,7 @@
 					</div>
 				</form>
 			</div>
-
+			<!-- .add new comment -->
 		</div>
-
 	</div>
 </div>

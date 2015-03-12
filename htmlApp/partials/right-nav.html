@@ -1,0 +1,17 @@
+
+<div class="panel panel-default">
+	<div class="panel-body">
+		<ul class="nav nav-pills nav-stacked">
+			<li role="presentation"><a is-active-nav href="#/"><span
+					class="glyphicon glyphicon-list-alt nav-icon"></span>Top Post</a></li>
+			<li role="presentation"><a is-active-nav href="#/all_posts"><span
+					class="glyphicon glyphicon-th nav-icon"></span>All Post</a></li>
+			<li ng-if="loggedFlg" role="presentation"><a is-active-nav
+				ng-href="#/users/{{currentUser.user_id}}"><span
+					class="glyphicon glyphicon-th-list nav-icon"></span>My Post</a></li>
+			<li ng-if="loggedFlg" role="presentation"><a is-active-nav
+				href="#/new_post"><span
+					class="glyphicon glyphicon-plus nav-icon"></span>New Post</a></li>
+		</ul>
+	</div>
+</div>

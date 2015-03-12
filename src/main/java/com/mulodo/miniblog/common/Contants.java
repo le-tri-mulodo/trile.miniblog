@@ -19,7 +19,8 @@ public class Contants
     // 10 days
     public static final long EXPIRED_TIME_ADDTION_MS = 1000 * 60 * 60 * 24 * 10;
 
-    public static final String WORDS_VALID_REGEX = "[a-zA-Z]\\w+";
+    // public static final String WORDS_VALID_REGEX = "[a-zA-Z]\\w+";
+    public static final String WORDS_VALID_REGEX = "\\p{L}+";
 
     public static final String URL_ADD = "/";
     public static final String URL_UPDATE = "/";

@@ -12,7 +12,7 @@
 
 	<!-- Application Loggers -->
 	<logger name="com.mulodo.miniblog">
-		<level value="info" />
+		<level value="debug" />
 	</logger>
 
 	<logger name="org.hibernate.SQL">
@@ -35,6 +35,19 @@
 	<logger name="org.springframework.context">
 		<level value="info" />
 	</logger>
+	<logger name="org.jboss.resteasy.core">
+		<level value="debug" />
+	</logger>
+	<logger name="org.jboss.resteasy.plugins.providers ">
+		<level value="debug" />
+	</logger>
+	<logger name="org.jboss.resteasy.plugins.server">
+		<level value="debug" />
+	</logger>
+	<logger name="org.jboss.resteasy.specimpl">
+		<level value="debug" />
+	</logger>
+
 
 	<logger name="org.springframework.web">
 		<level value="info" />

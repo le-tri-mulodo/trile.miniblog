@@ -60,7 +60,6 @@ public class UserController
     @SuppressWarnings("rawtypes")
     @Path(Contants.URL_ADD)
     @POST
-    @ValidateRequest
     public Response add(
             @NotNull(message = "{username.NotNull}")
             @Pattern(regexp = Contants.WORDS_VALID_REGEX, message = "{username.Invalid}")
@@ -321,8 +320,6 @@ public class UserController
     public Response uploadFile(MultipartFormDataInput input)
     {
 
-        String fileName = null;
-
         Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
         List<InputPart> inputParts = uploadForm.get("uploadedFile");
 
@@ -334,6 +331,8 @@ public class UserController
                     Contants.MSG_INVALID_UPLOAD_DATA_ERR, Contants.MSG_INVALID_UPLOAD_DATA_ERR);
             return Response.status(Contants.CODE_INTERNAL_ERR).entity(fileUploadErrMsg).build();
         }
+
+        String fileName = null;
 
         for (InputPart inputPart : inputParts) {
 
@@ -349,11 +348,12 @@ public class UserController
 
                 // constructs upload file path (append current ms to create
                 // unique path)
-                fileName = Contants.UPLOADED_FILE_PATH + System.currentTimeMillis() + fileName;
+                fileName = System.currentTimeMillis() + "_" + fileName;
+                String filePath = Contants.UPLOADED_FILE_PATH + fileName;
 
-                Util.writeFile(bytes, fileName);
+                Util.writeFile(bytes, filePath);
 
-                System.out.println("Done " + fileName);
+                logger.debug("Upload file [{}] success!", filePath);
 
             } catch (IOException e) {
                 // Log
@@ -367,7 +367,8 @@ public class UserController
 
         }
 
-        ResultMessage result = new ResultMessage(Contants.CODE_OK, Contants.MSG_UPLOAD_SCC);
+        ResultMessage result = new ResultMessage(Contants.CODE_OK, Contants.MSG_UPLOAD_SCC,
+                fileName);
         return Response.status(Contants.CODE_OK).entity(result).build();
     }
 }

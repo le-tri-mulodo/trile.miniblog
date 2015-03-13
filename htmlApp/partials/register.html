@@ -2,23 +2,40 @@
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<!-- login form -->
-			<form class="form form-register" ng-submit="processForm()">
+			<form class="form form-register" ng-submit="processForm()" novalidate
+				name="registrationForm">
 				<h2 align="center" class="form-heading">Register</h2>
+
+				<!-- username -->
 				<label for="inputUsername" class="sr-only">Username</label> <input
 					id="inputUsername" class="form-control" placeholder="Username"
-					required="true" autofocus="true" ng-model="user.username">
-
+					required="true" autofocus="true" ng-model="user.username"
+					name="username">
+				<!-- 				<div ng-messages="registrationForm.username.$error"
+					ng-messages-include="partials/validate_messages.html"></div> -->
+				<!-- /username -->
 				<div class="row" style="margin: -15px -15px;">
+
+					<!-- firstname -->
 					<div class="col-md-6">
 						<label for="inputFirstname" class="sr-only">Firstname</label> <input
 							id="inputFirstname" class="form-control" placeholder="Firstname"
-							required="true" autofocus="false" ng-model="user.firstname">
+							required="true" autofocus="false" ng-model="user.firstname"
+							name="firstname">
+<!-- 						<div ng-messages="registrationForm.firstname.$error"
+							ng-messages-include="partials/validate_messages.html"></div> -->
 					</div>
+					<!-- /firstname -->
+					<!-- lastname -->
 					<div class="col-md-6">
 						<label for="inputLastname" class="sr-only">Lastname</label> <input
 							id="inputLastname" class="form-control" placeholder="Lastname"
-							required="true" autofocus="false" ng-model="user.lastname">
+							required="true" autofocus="false" ng-model="user.lastname"
+							name="lastname">
+<!-- 						<div ng-messages="registrationForm.lastname.$error"
+							ng-messages-include="partials/validate_messages.html"></div> -->
 					</div>
+					<!-- /lastname -->
 				</div>
 
 				<!-- upload element -->
@@ -26,19 +43,32 @@
 					accept="image/*">
 				<!-- .upload element -->
 				<div class="row">
+					<!-- password -->
 					<div class="col-md-6">
 						<label for="inputPassword" class="sr-only">Password</label> <input
 							type="password" id="inputPassword" class="form-control"
-							placeholder="Password" required="true" ng-model="user.password">
+							placeholder="Password" name="password" required="true"
+							ng-model="user.password">
+<!-- 						<div ng-messages="registrationForm.password.$error"
+							ng-messages-include="partials/validate_messages.html"></div> -->
 					</div>
+					<!-- /password -->
+
+					<!-- confirm password -->
 					<div class="col-md-6">
 						<label for="inputConfirm" class="sr-only">Confirm</label> <input
-							type="password" id="inputConfirm" class="form-control"
-							placeholder="Confirm" required="true">
+							type="password" id="inputConfirm" name="passConfirm"
+							class="form-control" placeholder="Confirm" required="true"
+							ng-model="user.confirmpass" compare-to="user.password">
+<!-- 						<div ng-messages="registrationForm.passConfirm.$error"
+							ng-messages-include="partials/validate_messages.html"></div> -->
 					</div>
+					<!-- /confirm password -->
 				</div>
+
 				<button class="btn btn-lg btn-primary btn-block btn-register"
-					type="submit">Register {{avatarLink}}</button>
+					type="submit" ng-disabled="!registrationForm.$valid">Register
+					{{avatarLink}}</button>
 			</form>
 			<p align="center" class="form-heading" ng-show="errMsg">{{errMsg}}</p>
 			<!-- .login form -->

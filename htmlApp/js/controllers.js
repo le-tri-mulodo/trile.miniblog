@@ -216,6 +216,53 @@ userControllers.controller('loginCtrl', [ '$scope', '$rootScope', '$http', '$loc
 
 		} ]);
 
+userControllers.controller('chpwdCtrl', [ '$scope', '$rootScope', '$http', '$location', '$cookies',
+		function($scope, $rootScope, $http, $location, $cookies) {
+			// Check is not logged then rederect to home page
+			var loggedFlg = $rootScope.loggedFlg;
+			if (null === loggedFlg || undefined === loggedFlg || false === loggedFlg) {
+				$location.path('#/');
+				$location.replace();
+			}
+
+			// prepare form
+			// create a blank object to hold our form information
+			// $scope will allow this to pass between controller and view
+			$scope.user = {};
+			// set user id
+			$scope.user.user_id = $rootScope.currentUser.user_id;
+			// process the form
+			$scope.processForm = function() {
+				$http({
+					method : 'PUT',
+					url : REST_API_URL + 'users/pass',
+					data : $.param($scope.user), // pass in data as strings
+					// set the headers so angular passing info as form data
+					headers : {
+						'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+					}
+				}).success(function(data) {
+					var token = data.data.token;
+
+					// Set to cookies
+					if (null !== $cookies.token && undefined !== $cookies.token) {
+						$cookies.token = token;
+					}
+					// Set token to cache
+					$rootScope.token = token
+
+					// redirect to home page
+					$location.path('#/');
+					$location.replace();
+					// // back to previous page
+					// window.history.back();
+				}).error(function(data) {
+					$scope.errMsg = data.meta.description;
+				});
+			};
+
+		} ]);
+
 userControllers.controller('logoutCtrl', [ '$scope', '$rootScope', '$http', '$location', '$cookieStore',
 		function($scope, $rootScope, $http, $location, $cookieStore) {
 			// Check is logged to call rest

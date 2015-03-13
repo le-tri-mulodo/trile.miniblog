@@ -2,24 +2,37 @@
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<!-- login form -->
-			<form class="form form-login" ng-submit="processForm()">
+			<form class="form form-login" ng-submit="processForm()"
+				name="loginForm">
 				<h2 align="center" class="form-heading">Login</h2>
+				<!-- username -->
 				<label for="inputEmail" class="sr-only">Username</label> <input
 					type="text" id="inputEmail" class="form-control form-input-top"
 					placeholder="Username" required="true" autofocus="true"
-					ng-model="user.username"> <label for="inputPassword"
-					class="sr-only">Password</label> <input type="password"
-					id="inputPassword" class="form-control form-input-button"
-					placeholder="Password" required="true" ng-model="user.password">
+					ng-model="user.username">
+				<!-- /username -->
+
+				<!-- password -->
+				<label for="inputPassword" class="sr-only">Password</label> <input
+					type="password" id="inputPassword"
+					class="form-control form-input-bottom" placeholder="Password"
+					required="true" ng-model="user.password">
+				<!-- /password -->
 				<div class="checkbox">
-					<label> <input type="checkbox" value="remember-me" ng-model="rememberLogin">
-						Remember me
+
+					<label> <input type="checkbox" value="remember-me"
+						ng-model="rememberLogin"> Remember me
 					</label>
 				</div>
-				<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+
+				<button class="btn btn-lg btn-primary btn-block" type="submit"
+					ng-disabled="!loginForm.$valid">Login</button>
 			</form>
+			<!-- /login form -->
+
+			<!-- error message -->
 			<p align="center" class="form-heading" ng-show="errMsg">{{errMsg}}</p>
-			<!-- .login form -->
+			<!-- /error message -->
 		</div>
 	</div>
 </div>

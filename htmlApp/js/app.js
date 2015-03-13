@@ -57,23 +57,11 @@ miniBlog.config([ '$routeProvider', function($routeProvider) {
 		// Register new user
 		templateUrl : 'partials/profile.html',
 		controller : 'profileCtrl'
+	}).when('/change_password', {
+		// Register new user
+		templateUrl : 'partials/change_password.html',
+		controller : 'chpwdCtrl'
 	}).otherwise({
 		redirectTo : '/'
 	});
-} ]);
-
-miniBlog.directive('isActiveNav', [ '$location', function($location) {
-	return {
-		restrict : 'A',
-		link : function(scope, element) {
-			scope.location = $location;
-			scope.$watch('location.path()', function(currentPath) {
-				if ('#' + currentPath === element[0].attributes['href'].nodeValue) {
-					element.parent().addClass('active');
-				} else {
-					element.parent().removeClass('active');
-				}
-			});
-		}
-	};
 } ]);

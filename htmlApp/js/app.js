@@ -4,10 +4,9 @@ var REST_API_URL = "/miniblog.api/"
 
 var miniBlog = angular.module('MiniBlog', [ 'ngRoute', 'ngCookies', 'postControllers', 'userControllers' ]);
 
-miniBlog.run(function($rootScope, $cookies) {
+miniBlog.run(function($rootScope, $cookies, $location) {
 	// Create user hashmap
-	var users = {};
-	$rootScope.users = users;
+	$rootScope.users = {};
 
 	// logged flag
 	var token = $cookies.token;
@@ -21,6 +20,12 @@ miniBlog.run(function($rootScope, $cookies) {
 		$rootScope.currentUser.user_id = user_id;
 		$rootScope.token = token;
 	}
+
+	// Create routing function
+	$rootScope.search = function(url) {
+		$location.path('search/' + url);
+		$location.replace();
+	};
 });
 
 miniBlog.config([ '$routeProvider', function($routeProvider) {
@@ -61,6 +66,10 @@ miniBlog.config([ '$routeProvider', function($routeProvider) {
 		// Register new user
 		templateUrl : 'partials/change_password.html',
 		controller : 'chpwdCtrl'
+	}).when('/search/:query', {
+		// Register new user
+		templateUrl : 'partials/search.html',
+		controller : 'searchCtrl'
 	}).otherwise({
 		redirectTo : '/'
 	});

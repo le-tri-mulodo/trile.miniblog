@@ -1,0 +1,88 @@
+<div class="row">
+	<div ng-include="'partials/right-nav.html'"
+		class="col-md-3 col-md-push-9 logged"></div>
+	<div class="col-md-9 col-md-pull-3">
+
+		<!-- users list -->
+		<div class="panel panel-default panel-user">
+			<div class="panel-heading">
+				<h3 class="panel-title">Users</h3>
+			</div>
+			<div class="panel-body">
+
+				<div class="row">
+
+					<!-- user item -->
+					<div class="col-md-6" ng-repeat="user in searchResultUsers">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<div class="media">
+									<div class="media-left">
+										<a ng-href="#/users/{{user.user_id}}"> <img
+											data-holder-rendered="true" ng-src="{{user.avatarlink}}"
+											class="media-object avatar">
+										</a>
+									</div>
+									<div class="media-body">
+										<h4 class="media-heading">
+											<a ng-href="#/users/{{user.user_id}}">{{user.username}}</a>
+										</h4>
+										<h4 class="media-heading">
+											<a ng-href="#/users/{{user.user_id}}">{{user.firstname +'
+												'+ user.lastname}}</a>
+										</h4>
+										<p>
+											<span class="glyphicon glyphicon-time nav-icon"></span>Join
+											date {{user.joindate}}
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /user item -->
+					<h5 align="center" ng-if="!searchResultUsers.length">No
+						result</h5>
+				</div>
+			</div>
+		</div>
+		<!-- /users list -->
+
+		<!-- post lists -->
+		<div class="panel panel-default panel-post">
+			<div class="panel-heading">
+				<h3 class="panel-title">Posts</h3>
+			</div>
+			<div class="panel-body">
+
+				<!-- post item -->
+				<div class="panel panel-default" ng-repeat="post in posts">
+					<div class="panel-body">
+						<div class="media">
+							<div class="media-left">
+								<a ng-href="#/users/{{post.user_id}}"><img
+									data-holder-rendered="true"
+									ng-src="{{users[post.user_id].avatarlink}}"
+									class="media-object avatar"> </a>
+							</div>
+							<div class="media-body">
+								<h2 class="media-heading">
+									<a href="#/posts/{{post.post_id}}">{{post.title}}</a>
+								</h2>
+								<p>
+									<span class="glyphicon glyphicon-time"></span> Created on
+									{{post.create_time}} by <a ng-href="#/users/{{post.user_id}}">{{users[post.user_id].username}}</a>
+								</p>
+							</div>
+							<hr>
+							{{post.description}}
+						</div>
+					</div>
+				</div>
+				<!-- /post item -->
+				<h5 align="center" ng-if="!posts.length">No result</h5>
+			</div>
+		</div>
+		<!-- /post lists -->
+	</div>
+</div>

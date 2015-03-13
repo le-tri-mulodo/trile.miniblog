@@ -23,6 +23,26 @@ postControllers.controller('allPostCtrl', [ '$scope', '$rootScope', '$http', fun
 	getPosts('posts/', $scope, $rootScope, $http);
 } ]);
 
+postControllers.controller('searchCtrl', [ '$scope', '$rootScope', '$http', '$routeParams',
+		function($scope, $rootScope, $http, $routeParams) {
+			var query = $routeParams.query;
+
+			// Check null & empty
+			if (query) {
+				// Search user
+				$http.get(REST_API_URL + 'users/search/' + query).success(function(data, status, headers, config) {
+					// Set user to list users
+					$scope.searchResultUsers = data.data;
+				});
+
+				// Search post
+				getPosts('posts/search/' + query, $scope, $rootScope, $http);
+
+				// Add to nav
+				addNavItems($rootScope, query, 'search/' + query, 'search');
+			}
+		} ]);
+
 postControllers.controller('postOfUserCtrl', [
 		'$scope',
 		'$rootScope',
@@ -34,7 +54,7 @@ postControllers.controller('postOfUserCtrl', [
 
 			// add to nav items
 			// if get posts of logged user then don't add
-			if ($routeParams.userId !== $rootScope.currentUser.user_id) {
+			if ($routeParams.userId != $rootScope.currentUser.user_id) {
 				addNavItems($rootScope, $rootScope.users[$routeParams.userId].username, 'users/' + $routeParams.userId,
 						'user');
 			}
@@ -233,7 +253,7 @@ userControllers.controller('chpwdCtrl', [ '$scope', '$rootScope', '$http', '$loc
 			// Check is not logged then rederect to home page
 			var loggedFlg = $rootScope.loggedFlg;
 			if (null === loggedFlg || undefined === loggedFlg || false === loggedFlg) {
-				$location.path('#/');
+				 $location.path('#/');
 				$location.replace();
 			}
 
@@ -371,7 +391,6 @@ function addNavItems(rootScope, title, url, type) {
 	var navItems = rootScope.navItems;
 	if (null === navItems || undefined === navItems) {
 		// Define nav items list if not exist
-		console.log(1);
 		rootScope.navItems = [ navItem ];
 	} else {
 		// Remove existed item

@@ -43,11 +43,12 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<div class="col-md-8">
-					<form class="navbar-form navbar-nav full-width">
+					<form class="navbar-form navbar-nav full-width"
+						ng-submit="search(searchQuery)">
 						<div class="input-group full-width">
 							<input type="text" class="form-control"
-								placeholder="Search for user info or post info"> <span
-								class="input-group-btn">
+								placeholder="Search for user info or post info"
+								ng-model="searchQuery"> <span class="input-group-btn">
 								<button class="btn btn-default" type="button">
 									<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 								</button>
@@ -63,9 +64,9 @@
 						<li><a is-active-nav href="#/register" ng-if="!loggedFlg">Register</a></li>
 						<li ng-if="loggedFlg"
 							class="dropdown nav navbar-nav navbar-right active"><a
-							href="#/" class="dropdown-toggle" data-toggle="dropdown"
-							role="button" aria-expanded="false">Hello
-								{{currentUser.username}}!<span class="caret"></span>
+							class="dropdown-toggle" data-toggle="dropdown" role="button"
+							aria-expanded="false">Hello {{currentUser.username}}!<span
+								class="caret"></span>
 						</a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="#/profile"><span
@@ -83,7 +84,6 @@
 	</nav>
 	<div class="body container">
 		<!-- Example row of columns -->
-
 
 		<!-- angular template -->
 		<div ng-view class="row"></div>

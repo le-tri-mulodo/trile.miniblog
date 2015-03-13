@@ -12,6 +12,15 @@
 			<li ng-if="loggedFlg" role="presentation"><a is-active-nav
 				href="#/new_post"><span
 					class="glyphicon glyphicon-plus nav-icon"></span>New Post</a></li>
+
+			<!-- dynamic nav -->
+			<hr ng-if="navItems">
+			<li role="presentation"><a is-active-nav
+				ng-repeat="navItem in navItems" ng-href="#/{{navItem.url}}"><span
+					class="glyphicon nav-icon"
+					ng-class="navItem.type == 'user'? 'glyphicon-user' : 'glyphicon-search'">
+				</span>{{navItem.title}}</a></li>
+			<!-- /dynamic nav -->
 		</ul>
 	</div>
 </div>

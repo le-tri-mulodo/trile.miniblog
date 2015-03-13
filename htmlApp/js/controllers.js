@@ -23,9 +23,21 @@ postControllers.controller('allPostCtrl', [ '$scope', '$rootScope', '$http', fun
 	getPosts('posts/', $scope, $rootScope, $http);
 } ]);
 
-postControllers.controller('postOfUserCtrl', [ '$scope', '$rootScope', '$http', '$routeParams',
+postControllers.controller('postOfUserCtrl', [
+		'$scope',
+		'$rootScope',
+		'$http',
+		'$routeParams',
 		function($scope, $rootScope, $http, $routeParams) {
+			// get posts
 			getPosts('posts/users/' + $routeParams.userId, $scope, $rootScope, $http);
+
+			// add to nav items
+			// if get posts of logged user then don't add
+			if ($routeParams.userId !== $rootScope.currentUser.user_id) {
+				addNavItems($rootScope, $rootScope.users[$routeParams.userId].username, 'users/' + $routeParams.userId,
+						'user');
+			}
 		} ]);
 
 postControllers.controller('postDetailCtrl', [
@@ -346,4 +358,32 @@ function uploadCompleteEvent(scope, complementDelegate) {
 			complementDelegate(data.response);
 		});
 	});
+}
+
+function addNavItems(rootScope, title, url, type) {
+	// Define item
+	var navItem = {};
+	navItem.title = title;
+	navItem.url = url;
+	navItem.type = type;
+
+	// Add to nav items list
+	var navItems = rootScope.navItems;
+	if (null === navItems || undefined === navItems) {
+		// Define nav items list if not exist
+		console.log(1);
+		rootScope.navItems = [ navItem ];
+	} else {
+		// Remove existed item
+		for (var i = 0; i < navItems.length; i++) {
+			// Check existed
+			if (navItems[i].url === url) {
+				// Remove
+				rootScope.navItems.splice(i, 1);
+				break;
+			}
+		}
+		// Add to top
+		rootScope.navItems.unshift(navItem);
+	}
 }

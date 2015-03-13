@@ -49,14 +49,27 @@ postControllers.controller('postOfUserCtrl', [
 		'$http',
 		'$routeParams',
 		function($scope, $rootScope, $http, $routeParams) {
+			var userId = $routeParams.userId;
 			// get posts
-			getPosts('posts/users/' + $routeParams.userId, $scope, $rootScope, $http);
+			getPosts('posts/users/' + userId, $scope, $rootScope, $http);
 
 			// add to nav items
 			// if get posts of logged user then don't add
-			if ($routeParams.userId != $rootScope.currentUser.user_id) {
-				addNavItems($rootScope, $rootScope.users[$routeParams.userId].username, 'users/' + $routeParams.userId,
-						'user');
+			if (null === $rootScope.currentUser || undefined == $rootScope.currentUser
+					|| userId != $rootScope.currentUser.user_id) {
+				// get user if not existed to ensure have info about user
+				if (!$rootScope.users[userId]) {
+					$http.get(REST_API_URL + 'users/' + userId).success(function(data, status, headers, config) {
+						var user = data.data;
+						// Set user to list users
+						$rootScope.users[user.user_id] = user;
+						// add to items list
+						addNavItems($rootScope, user.username, 'users/' + userId, 'user');
+					});
+				} else {
+					// add to items list
+					addNavItems($rootScope, $rootScope.users[userId].username, 'users/' + userId, 'user');
+				}
 			}
 		} ]);
 
@@ -84,6 +97,26 @@ postControllers.controller('postDetailCtrl', [
 									}
 								});
 					});
+		} ]);
+
+postControllers.controller('newPostCtrl', [ '$scope', '$rootScope', '$http', '$routeParams',
+		function($scope, $rootScope, $http, $routeParams) {
+	console.log('hehe');
+			$scope.options = {
+					height: 300,
+					toolbar: [
+					// [groupname, [button list]]
+						[ 'style', [ 'bold', 'italic', 'underline', 'clear' ] ],
+						[ 'font', [ 'strikethrough' ] ],
+						[ 'fontsize', [ 'fontsize' ] ],
+						[ 'color', [ 'color' ] ],
+						[ 'para', [ 'ul', 'ol', 'paragraph' ] ],
+						[ 'insert', [ 'link', 'picture' ] ],
+						[ 'view', [ 'fullscreen', 'codeview' ] ],
+						[ 'help', [ 'help' ] ]
+					]
+			};
+
 		} ]);
 
 userControllers.controller('registerCtrl', [ '$scope', '$rootScope', '$http', '$location', '$cookies',
@@ -253,7 +286,7 @@ userControllers.controller('chpwdCtrl', [ '$scope', '$rootScope', '$http', '$loc
 			// Check is not logged then rederect to home page
 			var loggedFlg = $rootScope.loggedFlg;
 			if (null === loggedFlg || undefined === loggedFlg || false === loggedFlg) {
-				 $location.path('#/');
+				$location.path('#/');
 				$location.replace();
 			}
 
@@ -321,6 +354,8 @@ userControllers.controller('logoutCtrl', [ '$scope', '$rootScope', '$http', '$lo
 			$cookieStore.remove("user_id");
 			$cookieStore.remove("username");
 			$cookieStore.remove("token");
+			// Clean nav items list
+			$rootScope.navItems = null;
 		} ]);
 
 function getUserInfo(user_id, users, $http) {
@@ -376,6 +411,32 @@ function uploadCompleteEvent(scope, complementDelegate) {
 			// }
 			// Call delegate
 			complementDelegate(data.response);
+		});
+	});
+}
+
+function createRichTextFormater(scope) {
+	// event to create rich text formater element
+	scope.$on('$routeChangeSuccess', function() {
+		$("#summernote").summernote(
+		{
+			height : 200, // set editor height
+			minHeight : null, // set minimum height of editor
+			maxHeight : null, // set maximum height of editor
+			focus : true, // set focus to editable area after
+							// initializing summernote
+			toolbar : [
+				// [groupname, [button list]]
+				[ 'style', [ 'bold', 'italic', 'underline', 'clear' ] ],
+				[ 'font', [ 'strikethrough' ] ],
+				[ 'fontsize', [ 'fontsize' ] ],
+				[ 'color', [ 'color' ] ],
+				[ 'para', [ 'ul', 'ol', 'paragraph' ] ],
+				[ 'insert', [ 'link', 'picture' ] ],
+				[ 'view', [ 'fullscreen', 'codeview' ] ],
+				[ 'help', [ 'help' ] ]
+			]
+
 		});
 	});
 }

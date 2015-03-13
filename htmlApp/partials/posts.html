@@ -1,9 +1,12 @@
 
 <!-- navigation -->
-<div ng-if="loggedFlg" ng-include="'partials/right-nav.html'"
-	class="col-md-3 col-md-push-9 logged"></div>
+<div ng-include="'partials/right-nav.html'"
+	class="col-md-3 col-md-push-9"></div>
+<!-- /navigation -->
+
 <!-- main contain -->
-<div ng-class="loggedFlg? 'col-md-9 col-md-pull-3' : 'col-md-12'">
+<!-- <div ng-class="loggedFlg? 'col-md-9 col-md-pull-3' : 'col-md-12'"> -->
+<div class="col-md-9 col-md-pull-3">
 	<div class="panel panel-default" ng-repeat="post in posts">
 		<div class="panel-body">
 			<div class="media">

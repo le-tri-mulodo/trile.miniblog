@@ -2,7 +2,8 @@
 
 var REST_API_URL = "/miniblog.api/"
 
-var miniBlog = angular.module('MiniBlog', [ 'ngRoute', 'ngCookies', 'postControllers', 'userControllers' ]);
+var miniBlog = angular.module('MiniBlog',
+		[ 'ngRoute', 'ngCookies', 'summernote', 'postControllers', 'userControllers' ]);
 
 miniBlog.run(function($rootScope, $cookies, $location) {
 	// Create user hashmap
@@ -70,6 +71,10 @@ miniBlog.config([ '$routeProvider', function($routeProvider) {
 		// Register new user
 		templateUrl : 'partials/search.html',
 		controller : 'searchCtrl'
+	}).when('/new_post', {
+		// Register new user
+		templateUrl : 'partials/post.html',
+		controller : 'newPostCtrl'
 	}).otherwise({
 		redirectTo : '/'
 	});

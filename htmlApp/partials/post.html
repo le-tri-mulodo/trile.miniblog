@@ -1,0 +1,37 @@
+<!-- navigation -->
+<div ng-include="'partials/right-nav.html'"
+	class="col-md-3 col-md-push-9"></div>
+<!-- /navigation -->
+
+<!-- main content -->
+<div class="col-md-9 col-md-pull-3">
+
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<!-- add post form -->
+			<form class="form form-register">
+				<h2 align="center" class="form-heading">New post</h2>
+				<label for="inputTitle" class="sr-only">Title</label> <input
+					id="inputTitle" class="form-control" placeholder="Title"
+					required="true" autofocus="true" ng-model="post.title"> <label
+					for="inputDescription" class="sr-only">Description</label> <input
+					id="inputDescription" class="form-control"
+					placeholder="Description" required="true" autofocus="true"
+					ng-model="post.description">
+
+				<!-- <div id="summernote"></div> -->
+				<summernote config="options" ng-model="post.content" required="true"></summernote>
+
+				<div class="row">
+					<div class="col-md-6">
+						<a class="btn btn-lg btn-primary btn-block" href="view_post.html">Preview</a>
+					</div>
+					<div class="col-md-6">
+						<button class="btn btn-lg btn-primary btn-block" type="submit">Post</button>
+					</div>
+				</div>
+			</form>
+			<!-- /add post form -->
+		</div>
+	</div>
+</div>

@@ -47,7 +47,7 @@
 	</div>
 
 	<!-- .post contain -->
-	<div class="panel panel-default">
+	<div class="panel panel-default" ng-if="loggedFlg || comments">
 		<div class="panel-body">
 
 			<!-- list comments -->
@@ -71,7 +71,7 @@
 			<!-- .list comments -->
 
 			<!-- add new comment -->
-			<div class="well">
+			<div class="well" ng-if="loggedFlg">
 				<h4>Leave a Comment:</h4>
 				<form role="form">
 					<div class="form-group">

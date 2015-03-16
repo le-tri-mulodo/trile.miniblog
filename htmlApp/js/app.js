@@ -2,8 +2,10 @@
 
 var REST_API_URL = "/miniblog.api/"
 
-var miniBlog = angular.module('MiniBlog',
-		[ 'ngRoute', 'ngCookies', 'summernote', 'postControllers', 'userControllers' ]);
+var miniBlog = angular.module('MiniBlog', [ 'ngRoute', 'ngCookies', 'summernote', 'toaster', 'postControllers',
+		'userControllers' ]);
+
+miniBlog.constant('REST_API_URL', "/miniblog.api/");
 
 miniBlog.run(function($rootScope, $cookies, $location) {
 	// Create user hashmap
@@ -15,7 +17,7 @@ miniBlog.run(function($rootScope, $cookies, $location) {
 	var user_id = $cookies.user_id;
 	if (null != token) {
 		// get cookie info and set to root scope
-		$rootScope.loggedFlg = true;
+		$rootScope.isLogged = true;
 		$rootScope.currentUser = {};
 		$rootScope.currentUser.username = username;
 		$rootScope.currentUser.user_id = user_id;
@@ -75,6 +77,10 @@ miniBlog.config([ '$routeProvider', function($routeProvider) {
 		// Register new user
 		templateUrl : 'partials/post.html',
 		controller : 'newPostCtrl'
+	}).when('/preview_post', {
+		// Register new user
+		templateUrl : 'partials/post_detail.html',
+		controller : 'previewPostCtrl'
 	}).otherwise({
 		redirectTo : '/'
 	});

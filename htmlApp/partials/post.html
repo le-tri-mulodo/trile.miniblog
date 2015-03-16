@@ -9,7 +9,8 @@
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<!-- add post form -->
-			<form class="form form-register">
+			<form class="form form-register" ng-submit="processForm()"
+				name="postForm">
 				<h2 align="center" class="form-heading">New post</h2>
 				<label for="inputTitle" class="sr-only">Title</label> <input
 					id="inputTitle" class="form-control" placeholder="Title"
@@ -19,15 +20,19 @@
 					placeholder="Description" required="true" autofocus="true"
 					ng-model="post.description">
 
-				<!-- <div id="summernote"></div> -->
+				<!-- html formater -->
 				<summernote config="options" ng-model="post.content" required="true"></summernote>
+				<!-- /html formater -->
 
 				<div class="row">
 					<div class="col-md-6">
-						<a class="btn btn-lg btn-primary btn-block" href="view_post.html">Preview</a>
+						<a class="btn btn-lg btn-primary btn-block"
+							ng-disabled="!postForm.$valid" href="#/preview_post"
+							ng-click="previewPost(post)">Preview</a>
 					</div>
 					<div class="col-md-6">
-						<button class="btn btn-lg btn-primary btn-block" type="submit">Post</button>
+						<button class="btn btn-lg btn-primary btn-block"
+							ng-disabled="!postForm.$valid" type="submit">Post</button>
 					</div>
 				</div>
 			</form>

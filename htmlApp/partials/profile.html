@@ -2,7 +2,7 @@
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<!-- form -->
-			<form class="form form-register" ng-submit="processForm()">
+			<form class="form form-register" ng-submit="processForm()" name="profileForm">
 				<h2 align="center" class="form-heading">Edit profile</h2>
 				<label for="inputUsername" class="sr-only">Username</label> <input
 					id="inputUsername" class="form-control" placeholder="Username"
@@ -42,7 +42,8 @@
 						<a class="btn btn-lg btn-primary btn-block" href="#/">Cancel</a>
 					</div>
 					<div class="col-md-6">
-						<button class="btn btn-lg btn-primary btn-block" type="submit">Edit</button>
+						<button class="btn btn-lg btn-primary btn-block" type="submit"
+							ng-disabled="!profileForm.$valid">Edit</button>
 					</div>
 				</div>
 			</form>

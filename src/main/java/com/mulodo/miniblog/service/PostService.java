@@ -46,10 +46,13 @@ public interface PostService extends CommonService<Post>
     boolean checkOwner(int postId, int userId);
 
     /**
-     * @return List of all public posts in Db by user id and order by create
-     *         time
+     * @param userId
+     *            Id of user
+     * @param flag
+     *            to indicate show of not show un-public post
+     * @return List of all posts in Db by user id and order by create time
      */
-    List<Post> getByUserId(int userId);
+    List<Post> getByUserId(int userId, boolean showUnpublic);
 
     /**
      * List 10 newest posts

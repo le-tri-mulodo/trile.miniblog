@@ -207,9 +207,9 @@ public class PostServiceImpl implements PostService
      */
     @Transactional(readOnly = true)
     @Override
-    public List<Post> getByUserId(int userId)
+    public List<Post> getByUserId(int userId, boolean showUnpublic)
     {
-        return postDAO.getByUserId(userId);
+        return postDAO.getByUserId(userId, showUnpublic);
     }
 
     /**

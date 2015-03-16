@@ -10,6 +10,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.LogicalExpression;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
@@ -67,21 +69,38 @@ public class PostDAOImpl extends CommonDAOImpl<Post> implements PostDAO
      */
     @SuppressWarnings("unchecked")
     @Override
-    public List<Post> getByUserId(int userId)
+    public List<Post> getByUserId(int userId, boolean showUnpublic)
     {
         Session session = sf.getCurrentSession();
         // Select all public posts of user, ignore content and editTime
-        Query listQuery = session.createQuery(
-                "SELECT p.id AS id, p.userId AS userId, p.title AS title, "
-                        + "p.description AS description, p.createTime AS createTime, "
-                        + "p.publicTime AS publicTime"
-                        + " FROM Post p WHERE p.publicTime IS NOT NULL "
-                        + "AND p.userId = :userId ORDER BY createTime DESC")
+        // Query listQuery = session.createQuery(
+        // "SELECT p.id AS id, p.userId AS userId, p.title AS title, "
+        // + "p.description AS description, p.createTime AS createTime, "
+        // + "p.publicTime AS publicTime"
+        // + " FROM Post p WHERE p.publicTime IS NOT NULL "
+        // + "AND p.userId = :userId ORDER BY createTime DESC")
         // Set Transformer to convert Object to Post class
-                .setResultTransformer(Transformers.aliasToBean(Post.class));
+        Criteria cr = session.createCriteria(GENERIC_TYPE);
+
+        // Set select fields
+        ProjectionList prjection = Projections.projectionList();
+        prjection.add(Projections.property("id"), "id");
+        prjection.add(Projections.property("userId"), "userId");
+        prjection.add(Projections.property("title"), "title");
+        prjection.add(Projections.property("description"), "description");
+        prjection.add(Projections.property("createTime"), "createTime");
+        prjection.add(Projections.property("publicTime"), "publicTime");
+        cr.setProjection(prjection);
+
         // Set userId
-        listQuery.setInteger("userId", userId);
-        return listQuery.list();
+        cr.add(Restrictions.eq("userId", userId));
+        // Public post or not
+        if (!showUnpublic) {
+            cr.add(Restrictions.isNotNull("publicTime"));
+        }
+        // Set Transformer to convert Object to Post class
+        cr.setResultTransformer(Transformers.aliasToBean(Post.class));
+        return (List<Post>) cr.list();
     }
 
     /**

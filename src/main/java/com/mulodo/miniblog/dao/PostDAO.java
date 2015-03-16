@@ -25,10 +25,12 @@ public interface PostDAO extends CommonDAO<Post>
 
     /**
      * @param userId
-     *            Id of User
-     * @return All public post of user order by create time desc
+     *            Id of user
+     * @param flag
+     *            to indicate show of not show un-public post
+     * @return List of all posts in Db by user id and order by create time
      */
-    List<Post> getByUserId(int userId);
+    List<Post> getByUserId(int userId, boolean showUnpublic);
 
     /**
      * Search in title, description and content contain query string

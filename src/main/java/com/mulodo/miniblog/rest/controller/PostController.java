@@ -31,7 +31,6 @@ import org.springframework.stereotype.Controller;
 import com.mulodo.miniblog.common.Contants;
 import com.mulodo.miniblog.message.ResultMessage;
 import com.mulodo.miniblog.pojo.Post;
-import com.mulodo.miniblog.pojo.User;
 import com.mulodo.miniblog.service.PostService;
 import com.mulodo.miniblog.service.TokenService;
 
@@ -378,11 +377,47 @@ public class PostController
         return Response.status(Contants.CODE_OK).entity(result).build();
     }
 
-    @Path(Contants.URL_TOP)
-    @GET
-    public Response getById(@FormParam("token") String token)
+    @SuppressWarnings("rawtypes")
+    @Path(Contants.URL_GET_BY_USER)
+    @POST
+    public Response getByUserId(@PathParam("user_id") int userId,
+            @NotNull(message = "{user_id.NotNull}")
+            @FormParam(value = "user_id")
+            @Min(value = 0)
+            Integer user_id,
+
+            @NotNull(message = "{token.NotNull}")
+            @Size(min = 64, max = 64, message = "{token.Size}")
+            @FormParam(value = "token")
+            String token)
     {
-        return Response.status(200).build();
+
+        // Check token
+        if (!tokenSer.checkToken(user_id, token)) {
+            // Log
+            logger.warn("Token {} invaild or expired", token);
+            // Unauthorized
+            ResultMessage unauthorizedMsg = new ResultMessage(Contants.CODE_TOKEN_ERR,
+                    Contants.MSG_TOKEN_ERR, String.format(Contants.FOR_TOKEN_ERR, token));
+            return Response.status(Contants.CODE_UNAUTHORIZED).entity(unauthorizedMsg).build();
+        }
+
+        List<Post> posts = null;
+        // Call service to get all public post of user from Db
+        try {
+            posts = postSer.getByUserId(userId, true);
+        } catch (HibernateException e) {
+            // Log
+            logger.warn(Contants.MSG_DB_ERR, e);
+            // Response error
+            ResultMessage dbErrMsg = new ResultMessage(Contants.CODE_DB_ERR, Contants.MSG_DB_ERR,
+                    String.format(Contants.FOR_DB_ERR, e.getMessage()));
+            return Response.status(Contants.CODE_INTERNAL_ERR).entity(dbErrMsg).build();
+        }
+        // Response success
+        ResultMessage<List<Post>> result = new ResultMessage<List<Post>>(Contants.CODE_OK,
+                String.format(Contants.FOR_GET_ALL_POST_SCC, posts.size()), posts);
+        return Response.status(Contants.CODE_OK).entity(result).build();
     }
 
     @SuppressWarnings("rawtypes")
@@ -393,7 +428,7 @@ public class PostController
         List<Post> posts = null;
         // Call service to get all public post of user from Db
         try {
-            posts = postSer.getByUserId(userId);
+            posts = postSer.getByUserId(userId, false);
         } catch (HibernateException e) {
             // Log
             logger.warn(Contants.MSG_DB_ERR, e);

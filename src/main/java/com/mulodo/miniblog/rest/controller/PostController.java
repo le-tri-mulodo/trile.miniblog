@@ -381,11 +381,6 @@ public class PostController
     @Path(Contants.URL_GET_BY_USER)
     @POST
     public Response getByUserId(@PathParam("user_id") int userId,
-            @NotNull(message = "{user_id.NotNull}")
-            @FormParam(value = "user_id")
-            @Min(value = 0)
-            Integer user_id,
-
             @NotNull(message = "{token.NotNull}")
             @Size(min = 64, max = 64, message = "{token.Size}")
             @FormParam(value = "token")
@@ -393,7 +388,7 @@ public class PostController
     {
 
         // Check token
-        if (!tokenSer.checkToken(user_id, token)) {
+        if (!tokenSer.checkToken(userId, token)) {
             // Log
             logger.warn("Token {} invaild or expired", token);
             // Unauthorized

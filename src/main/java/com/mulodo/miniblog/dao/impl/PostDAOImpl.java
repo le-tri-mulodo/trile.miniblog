@@ -10,6 +10,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.LogicalExpression;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -91,6 +92,9 @@ public class PostDAOImpl extends CommonDAOImpl<Post> implements PostDAO
         prjection.add(Projections.property("createTime"), "createTime");
         prjection.add(Projections.property("publicTime"), "publicTime");
         cr.setProjection(prjection);
+
+        // Sort
+        cr.addOrder(Order.desc("createTime"));
 
         // Set userId
         cr.add(Restrictions.eq("userId", userId));

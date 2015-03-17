@@ -4,7 +4,7 @@ miniBlog.directive('isActiveNav', [ '$location', function($location) {
 		link : function(scope, element) {
 			scope.location = $location;
 			scope.$watch('location.path()', function(currentPath) {
-				if ('#' + currentPath === element[0].attributes['href'].nodeValue) {
+				if ('#' + currentPath === element[0].attributes['href'].value) {
 					element.parent().addClass('active');
 				} else {
 					element.parent().removeClass('active');
@@ -29,6 +29,20 @@ miniBlog.directive("compareTo", function() {
 			scope.$watch("otherModelValue", function() {
 				ngModel.$validate();
 			});
+		}
+	};
+});
+
+miniBlog.directive('toggle', function() {
+	return {
+		restrict : 'A',
+		link : function(scope, element, attrs) {
+			if (attrs.toggle == "tooltip") {
+				$(element).tooltip();
+			}
+			if (attrs.toggle == "popover") {
+				$(element).popover();
+			}
 		}
 	};
 });

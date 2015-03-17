@@ -5,31 +5,24 @@ var userControllers = angular.module('userControllers', []);
 
 postControllers.controller('topPostCtrl', [ '$scope', '$rootScope', '$http', 'toaster', 'authSer', 'postSer',
 		function($scope, $rootScope, $http, toaster, authSer, postSer) {
-			// $http.get(REST_API_URL + "posts/top").success(function(data,
-			// status,
-			// headers, config) {
-			// var posts = data.data
-			// $scope.posts = posts;
-			//
-			// // Get all user info
-			// if (null !== posts && undefined !== posts) {
-			// for (var i = 0; i < posts.length; i++) {
-			// getUserInfo(posts[i].user_id, $rootScope.users, $http);
-			// }
-			// }
-			// });
 			getPosts('posts/top', $scope, $rootScope, $http, toaster);
 
+			// Set service function
 			// delete post
 			$scope.deletePost = postSer.deletePost;
+			// active/deactive post
+			$scope.activeDeactivePost = postSer.activeDeactivePost;
 		} ]);
 
 postControllers.controller('allPostCtrl', [ '$scope', '$rootScope', '$http', 'postSer',
 		function($scope, $rootScope, $http, postSer) {
 			getPosts('posts/', $scope, $rootScope, $http);
 
+			// Set service function
 			// delete post
 			$scope.deletePost = postSer.deletePost;
+			// active/deactive post
+			$scope.activeDeactivePost = postSer.activeDeactivePost;
 		} ]);
 
 postControllers.controller('searchCtrl', [ '$scope', '$rootScope', '$http', '$routeParams', 'postSer',
@@ -50,8 +43,11 @@ postControllers.controller('searchCtrl', [ '$scope', '$rootScope', '$http', '$ro
 				// Add to nav
 				addNavItems($rootScope, query, 'search/' + query, 'search');
 
+				// Set service function
 				// delete post
 				$scope.deletePost = postSer.deletePost;
+				// active/deactive post
+				$scope.activeDeactivePost = postSer.activeDeactivePost;
 			}
 		} ]);
 
@@ -108,152 +104,138 @@ postControllers.controller('postOfUserCtrl', [
 					getUserInfo(userId, $rootScope.users, $http);
 				}).error(function(data) {
 					// Show notify
-					var messages = data.meta.messages;
-					for (var i = 0; i < messages.length; i++) {
-						toaster.pop('error', messages[i]);
-					}
+					showErrorMsgs(data.meta.messages, toaster);
 				});
 			}
 
+			// Set service function
 			// delete post
 			$scope.deletePost = postSer.deletePost;
+			// active/deactive post
+			$scope.activeDeactivePost = postSer.activeDeactivePost;
 		} ]);
 
-postControllers.controller('postDetailCtrl', [
-		'$scope',
-		'$rootScope',
-		'$http',
-		'$routeParams',
-		'$location',
-		'$sce',
-		'toaster',
-		'authSer',
-		'postSer',
+postControllers.controller('postDetailCtrl', [ '$scope', '$rootScope', '$http', '$routeParams', '$location', '$sce',
+		'toaster', 'authSer', 'postSer',
 		function($scope, $rootScope, $http, $routeParams, $location, $sce, toaster, authSer, postSer) {
 
-			$http.get(REST_API_URL + 'posts/' + $routeParams.postId)
-			// When success
-			.success(
-					function(data, status, headers, config) {
-						var post = data.data;
-						$scope.post = post;
+			// Call rest to get post info
+			postSer.getPostInfo($routeParams.postId,
+			// Success call back
+			function(post) {
+				// Display data
+				$scope.post = post;
+				// set content with markup
+				$scope.contentMarkup = $sce.trustAsHtml(post.content);
 
-						// set content
-						$scope.contentMarkup = $sce.trustAsHtml(post.content);
+				// Get comments of post
+				$http.get(REST_API_URL + 'comments/posts/' + $routeParams.postId)
+				// Success
+				.success(function(data, status, headers, config) {
 
-						// get user info if not exist
-						getUserInfo(post.user_id, $rootScope.users, $http);
-						// Get comments of post
-						$http.get(REST_API_URL + 'comments/posts/' + $routeParams.postId).success(
-								function(data, status, headers, config) {
+					var comments = data.data;
+					$scope.comments = comments;
 
-									var comments = data.data;
-									$scope.comments = comments;
-
-									// Get all user info
-									if (null !== comments && undefined !== comments) {
-										for (var i = 0; i < comments.length; i++) {
-											getUserInfo(comments[i].user_id, $rootScope.users, $http);
-										}
-									}
-								}).error(function(data) {
-							// Show notify
-							var messages = data.meta.messages;
-							for (var i = 0; i < messages.length; i++) {
-								toaster.pop('error', messages[i]);
-							}
-						});
-					})
-			// When error;
-			.error(function(data) {
-				// Show notify
-				var messages = data.meta.messages;
-				for (var i = 0; i < messages.length; i++) {
-					toaster.pop('error', messages[i]);
-				}
-
+					// Get all user info
+					if (null !== comments && undefined !== comments) {
+						for (var i = 0; i < comments.length; i++) {
+							getUserInfo(comments[i].user_id, $rootScope.users, $http);
+						}
+					}
+				})
+				// Error
+				.error(function(data) {
+					// Show notify
+					showErrorMsgs(data.meta.messages, toaster);
+				});
+			},
+			// Error call back
+			function(data) {
 				// Redirect to home page
 				$location.path('#/');
 				$location.replace();
 			});
 
+			// Set service function
 			// delete post
 			$scope.deletePost = postSer.deletePost;
+			// active/deactive post
+			$scope.activeDeactivePost = postSer.activeDeactivePost;
 		} ]);
 
-postControllers.controller('newPostCtrl', [
-		'$scope',
-		'$rootScope',
-		'$http',
-		'$routeParams',
-		'$location',
-		'authSer',
-		'postSer',
-		function($scope, $rootScope, $http, $routeParams, $location, authSer, postSer) {
+postControllers.controller('editPostCtrl', [ '$scope', '$rootScope', '$http', '$routeParams', '$location', '$sce',
+		'toaster', 'authSer', 'postSer', 'RICHTEXTOPTION',
+		function($scope, $rootScope, $http, $routeParams, $location, $sce, toaster, authSer, postSer, RICHTEXTOPTION) {
 
 			// Check is not logged then rederect to home page
-//			var loggedFlg = $rootScope.loggedFlg;
-//			if (null === loggedFlg || undefined === loggedFlg || false === loggedFlg) {
-			// $location.path('#/');
-			// $location.replace();
-			// }
-			if (!authSer.isLogged()) {
-				$location.path('#/');
-				$location.replace();
+			if (authSer.authLogged()) {
 				return;
 			}
 
 			// Config rich text box
-			$scope.options = {
-				height : 300,
-				toolbar : [
-					// [groupname, [button list]]
-						[ 'style', [ 'bold', 'italic', 'underline', 'clear' ] ],
-						[ 'font', [ 'strikethrough' ] ],
-						[ 'fontsize', [ 'fontsize' ] ],
-						[ 'color', [ 'color' ] ],
-						[ 'para', [ 'ul', 'ol', 'paragraph' ] ],
-						[ 'insert', [ 'link', 'picture' ] ],
-						[ 'view', [ 'fullscreen', 'codeview' ] ],
-						[ 'help', [ 'help' ] ]
-					]
-			};
+			$scope.options = RICHTEXTOPTION;
+
+			// Call rest to get post info
+			postSer.getPostInfo($routeParams.postId,
+			// Success call back
+			function(post) {
+				// Check owner
+				console.log($rootScope.currentUser.user_id);
+				console.log(post.user_id);
+				if ($rootScope.currentUser.user_id != post.user_id) {
+					authSer.errorHandler('You\'re not owner of post ');
+					return;
+				}
+
+				// Display data
+				$scope.post = post;
+
+				// prepare form
+				$scope.submit_title = 'Update';
+				$scope.post.user_id = $rootScope.currentUser.user_id;
+				$scope.post.token = $rootScope.token;
+				// process the form
+				$scope.processForm = postSer.editPost;
+
+				// Prepare data to preview post
+				$scope.previewPost = postSer.previewPost;
+			},
+			// Error call back
+			function(data) {
+				// Redirect to home page
+				$location.path('#/');
+				$location.replace();
+			});
+
+			// Set service function
+			// delete post
+			$scope.deletePost = postSer.deletePost;
+			// active/deactive post
+			$scope.activeDeactivePost = postSer.activeDeactivePost;
+		} ]);
+
+postControllers.controller('newPostCtrl', [ '$scope', '$rootScope', '$http', '$routeParams', '$location', 'toaster',
+		'authSer', 'postSer', 'RICHTEXTOPTION',
+		function($scope, $rootScope, $http, $routeParams, $location, toaster, authSer, postSer, RICHTEXTOPTION) {
+
+			// Check is not logged then rederect to home page
+			if (authSer.authLogged()) {
+				return;
+			}
+
+			// Config rich text box
+			$scope.options = RICHTEXTOPTION;
 
 			// prepare form
-			$scope.post = {};
+			$scope.post = postSer.getPreviewPost();
+			$scope.submit_title = 'Post';
 			$scope.post.user_id = $rootScope.currentUser.user_id;
 			$scope.post.token = $rootScope.token;
 			// process the form
-			$scope.processForm = function() {
-				$http({
-					method : 'POST',
-					url : REST_API_URL + 'posts',
-					data : $.param($scope.post), // pass in data as strings
-					headers : {
-						'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
-					}
-				// set the headers so angular passing info as form data
-				}).success(function(data) {
-					var id = data.data.post_id;
-					// redirect to post detail
-					$location.path('#/posts/' + id);
-					$location.replace();
-				}).error(function(data) {
-					// Show notify
-					var messages = data.meta.messages;
-					for (var i = 0; i < messages.length; i++) {
-						toaster.pop('error', messages[i]);
-					}
-				});
-			};
+			$scope.processForm = postSer.addPost;
 
 			// Prepare data to preview post
-			$scope.previewPost = function(previewPost) {
-				postSer.setPreviewPost(previewPost);
-
-				$location.path('#/preview_post');
-				$location.replace();
-			};
+			$scope.previewPost = postSer.previewPost;
 
 		} ]);
 
@@ -278,15 +260,7 @@ userControllers.controller('registerCtrl', [ '$scope', '$rootScope', '$http', '$
 		'authSer', function($scope, $rootScope, $http, $location, $cookies, toaster, authSer) {
 
 			// Check is logged then rederect to home page
-			// var loggedFlg = $rootScope.loggedFlg;
-			// if (null !== loggedFlg && undefined !== loggedFlg && true ===
-			// loggedFlg) {
-			// $location.path('#/');
-			// $location.replace();
-			// }
-			if (authSer.isLogged()) {
-				$location.path('#/');
-				$location.replace();
+			if (authSer.authNotLogged()) {
 				return;
 			}
 
@@ -305,7 +279,7 @@ userControllers.controller('registerCtrl', [ '$scope', '$rootScope', '$http', '$
 				}).success(function(data) {
 					var user = data.data;
 					// Save registered user data
-					// $rootScope.loggedFlg = true;
+					$rootScope.isLogged = true;
 					$rootScope.currentUser = user;
 
 					// Set to cookies
@@ -321,10 +295,7 @@ userControllers.controller('registerCtrl', [ '$scope', '$rootScope', '$http', '$
 					toaster.pop('success', 'Register success');
 				}).error(function(data) {
 					// Show notify
-					var messages = data.meta.messages;
-					for (var i = 0; i < messages.length; i++) {
-						toaster.pop('error', messages[i]);
-					}
+					showErrorMsgs(data.meta.messages, toaster);
 				});
 			};
 
@@ -349,15 +320,7 @@ userControllers.controller('profileCtrl', [
 		function($scope, $rootScope, $http, $location, $cookies, toaster, authSer) {
 
 			// Check not logged then redirect to home page
-			// var loggedFlg = $rootScope.loggedFlg;
-			// if (null !== loggedFlg && undefined !== loggedFlg && false ===
-			// loggedFlg) {
-			// }
-			// $location.path('#/');
-			// $location.replace();
-			if (!authSer.isLogged()) {
-				$location.path('#/');
-				$location.replace();
+			if (authSer.authLogged()) {
 				return;
 			}
 
@@ -400,10 +363,7 @@ userControllers.controller('profileCtrl', [
 					toaster.pop('success', 'Update profile success');
 				}).error(function(data) {
 					// Show notify
-					var messages = data.meta.messages;
-					for (var i = 0; i < messages.length; i++) {
-						toaster.pop('error', messages[i]);
-					}
+					showErrorMsgs(data.meta.messages, toaster);
 				});
 			};
 
@@ -417,162 +377,40 @@ userControllers.controller('profileCtrl', [
 			});
 		} ]);
 
-userControllers.controller('loginCtrl', [ '$scope', '$rootScope', '$http', '$location', '$cookies', 'toaster',
-		'authSer', function($scope, $rootScope, $http, $location, $cookies, toaster, authSer) {
+userControllers.controller('loginCtrl', [ '$scope', 'authSer', function($scope, authSer) {
 
-			// Check is logged then rederect to home page
-			// var loggedFlg = $rootScope.loggedFlg;
-			// if (null !== loggedFlg && undefined !== loggedFlg && true ===
-			// loggedFlg) {
-			// $location.path('#/');
-			// $location.replace();
-			// }
-			if (authSer.isLogged()) {
-				$location.path('#/');
-				$location.replace();
-				return;
-			}
-			// prepare form
-			// create a blank object to hold our form information
-			// $scope will allow this to pass between controller and view
-			$scope.user = {};
-			// process the form
-			$scope.processForm = function() {
-				$http({
-					method : 'POST',
-					url : REST_API_URL + 'tokens/login',
-					data : $.param($scope.user), // pass in data as strings
-					// set the headers so angular passing info as form data
-					headers : {
-						'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
-					}
-				}).success(function(data) {
-					var user = data.data;
+	// Check is logged then rederect to home page
+	if (authSer.authNotLogged()) {
+		return;
+	}
+	// prepare form
+	// create a blank object to hold our form information
+	// $scope will allow this to pass between controller and view
+	$scope.user = {};
+	// process the form
+	$scope.login = authSer.login;
 
-					// Save login data
-					$rootScope.isLogged = true;
-					$rootScope.currentUser = user;
+} ]);
 
-					// Set to cookies
-					if (true === $scope.rememberLogin) {
-						$cookies.user_id = user.user_id;
-						$cookies.username = user.username;
-						$cookies.token = user.token;
-					}
+userControllers.controller('chpwdCtrl', [ '$scope', '$rootScope', 'authSer', function($scope, $rootScope, authSer) {
+	// Check is not logged then rederect to home page
+	if (authSer.authLogged()) {
+		return;
+	}
 
-					// redirect to home page
-					$location.path('#/');
-					$location.replace();
-					// // back to previous page
-					// window.history.back();
-					
-					// Show notify
-					toaster.pop('success','Login success');
-				}).error(function(data) {
-					// Show notify
-					var messages = data.meta.messages;
-					for (var i = 0; i < messages.length; i++) {
-						toaster.pop('error', messages[i]);
-					}
-				});
-			};
+	// prepare form
+	// create a blank object to hold our form information
+	// $scope will allow this to pass between controller and view
+	$scope.user = {};
+	// set user id
+	$scope.user.user_id = $rootScope.currentUser.user_id;
+	// process the form
+	$scope.changePassword = authSer.changePassword;
 
-		} ]);
+} ]);
 
-userControllers.controller('chpwdCtrl', [ '$scope', '$rootScope', '$http', '$location', '$cookies', 'toaster',
-		'authSer', function($scope, $rootScope, $http, $location, $cookies, toaster, authSer) {
-			// Check is not logged then rederect to home page
-			// var loggedFlg = $rootScope.loggedFlg;
-			// if (null === loggedFlg || undefined === loggedFlg || false ===
-			// loggedFlg) {
-			// $location.path('#/');
-			// $location.replace();
-			// }
-			if (!authSer.isLogged()) {
-				$location.path('#/');
-				$location.replace();
-				return;
-			}
+userControllers.controller('logoutCtrl', [ 'authSer', function(authSer) {
 
-			// prepare form
-			// create a blank object to hold our form information
-			// $scope will allow this to pass between controller and view
-			$scope.user = {};
-			// set user id
-			$scope.user.user_id = $rootScope.currentUser.user_id;
-			// process the form
-			$scope.processForm = function() {
-				$http({
-					method : 'PUT',
-					url : REST_API_URL + 'users/pass',
-					data : $.param($scope.user), // pass in data as strings
-					// set the headers so angular passing info as form data
-					headers : {
-						'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
-					}
-				}).success(function(data) {
-					var token = data.data.token;
-
-					// Set to cookies
-					if (null !== $cookies.token && undefined !== $cookies.token) {
-						$cookies.token = token;
-					}
-					// Set token to cache
-					$rootScope.token = token
-
-					// redirect to home page
-					$location.path('#/');
-					$location.replace();
-					// // back to previous page
-					// window.history.back();
-
-					// Show notify
-					toaster.pop('success', 'Change password success');
-				}).error(function(data) {
-					// Show notify
-					var messages = data.meta.messages;
-					for (var i = 0; i < messages.length; i++) {
-						toaster.pop('error', messages[i]);
-					}
-				});
-			};
-
-		} ]);
-
-userControllers.controller('logoutCtrl', [ '$scope', '$rootScope', '$http', '$location', '$cookieStore', 'toaster',
-		'authSer', function($scope, $rootScope, $http, $location, $cookieStore, toaster, authSer) {
-
-			// Check is logged to call rest
-			// var loggedFlg = $rootScope.loggedFlg;
-			// if (null !== loggedFlg && undefined !== loggedFlg && true ===
-			// loggedFlg) {
-			if (authSer.isLogged()) {
-
-				// Prepare data to call logout rest
-				var user = {};
-				user.token = $rootScope.token;
-				// Call rest
-				$http({
-					method : 'POST',
-					url : REST_API_URL + 'tokens/logout',
-					data : $.param(user), // pass in data as strings
-					// set the headers so angular passing info as form data
-					headers : {
-						'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
-					}
-				});
-			}
-			// Clean scope
-			$rootScope.isLogged = false;
-			$rootScope.currentUser = null;
-			// Clean cookies
-			$cookieStore.remove("user_id");
-			$cookieStore.remove("username");
-			$cookieStore.remove("token");
-			// Clean nav items list
-			$rootScope.navItems = null;
-
-			// Show notify
-			toaster.pop('success', 'Logout success');
-		} ]);
-
+	// Call service
+	authSer.logout();
+} ]);

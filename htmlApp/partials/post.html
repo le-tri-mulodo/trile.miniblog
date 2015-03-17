@@ -9,7 +9,7 @@
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<!-- add post form -->
-			<form class="form form-register" ng-submit="processForm()"
+			<form class="form form-register" ng-submit="processForm(post)"
 				name="postForm">
 				<h2 align="center" class="form-heading">New post</h2>
 				<label for="inputTitle" class="sr-only">Title</label> <input
@@ -32,7 +32,7 @@
 					</div>
 					<div class="col-md-6">
 						<button class="btn btn-lg btn-primary btn-block"
-							ng-disabled="!postForm.$valid" type="submit">Post</button>
+							ng-disabled="!postForm.$valid" type="submit">{{submit_title}}</button>
 					</div>
 				</div>
 			</form>

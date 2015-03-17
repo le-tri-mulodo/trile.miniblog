@@ -6,6 +6,24 @@ var miniBlog = angular.module('MiniBlog', [ 'ngRoute', 'ngCookies', 'summernote'
 		'userControllers' ]);
 
 miniBlog.constant('REST_API_URL', "/miniblog.api/");
+miniBlog.constant('RICHTEXTOPTION', {
+	height : 300,
+	toolbar : [
+	// [groupname, [button list]]
+	[ 'style', [ 'bold', 'italic', 'underline', 'clear' ] ],
+	// font
+	[ 'font', [ 'strikethrough' ] ], [ 'fontsize', [ 'fontsize' ] ],
+	// color
+	[ 'color', [ 'color' ] ],
+	// param
+	[ 'para', [ 'ul', 'ol', 'paragraph' ] ],
+	// insert
+	[ 'insert', [ 'link', 'picture' ] ],
+	// view
+	[ 'view', [ 'fullscreen', 'codeview' ] ],
+	// help
+	[ 'help', [ 'help' ] ] ]
+});
 
 miniBlog.run(function($rootScope, $cookies, $location) {
 	// Create user hashmap
@@ -81,6 +99,10 @@ miniBlog.config([ '$routeProvider', function($routeProvider) {
 		// Register new user
 		templateUrl : 'partials/post_detail.html',
 		controller : 'previewPostCtrl'
+	}).when('/edit_post/:postId', {
+		// Register new user
+		templateUrl : 'partials/post.html',
+		controller : 'editPostCtrl'
 	}).otherwise({
 		redirectTo : '/'
 	});

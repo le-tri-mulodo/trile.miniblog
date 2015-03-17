@@ -41,8 +41,7 @@
 						</div>
 					</div>
 					<!-- /user item -->
-					<h5 align="center" ng-if="!searchResultUsers.length">No
-						result</h5>
+					<h5 align="center" ng-if="!searchResultUsers.length">No result</h5>
 				</div>
 			</div>
 		</div>
@@ -66,9 +65,11 @@
 									class="media-object avatar"> </a>
 							</div>
 							<div class="media-body">
-								<h2 class="media-heading">
-									<a href="#/posts/{{post.post_id}}">{{post.title}}</a>
-								</h2>
+
+								<!-- post title -->
+								<div class="row" ng-include="'partials/post_title.html'"></div>
+								<!-- /post title -->
+
 								<p>
 									<span class="glyphicon glyphicon-time"></span> Created on
 									{{post.create_time}} by <a ng-href="#/users/{{post.user_id}}">{{users[post.user_id].username}}</a>

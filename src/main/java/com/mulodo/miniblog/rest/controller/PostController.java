@@ -488,8 +488,8 @@ public class PostController
             // log
             logger.warn("User with id={} does not exist", postId);
             // Response error
-            ResultMessage userNotExistMsg = new ResultMessage(Contants.CODE_USER_NOT_EXIST,
-                    Contants.MSG_USER_NOT_EXIST, String.format(Contants.FOR_USER_NOT_EXIST, postId));
+            ResultMessage userNotExistMsg = new ResultMessage(Contants.CODE_POST_NOT_EXIST,
+                    Contants.MSG_POST_NOT_EXIST, String.format(Contants.FOR_POST_NOT_EXIST, postId));
             return Response.status(Contants.CODE_BAD_REQUEST).entity(userNotExistMsg).build();
         }
 

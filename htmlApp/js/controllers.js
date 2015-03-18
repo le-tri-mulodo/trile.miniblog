@@ -3,45 +3,42 @@
 var postControllers = angular.module('postControllers', []);
 var userControllers = angular.module('userControllers', []);
 
-postControllers.controller('topPostCtrl', [ '$scope', '$rootScope', '$http', 'toaster', 'authSer', 'postSer',
-		function($scope, $rootScope, $http, toaster, authSer, postSer) {
-			getPosts('posts/top', $scope, $rootScope, $http, toaster);
+postControllers.controller('topPostCtrl', [ '$scope', 'postSer', function($scope, postSer) {
 
-			// Set service function
-			// delete post
-			$scope.deletePost = postSer.deletePost;
-			// active/deactive post
-			$scope.activeDeactivePost = postSer.activeDeactivePost;
-		} ]);
+	postSer.getPosts('posts/top', $scope);
 
-postControllers.controller('allPostCtrl', [ '$scope', '$rootScope', '$http', 'postSer',
-		function($scope, $rootScope, $http, postSer) {
-			getPosts('posts/', $scope, $rootScope, $http);
+	// Set service function
+	// delete post
+	$scope.deletePost = postSer.deletePost;
+	// active/deactive post
+	$scope.activeDeactivePost = postSer.activeDeactivePost;
+} ]);
 
-			// Set service function
-			// delete post
-			$scope.deletePost = postSer.deletePost;
-			// active/deactive post
-			$scope.activeDeactivePost = postSer.activeDeactivePost;
-		} ]);
+postControllers.controller('allPostCtrl', [ '$scope', 'postSer', function($scope, postSer) {
 
-postControllers.controller('searchCtrl', [ '$scope', '$rootScope', '$http', '$routeParams', 'postSer',
-		function($scope, $rootScope, $http, $routeParams, postSer) {
-			var query = $routeParams.query;
+	postSer.getPosts('posts/', $scope);
+
+	// Set service function
+	// delete post
+	$scope.deletePost = postSer.deletePost;
+	// active/deactive post
+	$scope.activeDeactivePost = postSer.activeDeactivePost;
+} ]);
+
+postControllers.controller('searchCtrl', [ '$scope', '$routeParams', 'authSer', 'postSer', 'util',
+		function($scope, $routeParams, authSer, postSer, util) {
+			var query = 'search/' + $routeParams.query;
 
 			// Check null & empty
 			if (query) {
 				// Search user
-				$http.get(REST_API_URL + 'users/search/' + query).success(function(data, status, headers, config) {
-					// Set user to list users
-					$scope.searchResultUsers = data.data;
-				});
+				authSer.search(query, $scope);
 
 				// Search post
-				getPosts('posts/search/' + query, $scope, $rootScope, $http);
+				postSer.getPosts('posts/' + query, $scope);
 
 				// Add to nav
-				addNavItems($rootScope, query, 'search/' + query, 'search');
+				util.addNavItems($routeParams.query, query, 'search');
 
 				// Set service function
 				// delete post
@@ -51,62 +48,10 @@ postControllers.controller('searchCtrl', [ '$scope', '$rootScope', '$http', '$ro
 			}
 		} ]);
 
-postControllers.controller('postOfUserCtrl', [
-		'$scope',
-		'$rootScope',
-		'$http',
-		'$routeParams',
-		'authSer',
-		'postSer',
-		function($scope, $rootScope, $http, $routeParams, authSer, postSer) {
+postControllers.controller('postOfUserCtrl', [ '$scope', '$routeParams', 'postSer',
+		function($scope, $routeParams, postSer) {
 
-			var userId = $routeParams.userId;
-
-			// add to nav items
-			// if get posts of logged user then don't add
-			if (null === $rootScope.currentUser || undefined == $rootScope.currentUser
-					|| userId != $rootScope.currentUser.user_id) {
-
-				// get posts
-				getPosts('posts/users/' + userId, $scope, $rootScope, $http);
-				// get user if not existed to ensure have info about user
-				if (!$rootScope.users[userId]) {
-					$http.get(REST_API_URL + 'users/' + userId).success(function(data, status, headers, config) {
-						var user = data.data;
-						// Set user to list users
-						$rootScope.users[user.user_id] = user;
-						// add to items list
-						addNavItems($rootScope, user.username, 'users/' + userId, 'user');
-					});
-				} else {
-					// add to items list
-					addNavItems($rootScope, $rootScope.users[userId].username, 'users/' + userId, 'user');
-				}
-			} else {
-				var myParam = {};
-				myParam.token = $rootScope.token;
-
-				// Get my post
-				$http({
-					method : 'POST',
-					url : REST_API_URL + 'posts/users/' + userId,
-					data : $.param(myParam), // pass in data as strings
-					headers : {
-						'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
-					}
-				// set the headers so angular passing info as form data
-				}).success(function(data) {
-					// Set posts to display
-					var posts = data.data
-					$scope.posts = posts;
-
-					// Get user info if not existed
-					getUserInfo(userId, $rootScope.users, $http);
-				}).error(function(data) {
-					// Show notify
-					showErrorMsgs(data.meta.messages, toaster);
-				});
-			}
+			postSer.getPostsByUser($routeParams.userId, $scope);
 
 			// Set service function
 			// delete post
@@ -115,9 +60,8 @@ postControllers.controller('postOfUserCtrl', [
 			$scope.activeDeactivePost = postSer.activeDeactivePost;
 		} ]);
 
-postControllers.controller('postDetailCtrl', [ '$scope', '$rootScope', '$http', '$routeParams', '$location', '$sce',
-		'toaster', 'authSer', 'postSer',
-		function($scope, $rootScope, $http, $routeParams, $location, $sce, toaster, authSer, postSer) {
+postControllers.controller('postDetailCtrl', [ '$scope', '$http', '$routeParams', '$location', '$sce', 'authSer',
+		'postSer', 'commentSer', function($scope, $http, $routeParams, $location, $sce, authSer, postSer, commentSer) {
 
 			// Call rest to get post info
 			postSer.getPostInfo($routeParams.postId,
@@ -139,14 +83,14 @@ postControllers.controller('postDetailCtrl', [ '$scope', '$rootScope', '$http', 
 					// Get all user info
 					if (null !== comments && undefined !== comments) {
 						for (var i = 0; i < comments.length; i++) {
-							getUserInfo(comments[i].user_id, $rootScope.users, $http);
+							authSer.getUserInfo(comments[i].user_id);
 						}
 					}
 				})
 				// Error
 				.error(function(data) {
 					// Show notify
-					showErrorMsgs(data.meta.messages, toaster);
+					util.showErrorMsgs(data.meta.messages);
 				});
 			},
 			// Error call back
@@ -161,11 +105,35 @@ postControllers.controller('postDetailCtrl', [ '$scope', '$rootScope', '$http', 
 			$scope.deletePost = postSer.deletePost;
 			// active/deactive post
 			$scope.activeDeactivePost = postSer.activeDeactivePost;
+			// add comment
+			$scope.addComment = function(postId, content) {
+				commentSer.addComment(postId, content)
+				// Call rest complete
+				.then(function(comment) {
+
+					// Add to comments list to display
+					$scope.comments.push(comment);
+
+					// Clear input
+					$('#commentTextArea').val(null);
+				});
+			}
+
+			// delete comment
+			$scope.deleteComment = function(postId, idx) {
+				commentSer.deleteComment(postId)
+				// Call rest complete
+				.then(function(comment) {
+					// remove from comments list
+					$scope.comments.splice(idx, 1);
+				});
+			}
+
 		} ]);
 
-postControllers.controller('editPostCtrl', [ '$scope', '$rootScope', '$http', '$routeParams', '$location', '$sce',
-		'toaster', 'authSer', 'postSer', 'RICHTEXTOPTION',
-		function($scope, $rootScope, $http, $routeParams, $location, $sce, toaster, authSer, postSer, RICHTEXTOPTION) {
+postControllers.controller('editPostCtrl', [ '$scope', '$rootScope', '$routeParams', '$location', '$sce', 'authSer',
+		'postSer', 'RICHTEXTOPTION',
+		function($scope, $rootScope, $routeParams, $location, $sce, authSer, postSer, RICHTEXTOPTION) {
 
 			// Check is not logged then rederect to home page
 			if (authSer.authLogged()) {
@@ -180,8 +148,6 @@ postControllers.controller('editPostCtrl', [ '$scope', '$rootScope', '$http', '$
 			// Success call back
 			function(post) {
 				// Check owner
-				console.log($rootScope.currentUser.user_id);
-				console.log(post.user_id);
 				if ($rootScope.currentUser.user_id != post.user_id) {
 					authSer.errorHandler('You\'re not owner of post ');
 					return;
@@ -239,8 +205,8 @@ postControllers.controller('newPostCtrl', [ '$scope', '$rootScope', '$http', '$r
 
 		} ]);
 
-postControllers.controller('previewPostCtrl', [ '$scope', '$rootScope', '$http', '$location', '$sce', 'postSer',
-		function($scope, $rootScope, $http, $location, $sce, postSer) {
+postControllers.controller('previewPostCtrl', [ '$scope', '$location', '$sce', 'postSer',
+		function($scope, $location, $sce, postSer) {
 			$scope.post = postSer.getPreviewPost();
 
 			// If preview post don't exist then redirect to home page
@@ -256,125 +222,54 @@ postControllers.controller('previewPostCtrl', [ '$scope', '$rootScope', '$http',
 			$scope.contentMarkup = $sce.trustAsHtml($scope.post.content);
 		} ]);
 
-userControllers.controller('registerCtrl', [ '$scope', '$rootScope', '$http', '$location', '$cookies', 'toaster',
-		'authSer', function($scope, $rootScope, $http, $location, $cookies, toaster, authSer) {
+userControllers.controller('registerCtrl', [ '$scope', 'authSer', 'util', function($scope, authSer, util) {
 
-			// Check is logged then rederect to home page
-			if (authSer.authNotLogged()) {
-				return;
-			}
+	// Check is logged then rederect to home page
+	if (authSer.authNotLogged()) {
+		return;
+	}
 
-			// prepare form
-			$scope.user = {};
-			// process the form
-			$scope.processForm = function() {
-				$http({
-					method : 'POST',
-					url : REST_API_URL + 'users',
-					data : $.param($scope.user), // pass in data as strings
-					headers : {
-						'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
-					}
-				// set the headers so angular passing info as form data
-				}).success(function(data) {
-					var user = data.data;
-					// Save registered user data
-					$rootScope.isLogged = true;
-					$rootScope.currentUser = user;
+	// prepare form
+	$scope.user = {};
+	// process the form
+	$scope.processForm = authSer.register;
 
-					// Set to cookies
-					$cookies.user_id = user.user_id;
-					$cookies.username = user.username;
-					$cookies.token = user.token;
+	// Upload complement event
+	util.uploadCompleteEvent($scope);
+} ]);
 
-					// redirect to home page
-					$location.path('#/');
-					$location.replace();
-
-					// Show notify
-					toaster.pop('success', 'Register success');
-				}).error(function(data) {
-					// Show notify
-					showErrorMsgs(data.meta.messages, toaster);
-				});
-			};
-
-			// Upload complement event
-			uploadCompleteEvent($scope, toaster, function(response) {
-				var meta = response.meta;
-				if (200 === meta.code) {
-					// add path of image
-					$scope.user.avatarlink = 'img/' + meta.messages[0];
-				}
-			});
-		} ]);
-
-userControllers.controller('profileCtrl', [
-		'$scope',
-		'$rootScope',
-		'$http',
-		'$location',
-		'$cookies',
-		'toaster',
-		'authSer',
-		function($scope, $rootScope, $http, $location, $cookies, toaster, authSer) {
+userControllers.controller('profileCtrl', [ '$scope', '$rootScope', 'toaster', 'authSer', 'util',
+		function($scope, $rootScope, toaster, authSer, util) {
 
 			// Check not logged then redirect to home page
 			if (authSer.authLogged()) {
 				return;
 			}
 
-			// Load user info from rest
-			$http.get(REST_API_URL + 'users/' + $rootScope.currentUser.user_id).success(
-					function(data, status, headers, config) {
-						var user = data.data;
-						// set token
-						user.token = $rootScope.token;
-						// remove join date
-						delete user.joindate;
-						// Set form data
-						$scope.user = user;
-						// Set current user data
-						$rootScope.currentUser = user;
-						// set avatar image
-						$scope.currentAvatarlink = user.avatarlink;
-					});
+			// Load user info
+			var user = authSer.getUserInfo($rootScope.currentUser.user_id,
+			// success callback
+			function(user) {
+				user.token = $rootScope.token;
+				// remove join date
+				delete user.joindate;
+				// Set form data
+				$scope.user = user;
+				// Set current user data
+				$rootScope.currentUser = user;
+				// set avatar image
+				$scope.currentAvatarlink = user.avatarlink;
+			},
+			// error callback
+			function() {
+				toaster.pop('error', 'Error when get user info');
+			});
 
-			// process the form
-			$scope.processForm = function() {
-				$http({
-					method : 'PUT',
-					url : REST_API_URL + 'users',
-					data : $.param($scope.user), // pass in data as strings
-					headers : {
-						'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
-					}
-				// set the headers so angular passing info as form data
-				}).success(function(data) {
-					var user = data.data;
-					// Save updated user data from rest to global variable
-					$rootScope.currentUser = user;
-
-					// redirect to home page
-					$location.path('#/');
-					$location.replace();
-
-					// Show notify
-					toaster.pop('success', 'Update profile success');
-				}).error(function(data) {
-					// Show notify
-					showErrorMsgs(data.meta.messages, toaster);
-				});
-			};
+			// set when process the form is edit profile
+			$scope.editProfile = authSer.editProfile;
 
 			// Upload complement event
-			uploadCompleteEvent($scope, toaster, function(response) {
-				var meta = response.meta;
-				if (200 === meta.code) {
-					// add path of image
-					$scope.user.avatarlink = 'img/' + meta.messages[0];
-				}
-			});
+			util.uploadCompleteEvent($scope);
 		} ]);
 
 userControllers.controller('loginCtrl', [ '$scope', 'authSer', function($scope, authSer) {

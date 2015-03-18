@@ -15,11 +15,12 @@
 
 			<!-- dynamic nav -->
 			<hr ng-if="navItems">
-			<li role="presentation"><a is-active-nav
-				ng-repeat="navItem in navItems" ng-href="#/{{navItem.url}}"><span
-					class="glyphicon nav-icon"
+			<li role="presentation" ng-repeat="navItem in navItems">
+				<!-- dynamic navigator --> <a is-active-nav
+				ng-href="#/{{navItem.url}}"><span class="glyphicon nav-icon"
 					ng-class="navItem.type == 'user'? 'glyphicon-user' : 'glyphicon-search'">
-				</span>{{navItem.title}}</a></li>
+				</span>{{navItem.title}}</a> <!-- dynamic navigator -->
+			</li>
 			<!-- /dynamic nav -->
 		</ul>
 	</div>

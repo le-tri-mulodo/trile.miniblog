@@ -48,7 +48,23 @@
 						ng-src="{{users[comment.user_id].avatarlink}}">
 					</a>
 					<div class="media-body">
-						<h4 class="media-heading">{{users[comment.user_id].username}}</h4>
+						<div class="row">
+							<div class="col-xs-9">
+								<h4 class="media-heading">{{users[comment.user_id].username}}</h4>
+							</div>
+
+							<div class="col-xs-3"
+								ng-if="comment.user_id == currentUser.user_id">
+								<div class="owner-control">
+									<a ng-click="deleteComment(comment.comment_id, $index)"><span
+										class="glyphicon glyphicon-trash pull-right nav-icon"></span></a>
+									<a href="edit_comment.html"><span
+										class="glyphicon glyphicon-pencil pull-right nav-icon"></span></a>
+								</div>
+							</div>
+
+						</div>
+
 						<p>
 							<span class="glyphicon glyphicon-time nav-icon"></span>Created on
 							{{comment.create_time}}
@@ -66,7 +82,10 @@
 				<form role="form">
 					<div class="form-group">
 
-						<textarea class="form-control" rows="1"></textarea>
+						<textarea class="form-control" rows="1" id="commentTextArea"
+							ng-keypress="$event.keyCode == 13 && addComment(post.post_id, commentContent)"
+							ng-model="commentContent"></textarea>
+
 					</div>
 				</form>
 			</div>

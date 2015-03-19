@@ -58,7 +58,7 @@
 								<div class="owner-control">
 									<a ng-click="deleteComment(comment.comment_id, $index)"><span
 										class="glyphicon glyphicon-trash pull-right nav-icon"></span></a>
-									<a href="edit_comment.html"><span
+									<a ng-click="showCommentEditBox(comment.content, $index)"><span
 										class="glyphicon glyphicon-pencil pull-right nav-icon"></span></a>
 								</div>
 							</div>
@@ -69,7 +69,10 @@
 							<span class="glyphicon glyphicon-time nav-icon"></span>Created on
 							{{comment.create_time}}
 						</p>
-						{{comment.content}}
+						<span ng-if="$index != editIdx" span>{{comment.content}}</span>
+						<textarea class="form-control" rows="1" ng-if="$index == editIdx"
+							ng-keypress="$event.keyCode == 13 && editComment($index, commentEditContent)"
+							ng-model="commentEditContent""></textarea>
 					</div>
 				</div>
 				<hr>
@@ -83,8 +86,8 @@
 					<div class="form-group">
 
 						<textarea class="form-control" rows="1" id="commentTextArea"
-							ng-keypress="$event.keyCode == 13 && addComment(post.post_id, commentContent)"
-							ng-model="commentContent"></textarea>
+							ng-keypress="$event.keyCode == 13 && addComment(post.post_id, commentNewContent)"
+							ng-model="commentNewContent"></textarea>
 
 					</div>
 				</form>

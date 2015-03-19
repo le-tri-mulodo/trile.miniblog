@@ -8,6 +8,7 @@ miniBlog.factory('commentSer', [ '$rootScope', '$http', '$location', '$cookies',
 				comments : [],
 				getComments : getComments,
 				addComment : addComment,
+				editComment : editComment,
 				deleteComment : deleteComment
 			};
 			return service;
@@ -32,6 +33,44 @@ miniBlog.factory('commentSer', [ '$rootScope', '$http', '$location', '$cookies',
 				// Call rest
 				$http({
 					method : 'POST',
+					url : REST_API_URL + 'comments',
+					data : $.param(comment), // pass in data as strings
+					headers : {
+						'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+					}
+				// set the headers so angular passing info as form data
+				}).success(function(data) {
+
+					// Notify
+					toaster.pop('success', data.meta.message);
+
+					def.resolve(data.data);
+				}).error(function(data) {
+
+					// Show notify
+					util.showErrorMsgs(data.meta.messages);
+
+					def.reject("Failed to get albums");
+				});
+
+				return def.promise;
+			}
+
+			// Edit comment
+			function editComment(commentId, content) {
+				var def = $q.defer();
+
+				// Prepare param
+				var comment = {};
+				comment.content = content;
+				comment.comment_id = commentId;
+				// User id and token
+				comment.user_id = $rootScope.currentUser.user_id;
+				comment.token = $rootScope.token;
+
+				// Call rest
+				$http({
+					method : 'PUT',
 					url : REST_API_URL + 'comments',
 					data : $.param(comment), // pass in data as strings
 					headers : {

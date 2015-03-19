@@ -67,6 +67,9 @@ miniBlog.service('authSer', [ '$rootScope', '$http', '$location', '$cookies', '$
 					$rootScope.currentUser = user;
 					$rootScope.token = user.token;
 
+					// Get user info
+					// getUserInfo(user.user_id);
+
 					// Set to cookies
 					if (true === rememberLogin) {
 						$cookies.user_id = user.user_id;
@@ -117,6 +120,8 @@ miniBlog.service('authSer', [ '$rootScope', '$http', '$location', '$cookies', '$
 					$cookieStore.remove("token");
 					// Clean nav items list
 					$rootScope.navItems = null;
+					// Clean preview post
+					// postSer.setPreviewPost(null);
 
 					// Show notify
 					toaster.pop('success', 'Logout success');
@@ -176,6 +181,10 @@ miniBlog.service('authSer', [ '$rootScope', '$http', '$location', '$cookies', '$
 					// Save registered user data
 					$rootScope.isLogged = true;
 					$rootScope.currentUser = user;
+					$rootScope.token = user.token;
+
+					// Save user info to cache
+					$rootScope.users[user.user_id] = user;
 
 					// Set to cookies
 					$cookies.user_id = user.user_id;

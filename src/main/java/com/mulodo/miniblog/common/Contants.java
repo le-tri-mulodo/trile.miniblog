@@ -9,7 +9,7 @@ package com.mulodo.miniblog.common;
 public class Contants
 {
 
-    public static final String UPLOADED_FILE_PATH = "/Users/TriLe/miniblog-le.tri/img/";
+    public static final String UPLOADED_FILE_PATH = "/usr/share/upload/img/";
     public static final String UNKNOWN_FILE_NAME = "unknown";
 
     public static final String HASH_ALGORITHM = "SHA-256";

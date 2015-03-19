@@ -105,8 +105,11 @@ postControllers.controller('postDetailCtrl', [ '$scope', '$http', '$routeParams'
 			$scope.deletePost = postSer.deletePost;
 			// active/deactive post
 			$scope.activeDeactivePost = postSer.activeDeactivePost;
+
 			// add comment
 			$scope.addComment = function(postId, content) {
+
+				// Call service
 				commentSer.addComment(postId, content)
 				// Call rest complete
 				.then(function(comment) {
@@ -126,6 +129,29 @@ postControllers.controller('postDetailCtrl', [ '$scope', '$http', '$routeParams'
 				.then(function(comment) {
 					// remove from comments list
 					$scope.comments.splice(idx, 1);
+				});
+			}
+
+			// Show editbox for comment
+			$scope.showCommentEditBox = function(content, idx) {
+				$scope.editIdx = idx;
+				$scope.commentEditContent = content
+			}
+
+			// edit comment
+			$scope.editComment = function(idx, content) {
+
+				var commentId = $scope.comments[idx].comment_id;
+				// Call service
+				commentSer.editComment(commentId, content)
+				// Call rest complete
+				.then(function(comment) {
+
+					// Add to comments list to display
+					$scope.comments[idx] = comment;
+
+					// Hide editbox
+					$scope.editIdx = null;
 				});
 			}
 

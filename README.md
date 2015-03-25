@@ -1,3 +1,3 @@
 # trile.miniblog
 trile.miniblog
-:)
+:|
